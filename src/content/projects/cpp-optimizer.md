@@ -4,7 +4,7 @@ order: 2
 title: "C++ Optimize Assistant"
 cardTitle: "C++ Optimize Assistant"
 category: "AI-assisted optimization"
-summary: "Upload a C/C++ project and define its workloads. The tool selects source context, proposes targeted edits, compiles and validates candidates, then benchmarks them before retaining an improvement."
+summary: "Upload a C/C++ project and define its workloads. An LLM proposes targeted source edits; the backend compiles, validates, and benchmarks candidates before retaining improvements."
 description: "An AI-assisted C/C++ optimization tool that validates source changes and measures their effect on execution time."
 role: "Personal project · Full-stack development"
 context: "Local C/C++ optimization"
@@ -30,11 +30,11 @@ Generating a plausible optimization is only part of the job. The changed program
 
 I built a local workbench that connects model-generated source edits to a controlled build, verification, and measurement loop. Changes are accepted only after validation and performance checks.
 
-<figure><button class="figure-button" data-zoom aria-label="Enlarge: Optimizer interface with file upload, configuration, and a successful compile-only result"><img src="/assets/optimizer.webp" alt="Optimizer interface with file upload, configuration, and a successful compile-only result" loading="lazy" width="1200" height="800"></button><figcaption>The application interface after a compile-only run. This screen demonstrates the build workflow; it is not the benchmark evaluation. Select image to enlarge.</figcaption></figure>
+<figure><button class="figure-button" data-zoom aria-label="Enlarge: Optimizer interface with file upload, configuration, and a successful compile-only result"><img src="/assets/optimizer.webp" alt="Optimizer interface with file upload, configuration, and a successful compile-only result" loading="lazy" width="1200" height="800"></button><figcaption>The application interface after a compile-only run. The screen shows the build workflow. Select image to enlarge.</figcaption></figure>
 
 ## Optimization workflow
 
-<div class="flow"><div><b>01</b><span>Submit a source file or ZIP with build settings and correctness/timing workloads.</span></div><div><b>02</b><span>Build and validate the original; measure a baseline before any model proposal.</span></div><div><b>03</b><span>Select source excerpts using libclang locations and optional profiling, with recent attempt feedback.</span></div><div><b>04</b><span>Apply exact-match edits to a temporary copy of the current best project.</span></div><div><b>05</b><span>Compile and check every supplied workload; repeatedly compare the candidate with the current best.</span></div><div><b>06</b><span>Retain accepted changes, refresh context, and continue within the attempt budget.</span></div><div><b>07</b><span>Confirm the final retained version against the original; return the original if confirmation fails.</span></div></div>
+<div class="flow"><div><b>01</b><span>Upload a source file or ZIP and define build settings and representative workloads.</span></div><div><b>02</b><span>Compile and validate the original project, then measure baseline performance.</span></div><div><b>03</b><span>Select source context using Clang AST locations and optional profiling, alongside workload timings and recent attempt feedback.</span></div><div><b>04</b><span>Ask the LLM to propose targeted source edits in a structured response.</span></div><div><b>05</b><span>Apply valid exact-match edits to a temporary copy of the current best project.</span></div><div><b>06</b><span>Compile the candidate, check behavior on supplied workloads, and repeatedly compare performance with the current best.</span></div><div><b>07</b><span>Retain accepted improvements and provide rejection feedback to later attempts.</span></div><div><b>08</b><span>Confirm the retained version against the original. Restore the original if confirmation fails, and return the project, diff, and report.</span></div></div>
 
 ### Request and job handling
 
@@ -44,7 +44,7 @@ The React interface submits a job to FastAPI and polls for progress. A sequentia
 
 libclang provides symbol names and source locations. The context selector includes complete files when they fit, or selects function ranges, nearby declarations, and referenced helpers within an approximately 8 KB source budget. Optional Callgrind output helps prioritize hotspots; later attempts can rotate through other functions.
 
-The Groq-hosted model receives source text, timing/profile information, edit constraints, and recent feedback. It returns structured exact-match edits. The pipeline excludes test sources from editable files and checks configured protected benchmark drivers. The full AST is not sent to the model, and the application does not transform LLVM IR or train model weights.
+The Groq-hosted `openai/gpt-oss-120b` model receives source text, timing/profile information, edit constraints, and recent feedback. It returns structured exact-match edits. The pipeline excludes test sources from editable files and checks configured protected benchmark drivers. The model proposes edits while deterministic backend code controls validation and acceptance. Clang AST information selects source context for the model.
 
 ### Candidate lifecycle
 
@@ -84,9 +84,15 @@ The local Apple M4 evaluation compares optimized candidates against a Clang `-O3
 
 <details class="details"><summary>How the aggregate is calculated</summary><p>The report uses the arithmetic mean of per-benchmark runtime reductions. Each benchmark’s runtime is the sum of its timed-workload medians. Both versions use the same build settings. Compilation and fixture preparation are excluded, while process startup and program I/O are included.</p></details>
 
-<p class="note">These results describe this custom benchmark collection. They are not a whole-LLVM-suite result or a general performance guarantee.</p>
+### Benchmark coverage
 
-## What the checks establish
+Evaluation includes the custom suite of 22 optimization exercises and a separate subset of five pinned LLVM test-suite programs: arrays (`ary3`), matrices (`matrix`), lists (`lists1`), prime sieve (`sieve`), and heapsort. The LLVM adapter verifies source hashes and upstream reference outputs, protects benchmark drivers from edits, and reports this subset separately from the custom suite. It uses selected inputs and the application’s own evaluation harness.
+
+The approximately 70% headline applies to the 22 custom benchmarks in the local Apple M4 evaluation. The five-program LLVM subset is a separate collection.
+
+<a href="https://github.com/atshah29/Cpp-optimize-assistant/tree/main/benchmarks/llvm" target="_blank" rel="noopener noreferrer">Explore the LLVM subset and evaluation policy ↗</a>
+
+## Validation scope
 
 Matching the supplied outputs is evidence of correct behavior on those workloads, not a proof of equivalence for all inputs. Representative tests and deterministic outputs remain essential.
 

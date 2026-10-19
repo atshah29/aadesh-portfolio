@@ -28,20 +28,20 @@ dialog?.addEventListener("click", (e) => {
 });
 const steps = [
   [
-    "Rename: find a prediction",
-    "The predictor combines the instruction PC with folded branch history to look up VTAGE providers. It also snapshots history and the prediction-queue position for recovery.",
+    "Rename: predict and checkpoint",
+    "During register renaming, the predictor uses the instruction address and recent conditional-branch history to search the stride and tagged-history tables. It records the speculative history and prediction-queue position needed for recovery.",
   ],
   [
     "Dispatch: let dependents run",
-    "A confident predicted value is written into the physical register file, and the destination is marked ready. Dependent instructions can issue before the producer computes its actual result.",
+    "At dispatch, a sufficiently confident predicted result is written into the instruction’s destination physical register and marked available. Dependent instructions can execute before the producer computes its actual result.",
   ],
   [
-    "Execute: check the value",
-    "The actual result is compared with the prediction. On a mismatch, the register is corrected and a value-misprediction squash triggers recovery from speculative execution.",
+    "Execute: validate and recover",
+    "The simulator compares the actual result with the prediction. Incorrect predictions trigger recovery so instructions that consumed the wrong value cannot commit incorrect results. Recovery restores checkpointed or committed history and unwinds in-flight prediction bookkeeping.",
   ],
   [
     "Retire: train on committed work",
-    "Correct-path instructions update confidence and allocate entries. Branch recovery separately rewinds speculative queue state so wrong-path work does not corrupt the stride baseline.",
+    "Retirement updates stride information, confidence, and permanent table state using committed instructions. A branch rollback separately rewinds the prediction queue and undoes wrong-path stride-predictor instance counts.",
   ],
 ];
 document.querySelectorAll("[data-step]").forEach((b) =>

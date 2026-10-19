@@ -4,17 +4,18 @@ order: 1
 title: "Hybrid SVP + VTAGE Value Predictor"
 cardTitle: "Hybrid Value Predictor"
 category: "Computer architecture"
-summary: "A hybrid SVP + VTAGE predictor integrated across an out-of-order pipeline, from speculative forwarding to recovery."
-description: "A hybrid SVP + VTAGE value predictor integrated across an out-of-order simulator under a 32 KB storage budget."
-role: "Primary implementation across the prediction pipeline"
+summary: "A hybrid value predictor that lets dependent instructions execute before their inputs are computed, with validation and recovery across an out-of-order simulator."
+description: "A hybrid SVP + VTAGE value predictor achieving 2.054 harmonic-mean IPC versus the presentation’s reported 1.66 baseline, approximately 24% higher, with 31.97 KB of reported storage."
+role: "Sole software implementer within a two-person project team."
 context: "Graduate architecture project · Jan–Apr 2026"
 technology: "C++ · SVP · VTAGE"
 tags: ["C++", "SVP + VTAGE", "Simulation"]
-result: "32 KB budget · Full pipeline integration"
+result: "≈24% higher harmonic-mean IPC: 1.66 → 2.054 · 31.97 KB predictor"
 visual: "predictor"
-image: ""
-imageAlt: ""
-benchmarkNote: ""
+image: "/assets/value-predictor-architecture.png"
+imageAlt: "Hybrid value predictor block diagram with stride and tagged-history tables, prediction queue, provider selection, and retirement training"
+benchmarkNote: "Baseline reported in the project presentation."
+sourceNote: "Source code is private in accordance with course requirements. The project presentation describes the architecture and evaluation."
 links:
   [
     {
@@ -26,72 +27,85 @@ links:
 
 ## Value prediction
 
-A dependent instruction normally waits for its producer to compute a value. A confident value prediction can make that value available earlier, exposing parallelism that would otherwise remain blocked.
+A dependent instruction normally waits for its producer to compute a value. A confident value prediction can make that value available earlier, allowing dependent instructions to execute sooner.
 
-I implemented the hybrid value-prediction project across the simulator pipeline: prediction, speculative injection, validation, recovery, and training. The design combines a stride value predictor (SVP) with history-based VTAGE tables.
+I performed all software implementation within a two-person project team, integrating prediction, speculative forwarding, validation, recovery, and training into an out-of-order processor simulator. The project presentation is credited to Aadesh Shah and Khang Pham.
+
+The design combines a stride value predictor (SVP), which learns regular changes in an instruction’s results, with VTAGE, a tagged history-based value predictor that learns patterns associated with control-flow context. A value-prediction queue (VPQ) tracks in-flight predictions for training and recovery.
+
+## Architecture
+
+<figure><button class="figure-button" data-zoom aria-label="Enlarge: Hybrid SVP and VTAGE value predictor architecture"><img src="/assets/value-predictor-architecture.png" alt="Instruction addresses and branch history feed stride and VTAGE tables; a 256-entry prediction queue connects prediction selection with retirement training and correction" loading="lazy" width="1180" height="546"></button><figcaption>Original block diagram from slide 3 of the project presentation by Aadesh Shah and Khang Pham. Select image to enlarge.</figcaption></figure>
+
+SVP predicts regular value changes using the retired value, stride, and number of in-flight instances of an instruction. VTAGE searches tables with different history lengths to distinguish value patterns arising in different control-flow contexts. The history register records conditional-branch outcomes, excluding unconditional branches and other instructions.
 
 ## Pipeline integration
 
-<div class="stepper"><div class="mini-label" style="margin-bottom:15px">Explore the pipeline</div><div class="step-tabs"><button data-step="0" aria-pressed="true">1. Rename</button><button data-step="1" aria-pressed="false">2. Dispatch</button><button data-step="2" aria-pressed="false">3. Execute</button><button data-step="3" aria-pressed="false">4. Retire</button></div><div aria-live="polite"><h3 id="step-title">Rename: find a prediction</h3><p id="step-body">The predictor combines the instruction PC with folded branch history to look up VTAGE providers. It also snapshots history and the prediction-queue position for recovery.</p></div></div>
+<div class="stepper"><div class="mini-label" style="margin-bottom:15px">Explore the pipeline</div><div class="step-tabs"><button data-step="0" aria-pressed="true">1. Rename</button><button data-step="1" aria-pressed="false">2. Dispatch</button><button data-step="2" aria-pressed="false">3. Execute</button><button data-step="3" aria-pressed="false">4. Retire</button></div><div aria-live="polite"><h3 id="step-title">Rename: predict and checkpoint</h3><p id="step-body">During register renaming, the predictor uses the instruction address and recent conditional-branch history to search the stride and tagged-history tables. It records the speculative history and prediction-queue position needed for recovery.</p></div></div>
 
-The key integration point is dispatch. A confident prediction is written into the physical register file, and the destination is marked ready. Dependent instructions can then wake up and execute before the producer finishes.
+### Prediction and checkpointing
 
-That early execution creates a recovery obligation. Actual results must be checked, incorrect speculation must be squashed, and branch recovery must unwind wrong-path predictor state.
+During register renaming, the predictor uses the instruction address and recent conditional-branch history to search the stride and tagged-history tables. It records the speculative history and prediction-queue position needed for recovery.
 
-### Rename: lookup and checkpointing
+### Provider selection
 
-The prediction path calls `pipeline_t::value_predict()`. Folded global branch history is XORed with the instruction PC to construct VTAGE indices and tags. Tables are searched from longest history to shortest to identify a provider and an alternate. Each instruction captures the current history and value-prediction queue tail for branch recovery.
+The matching VTAGE table with the longest history supplies the primary prediction. A shorter-history match or the stride predictor supplies an alternate. A fully confident VTAGE prediction takes priority over SVP; otherwise a confident SVP prediction can be used.
 
-### Dispatch: speculative forwarding
+### Speculative forwarding
 
-When `v_pred` indicates a confident prediction, dispatch writes the predicted value through `REN->write` and marks the physical register ready with `REN->set_ready`. This changes the dependency timing: consumers can issue before the actual producer finishes.
+At dispatch, a sufficiently confident predicted result is written into the instruction’s destination physical register and marked available. Dependent instructions can execute before the producer computes its actual result.
 
-### Execute: verification and value recovery
+### Validation
 
-The computed result is compared with the predicted value. A mismatch causes the physical register to be overwritten with the correct result and a value-misprediction flag to trigger the squash path. Consumers that used incorrect speculative data must be recovered.
+Once the actual result is available, the simulator compares it with the prediction. Incorrect predictions trigger recovery so instructions that consumed the wrong value do not commit incorrect results.
 
-### Branch recovery: undo wrong-path state
+### Recovery
 
-On a branch misprediction, the writeback recovery path walks the value-prediction queue backward to the checkpointed tail. It decrements SVP instance counters for wrong-path speculative matches, preventing discarded instructions from corrupting the stride baseline.
+A branch rollback restores checkpointed history and rewinds the prediction queue, undoing wrong-path SVP instance counts. Full recovery clears in-flight prediction bookkeeping and restores committed history.
 
-### Retirement: committed training
+### Training
 
-Confidence and permanent table allocation updates occur at retirement. Speculative bookkeeping supports early prediction, while committed training is restricted to correct-path instructions.
+Retirement updates stride information, confidence, and permanent table state using committed instructions.
 
 ## Confidence and table management
 
-### Choose the provider carefully
+### Train by instruction type
 
-The hybrid combines the strengths of stride and history-based prediction. A proven, maximum-confidence VTAGE provider can take precedence; SVP remains useful while the history predictor establishes confidence.
+Loads and floating-point operations train confidence more readily than generic arithmetic and logic (ALU) operations. After a correct prediction, the stochastic gates for increasing confidence are one-in-two for loads/FP and one-in-eight for generic ALU operations. These probabilistic updates make the confidence counter a trust signal rather than a count of consecutive correct predictions.
 
-### Train selectively
+An incorrect ALU prediction resets confidence, while memory and floating-point predictions receive a smaller penalty. This allows recurring patterns to regain confidence without treating every instruction class identically.
 
-Confidence training depends on instruction type. Loads and floating-point operations have a one-in-two chance of incrementing confidence, while generic ALU operations are throttled to one-in-eight. Confidence and allocation training occur at retirement on correct-path work.
+### Allocate where context helps
 
-### Make penalties asymmetric
+A correct SVP alternate can block redundant VTAGE allocation. VTAGE usefulness tracks whether its provider adds value compared with the alternate, preserving entries that contribute distinct predictions.
 
-An incorrect ALU prediction resets confidence, whereas memory operations receive a softer penalty. The distinction allows patterns that restabilize to recover without treating every instruction class identically.
+ALU allocation is throttled to one-in-sixteen, while loads and floating-point operations receive priority. Allocation pressure ages usefulness bits through a global counter so stale entries can be replaced.
 
-### Keep tables reusable
+### Retain a 256-entry queue
 
-When allocation into a longer-history VTAGE table fails because entries remain useful, a global TICK counter records the pressure. Once it exceeds 512, usefulness bits decay so stale entries can be replaced. This keeps the finite table budget available to changing patterns.
+Increasing VPQ capacity from 256 to 300 entries produced minimal IPC gains. I retained 256 entries to reserve capacity for VTAGE within the 32 KB budget.
 
 ## Performance and storage
 
-The project presentation compares pure SVP with the hybrid design. Harmonic-mean IPC increases from 2.02 to 2.051, approximately 1.5%. These are presentation-reported simulation results.
+<div class="metrics"><div class="metric"><strong>≈24%</strong><span>higher harmonic-mean IPC</span></div><div class="metric"><strong>2.054</strong><span>final harmonic-mean IPC</span></div><div class="metric"><strong>31.97 KB</strong><span>reported storage · 32 KB budget</span></div></div>
 
-<figure class="bar-chart" aria-label="Harmonic mean IPC: pure SVP 2.02, hybrid SVP and VTAGE 2.051. Bars start at zero."><div class="eyebrow">Harmonic-mean instructions per cycle · zero baseline</div><div class="bar-row">Pure SVP<div style="width:91.82%">2.020</div></div><div class="bar-row">SVP + VTAGE<div style="width:93.23%">2.051</div></div></figure>
+<figure class="bar-chart" aria-label="Harmonic-mean IPC: presentation-reported baseline 1.66; final hybrid 2.054. Bars start at zero."><div class="eyebrow">Harmonic-mean instructions per cycle · bars start at zero</div><div class="bar-row">Presentation-reported baseline<div style="width:75.45%">1.660</div></div><div class="bar-row">Final SVP + VTAGE<div style="width:93.36%">2.054</div></div><figcaption>The final run achieved 2.054 harmonic-mean IPC versus the presentation’s reported baseline of 1.66, an approximately 24% improvement. The presentation also reports a separate pure-SVP comparison of 2.02 IPC.</figcaption></figure>
 
-The presentation documents five VTAGE tables with 256 entries each, branch-history lengths spanning 3 to 48, and 11-bit tags. SVP uses 1,024 entries and 10-bit tags; the value-prediction queue holds 256 entries. Confidence limits are 47 for SVP and 63 for VTAGE.
+The slides do not specify the exact configuration of the 1.66 baseline. The separate pure-SVP comparison of 2.02 → 2.054 IPC represents approximately 1.7% improvement.
 
-Within the 32 KB budget, the rounded storage breakdown is 19.03 KB for SVP and 12.97 KB for VTAGE.
+### Benchmark examples
 
-<div class="storage" aria-label="SVP 19.03 KB, VTAGE 12.97 KB"><span style="width:59.47%">SVP · 19.03 KB</span><span style="width:40.53%">VTAGE · 12.97 KB</span></div>
+The presentation reports perlbench increasing from 5.01 to 5.63 IPC, approximately 12.4%, and mcf from 0.82 to 1.67 IPC, approximately 104%. These are the deck’s per-benchmark comparisons; their reference configurations are not specified as the aggregate 1.66 baseline.
 
-<p class="note">This is a simulator implementation. The aggregate chart uses the retained project presentation; it does not represent a new benchmark run.</p>
+### Final configuration
+
+- **SVP:** 1,024 entries, 10-bit tags, and a confidence ceiling of 47.
+- **VTAGE:** five tables with 256 entries each, 11-bit tags, conditional-branch histories spanning 3 to 54, and a confidence ceiling of 63.
+- **VPQ:** 256 in-flight prediction entries.
+- **Storage:** the project presentation reports a total of 31.97 KB within a 32 KB budget.
 
 ## Implementation summary
 
-I implemented the prediction path, speculative register injection, result validation, recovery bookkeeping, and retirement-time training. The project presentation records exploration of more than 50 configurations across three codebases.
+I implemented the prediction path, speculative register forwarding, result validation, recovery bookkeeping, and retirement-time training, then tuned provider selection, confidence, and table allocation together with the simulator’s storage configuration.
 
-The central tradeoff was between issuing more useful work early and paying for incorrect speculation. Provider selection, confidence gates, and allocation policy all affect that balance, so I evaluated the predictor as part of the pipeline rather than as an isolated lookup mechanism.
+Predicting a value can let dependent instructions run sooner, but an incorrect prediction forces the processor to discard speculative work and recover. I tuned when predictions were trusted and which predictor supplied them so the time saved by correct predictions outweighed the cost of recovery.

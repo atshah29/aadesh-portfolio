@@ -4,13 +4,13 @@ order: 4
 title: "Wireless & Autonomous Embedded Car"
 cardTitle: "Wireless & Autonomous Car"
 category: "Embedded systems"
-summary: "An MSP430FR2355 + ESP32 car with calibrated sensing, variable speed control, and line-following maneuvers."
+summary: "Firmware for an MSP430FR2355 + ESP32 car built to follow a complex examination course, with wireless commands, calibrated sensing, and variable speed control."
 description: "An MSP430FR2355 + ESP32 car that moves from wireless driving commands to calibrated, autonomous line-following behavior."
 role: "Firmware development · Controls and maneuver modes"
 context: "Embedded systems project"
 technology: "C · MSP430FR2355 · ESP32 · ADC / DAC"
 tags: ["Embedded C", "MSP430", "ESP32", "ADC / DAC"]
-result: "Wireless control + autonomous operating modes"
+result: "Completed the final course on the first attempt"
 visual: "car"
 image: "/assets/car.webp"
 imageAlt: "Embedded car with controllers, motors, and LCD"
@@ -20,7 +20,7 @@ links: []
 
 ## Hardware and firmware
 
-This project brings communications, motor control, analog sensing, and operating modes together in a working vehicle. I added maneuver modes and variable speed control alongside remote driving and autonomous line following.
+I built firmware to guide an MSP430FR2355 + ESP32 car through a final examination course with required checkpoints and complex line-following sections. Wireless command handling, maneuver modes, DAC speed control, PWM motor control, ADC sensor calibration, and LCD feedback supported remote driving and autonomous course navigation.
 
 <figure><button class="figure-button" data-zoom aria-label="Enlarge: Overhead view of the embedded car showing its motors, batteries, microcontroller boards, and LCD"><img src="/assets/car.webp" alt="Overhead view of the embedded car showing its motors, batteries, microcontroller boards, and LCD" loading="lazy" width="1200" height="800"></button><figcaption>The physical build: MSP430FR2355 + ESP32, motor hardware, sensors, and status display. Select image to enlarge.</figcaption></figure>
 
@@ -54,6 +54,6 @@ The implementation uses a foreground loop and interrupts, with blocking delays i
 
 ## Project outcome
 
-The result is a physical integration of wireless commands, calibrated sensing, analog speed control, PWM actuation, and state-based autonomy. Its strongest evidence is the working hardware and the firmware structure, rather than an invented tracking-accuracy or speed metric.
+The car completed the final examination course on its first attempt, earning bonus points for first-attempt completion. It reached the required checkpoints, displayed course-progress information on the LCD, and followed a black line through a curved track with loops and complex sections.
 
-It also provides a practical bridge between low-level peripheral configuration and higher-level behavior: a command or sensor transition ultimately has to become controlled motion.
+I repeatedly tested and tuned the vehicle before the exam, calibrating its sensors and adjusting tracking behavior to improve reliability. The most demanding part was maintaining line tracking through the complex course, where sensor thresholds and movement corrections had to work together consistently.

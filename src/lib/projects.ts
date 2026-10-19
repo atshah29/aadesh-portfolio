@@ -16,6 +16,7 @@ export interface Project {
   image: string;
   imageAlt: string;
   benchmarkNote?: string;
+  sourceNote?: string;
   links: { label: string; href: string }[];
 }
 const modules = import.meta.glob<MarkdownInstance<Project>>(

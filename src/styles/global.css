@@ -724,23 +724,6 @@ header {
 .bar-row:last-child div {
   background: #216c59;
 }
-.storage {
-  display: flex;
-  height: 48px;
-  margin: 20px 0;
-  border-radius: 4px;
-  overflow: hidden;
-  font-size: 12px;
-  text-align: center;
-  color: white;
-}
-.storage span {
-  padding: 12px 5px;
-  background: #285e4e;
-}
-.storage span + span {
-  background: #6e845f;
-}
 .next-project {
   padding: 28px 0;
   border-top: 1px solid var(--line);
@@ -972,9 +955,6 @@ dialog img {
   .case-content {
     min-width: 0;
   }
-  .storage {
-    font-size: 10px;
-  }
   .stepper {
     padding: 18px;
   }
@@ -986,4 +966,10 @@ dialog img {
   * {
     transition: none !important;
   }
+}
+
+.case-hero .source-note {
+  max-width: 780px;
+  margin-top: 16px;
+  font-size: 13px;
 }

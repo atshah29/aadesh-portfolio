@@ -2,48 +2,52 @@
   "name": "Aadesh Shah",
   "initials": "AS",
   "title": "Aadesh Shah | Software, Systems & Applied AI",
-  "description": "Computer Engineering at NC State. Experience and projects in software engineering, backend systems, computer architecture, and applied AI.",
+  "description": "Computer Engineering at NC State. Software engineering, backend applications, applied and agentic AI, performance, computer architecture, and embedded systems.",
   "status": "Software Development Engineer Intern @ AWS",
-  "intro": "I’m a Computer Engineering student at NC State interested in software engineering, computer architecture, and applied AI. Currently, I’m an SDE intern at AWS, building agentic applications for data center planning.",
+  "intro": "I’m a Computer Engineering student at NC State interested in software engineering, backend applications, applied AI, and systems performance. Currently, I’m an SDE intern at AWS, building agentic applications for data center planning.",
   "email": "aaditshah05@gmail.com",
   "github": "https://github.com/atshah29",
   "linkedin": "https://linkedin.com/in/aadesh-shah1",
   "resume": "/resume.pdf",
   "about": [
-    "I enjoy understanding how systems work and finding ways to improve them. My interests span software development, backend services, computer architecture, and applied AI.",
-    "I’m open to a broad range of software engineering roles. I’m especially drawn to work that lets me solve practical problems, learn unfamiliar technologies, and improve performance or reliability."
+    "I enjoy understanding how systems work and making them more useful, efficient, and reliable. My interests span software engineering, backend applications, applied and agentic AI, performance, computer architecture, and embedded systems.",
+    "I’m open to a broad range of software engineering roles, especially work that involves solving practical problems and learning unfamiliar technologies."
   ],
   "experience": [
     {
       "company": "Amazon Web Services",
       "dates": "Sep 2026 · Present",
       "role": "Software Development Engineer Intern",
-      "summary": "Developing a full-stack agentic application that turns natural-language requests into data center planning inputs.",
+      "summary": "Developing a full-stack agentic application that lets developers create the inputs needed to launch data center planning simulations through natural-language requests, replacing manual updates across interconnected configuration files.",
       "contributions": [
-        "Built a dynamic schema and dependency-graph generator for 80+ configuration files, with Pydantic validation and user approval for coordinated edits.",
-        "Developing the application with Bedrock AgentCore, Strands, a web UI, and CI/CD.",
-        "Identified retained incomplete S3 multipart uploads and automated cleanup to prevent approximately $800/month in storage costs."
+        "Built the agent workflow with the Strands Agents SDK and deployed the application backend on Amazon Bedrock AgentCore Runtime, with a custom CLI for invoking it. The workflow interprets requests, finds relevant planning data, resolves dependencies, and plans coordinated configuration changes.",
+        "Built an ECS task running on AWS Fargate to generate dynamic schemas and a dependency graph for a growing set of 80+ planning configuration files, giving the agent structured knowledge of the data model and relationships between files.",
+        "Implemented Pydantic validation and user approval before applying coordinated edits and generating simulation inputs in Amazon S3.",
+        "Building the web interface and CI/CD pipeline for a workflow that previously required detailed knowledge of internal configurations and manual edits across multiple files.",
+        "Identified an S3 lifecycle configuration issue retaining incomplete multipart uploads and automated cleanup to prevent approximately $800/month in recurring storage costs after uncovering approximately $12K in accumulated charges.",
+        "Migrated a shared data-processing package to a new build system and dependency manager for use by downstream applications."
       ]
     },
     {
       "company": "Tanium",
       "dates": "Jun · Aug 2026",
       "role": "Software Engineering Intern",
-      "summary": "Developed backend services and monitoring for cloud security infrastructure.",
+      "summary": "Developed backend services and monitoring for an internal vulnerability-scanning system covering container images used in Tanium’s cloud environment.",
       "contributions": [
-        "Built a Go pre-scan filter that excluded approximately 40% of incoming Docker images as unprocessable, reducing Lambda failure rates from 30% to 1%.",
-        "Built a Python service aggregating vulnerability scan results across 40 production targets, integrating CloudWatch and Slack APIs.",
-        "Implemented Grafana failure detection and alerting across 10 production security services, resolving IAM barriers to cross-region monitoring."
+        "Built a Go pre-scan filtering service for the internal vulnerability scanner API, identifying approximately 40% of incoming Docker images as unprocessable before downstream scanning and reducing Lambda failure rates from 30% to 1%.",
+        "Built a Python service aggregating vulnerability scan results across 40 production targets, integrating CloudWatch and Slack APIs to surface critical failures.",
+        "Implemented automated failure detection and Grafana alerting across 10 production security services, resolving IAM barriers to cross-region monitoring."
       ]
     },
     {
       "company": "Columbus McKinnon",
       "dates": "Jun · Aug 2025",
       "role": "R&D Embedded Software Intern",
-      "summary": "Developed embedded software for a next-generation control-system prototype.",
+      "summary": "Developed C/C++ software for radio control systems across 5+ product lines, working with customers and engineers through iterative prototyping and validation.",
       "contributions": [
-        "Led C/C++ development across 5+ product lines with direct customer input.",
-        "Worked on FreeRTOS task scheduling to improve responsiveness under real-time constraints."
+        "Built multithreaded FreeRTOS applications on NXP i.MX RT1050 microcontrollers, tuning task scheduling and hardware responsiveness under real-time constraints.",
+        "Developed validation frameworks for RF-based CAN communications to check fault handling and protocol behavior across hardware configurations.",
+        "Evaluated Qt, Crank Storyboard, and Segger GUI frameworks through documentation review, performance benchmarking, and vendor collaboration to inform platform selection across 5+ product lines."
       ]
     }
   ],
@@ -51,7 +55,7 @@
     "role": "NC State · Applied ML Research Assistant · Aug 2024 to present",
     "venue": "Co-author · Electronics, 2026",
     "title": "BCough: Design and Evaluation of a Bone-Conduction-Embedded AI Platform for On-Device Cough Detection",
-    "description": "Research on on-device cough detection using wearable sensors. My contributions include model development, quantization, and C audio preprocessing.",
+    "description": "Developed and evaluated CNN models for on-device cough detection, implemented quantization, and wrote C audio preprocessing. Worked with faculty on Google Cloud VMs and parallel multi-seed experiments through embedded deployment.",
     "url": "https://doi.org/10.3390/electronics15091912",
     "caseStudy": "/projects/bcough/"
   },
@@ -59,7 +63,7 @@
     {
       "name": "TradingApp",
       "technologies": "C++ · MySQL · Python",
-      "description": "A trading simulation combining persistent portfolios, background sentiment caching, and a local FinBERT model.",
+      "description": "A multithreaded C++ trading simulation with MySQL portfolio persistence and Python/FinBERT sentiment analysis, integrating news and Twitter/X APIs with a background sentiment cache.",
       "url": "https://github.com/atshah29/TradingApp"
     },
     {
