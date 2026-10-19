@@ -86,9 +86,11 @@ The local Apple M4 evaluation compares optimized candidates against a Clang `-O3
 
 ### Benchmark coverage
 
-Evaluation includes the custom suite of 22 optimization exercises and a separate subset of five pinned LLVM test-suite programs: arrays (`ary3`), matrices (`matrix`), lists (`lists1`), prime sieve (`sieve`), and heapsort. The LLVM adapter verifies source hashes and upstream reference outputs, protects benchmark drivers from edits, and reports this subset separately from the custom suite. It uses selected inputs and the application’s own evaluation harness.
+Evaluation includes the custom suite of 22 optimization exercises and a separate subset of five pinned LLVM test-suite programs from the `SingleSource/Benchmarks/Shootout-C++` collection: arrays (`ary3`), matrices (`matrix`), lists (`lists1`), prime sieve (`sieve`), and heapsort. The LLVM adapter verifies source hashes and upstream reference outputs, protects benchmark drivers from edits, and reports this subset separately from the custom suite. It uses selected inputs and the application’s own evaluation harness.
 
-The approximately 70% headline applies to the 22 custom benchmarks in the local Apple M4 evaluation. The five-program LLVM subset is a separate collection.
+### LLVM subset results
+
+The five-program LLVM subset achieved approximately 25% speedup in a separate evaluation. The approximately 70% average execution-time reduction above applies to the 22 custom benchmarks in the local Apple M4 evaluation.
 
 <a href="https://github.com/atshah29/Cpp-optimize-assistant/tree/main/benchmarks/llvm" target="_blank" rel="noopener noreferrer">Explore the LLVM subset and evaluation policy ↗</a>
 

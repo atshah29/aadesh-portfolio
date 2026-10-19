@@ -57,3 +57,5 @@ The implementation uses a foreground loop and interrupts, with blocking delays i
 The car completed the final examination course on its first attempt, earning bonus points for first-attempt completion. It reached the required checkpoints, displayed course-progress information on the LCD, and followed a black line through a curved track with loops and complex sections.
 
 I repeatedly tested and tuned the vehicle before the exam, calibrating its sensors and adjusting tracking behavior to improve reliability. The most demanding part was maintaining line tracking through the complex course, where sensor thresholds and movement corrections had to work together consistently.
+
+I made speed and steering-adjustment settings configurable through wireless commands so I could tune the vehicle during testing. I also improved the line-following algorithm to calculate turn intensity, producing smoother corrections and reducing the risk of aggressive adjustments carrying the car off the track.

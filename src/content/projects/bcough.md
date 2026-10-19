@@ -15,7 +15,7 @@ visual: "bcough"
 image: "/assets/bcough-hardware.webp"
 imageAlt: "BCough bench prototype with sensing and microcontroller hardware"
 benchmarkNote: ""
-sourceNote: "Research code is private. The published paper describes the model, evaluation, and embedded deployment."
+sourceNote: "Research code is private."
 links:
   [
     {
@@ -45,9 +45,9 @@ Working with faculty, I used Google Cloud VMs and parallel multi-seed experiment
 
 CoughNet is a compact CNN designed for the MAX78000 accelerator. The deployed model takes a single-channel 128 × 128 mel spectrogram through six convolutional layers and a fully connected cough/non-cough classifier. Fused convolution and ReLU operations extract features, with intermediate max-pooling reducing spatial resolution to 8 × 8. Feature channels expand from 16 to 64 and then reduce to 32 and 16 to fit device memory.
 
-<div class="flow" aria-label="CoughNet architecture from the published paper"><div><b>01</b><span>Input: one-channel 128 × 128 mel spectrogram.</span></div><div><b>02</b><span>Convolutions 1–3: extract features and expand channels from 16 to 64.</span></div><div><b>03</b><span>Convolutions 4–6: reduce channels to 32 and 16, producing a 16 × 8 × 8 feature map.</span></div><div><b>04</b><span>Flatten 1,024 features for the fully connected classifier.</span></div><div><b>05</b><span>Output: cough or non-cough.</span></div></div>
+<div class="flow" aria-label="CoughNet architecture"><div><b>01</b><span>Input: one-channel 128 × 128 mel spectrogram.</span></div><div><b>02</b><span>Convolutions 1–3: extract features and expand channels from 16 to 64.</span></div><div><b>03</b><span>Convolutions 4–6: reduce channels to 32 and 16, producing a 16 × 8 × 8 feature map.</span></div><div><b>04</b><span>Flatten 1,024 features for the fully connected classifier.</span></div><div><b>05</b><span>Output: cough or non-cough.</span></div></div>
 
-The paper describes approximately 57,000 trainable parameters and 8-bit deployment. Model development used ai8x-training; ai8x-synthesis handled quantization and synthesis for the device.
+CoughNet has approximately 57,000 trainable parameters and uses 8-bit deployment. Model development used ai8x-training; ai8x-synthesis handled quantization and synthesis for the device.
 
 ## Signal processing and deployment
 
@@ -67,13 +67,13 @@ Windowing, spectral conversion, and feature formatting determine the network’s
 
 <figure><button class="figure-button" data-zoom aria-label="Enlarge: BCough sensor, ESP32S3, and MAX78000 bench hardware"><img src="/assets/bcough-hardware.webp" alt="BCough sensor, ESP32S3, and MAX78000 bench hardware" loading="lazy" width="1200" height="800"></button><figcaption>Bench prototype from Sanap et al., BCough, Electronics (2026). Select image to enlarge.</figcaption></figure>
 
-## Published evaluation
+## Evaluation
 
 <div class="metrics"><div class="metric"><strong>0.80</strong><span>macro F1</span></div><div class="metric"><strong>15–16 ms</strong><span>inference latency</span></div><div class="metric"><strong>≈20 μJ</strong><span>on-chip inference energy</span></div></div>
 
-The paper also reports 0.81 balanced accuracy, 0.74 cough F1, and 0.89 AUC. Leave-one-subject-out evaluation across five participants tested generalization to a participant excluded from training.
+The deployed model achieved 0.81 balanced accuracy, 0.74 cough F1, and 0.89 AUC. Leave-one-subject-out evaluation across five participants tested generalization to a participant excluded from training.
 
-<p class="note">The paper reports a controlled feasibility study. The energy figure covers on-chip inference.</p>
+<p class="note">Evaluation used a controlled, five-participant feasibility study. The energy figure covers on-chip inference.</p>
 
 ## Publication
 
