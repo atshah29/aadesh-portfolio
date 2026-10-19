@@ -1,0 +1,11 @@
+---
+import site from '../data/site.json';
+---
+<footer class="wrap contact" id="contact">
+  <h2>Contact</h2>
+  <div class="footer-row">
+    <a class="textlink" href={`mailto:${site.email}`}>{site.email} ↗</a>
+    <div class="footer-links"><a href={site.github}>GitHub ↗</a><a href={site.linkedin}>LinkedIn ↗</a><a href={site.resume}>Résumé ↗</a></div>
+  </div>
+  <div class="footer-note">© {new Date().getFullYear()} {site.name}</div>
+</footer>

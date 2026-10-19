@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Experience from '../components/Experience.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Research from '../components/Research.astro';
+import AdditionalProjects from '../components/AdditionalProjects.astro';
+import About from '../components/About.astro';
+import { projects } from '../lib/projects';
+---
+<BaseLayout>
+  <main id="main" class="wrap">
+    <Hero /><Experience />
+    <section class="section" id="projects">
+      <SectionHeading number="02" title="Projects" />
+      {projects.map((project, index) => <ProjectCard project={project.frontmatter} index={index} />)}
+    </section>
+    <Research /><AdditionalProjects /><About />
+  </main>
+</BaseLayout>

@@ -1,0 +1,72 @@
+{
+  "name": "Aadesh Shah",
+  "initials": "AS",
+  "title": "Aadesh Shah | Software, Systems & Applied AI",
+  "description": "Computer Engineering at NC State. Experience and projects in software engineering, backend systems, computer architecture, and applied AI.",
+  "status": "Software Development Engineer Intern @ AWS",
+  "intro": "I’m a Computer Engineering student at NC State interested in software engineering, computer architecture, and applied AI. Currently, I’m an SDE intern at AWS, building agentic applications for data center planning.",
+  "email": "aaditshah05@gmail.com",
+  "github": "https://github.com/atshah29",
+  "linkedin": "https://linkedin.com/in/aadesh-shah1",
+  "resume": "/resume.pdf",
+  "about": [
+    "I enjoy understanding how systems work and finding ways to improve them. My interests span software development, backend services, computer architecture, and applied AI.",
+    "I’m open to a broad range of software engineering roles. I’m especially drawn to work that lets me solve practical problems, learn unfamiliar technologies, and improve performance or reliability."
+  ],
+  "experience": [
+    {
+      "company": "Amazon Web Services",
+      "dates": "Sep 2026 · Present",
+      "role": "Software Development Engineer Intern",
+      "summary": "Developing a full-stack agentic application that turns natural-language requests into data center planning inputs.",
+      "contributions": [
+        "Built a dynamic schema and dependency-graph generator for 80+ configuration files, with Pydantic validation and user approval for coordinated edits.",
+        "Developing the application with Bedrock AgentCore, Strands, a web UI, and CI/CD.",
+        "Identified retained incomplete S3 multipart uploads and automated cleanup to prevent approximately $800/month in storage costs."
+      ]
+    },
+    {
+      "company": "Tanium",
+      "dates": "Jun · Aug 2026",
+      "role": "Software Engineering Intern",
+      "summary": "Developed backend services and monitoring for cloud security infrastructure.",
+      "contributions": [
+        "Built a Go pre-scan filter that excluded approximately 40% of incoming Docker images as unprocessable, reducing Lambda failure rates from 30% to 1%.",
+        "Built a Python service aggregating vulnerability scan results across 40 production targets, integrating CloudWatch and Slack APIs.",
+        "Implemented Grafana failure detection and alerting across 10 production security services, resolving IAM barriers to cross-region monitoring."
+      ]
+    },
+    {
+      "company": "Columbus McKinnon",
+      "dates": "Jun · Aug 2025",
+      "role": "R&D Embedded Software Intern",
+      "summary": "Developed embedded software for a next-generation control-system prototype.",
+      "contributions": [
+        "Led C/C++ development across 5+ product lines with direct customer input.",
+        "Worked on FreeRTOS task scheduling to improve responsiveness under real-time constraints."
+      ]
+    }
+  ],
+  "research": {
+    "role": "NC State · Applied ML Research Assistant · Aug 2024 to present",
+    "venue": "Co-author · Electronics, 2026",
+    "title": "BCough: Design and Evaluation of a Bone-Conduction-Embedded AI Platform for On-Device Cough Detection",
+    "description": "Research on on-device cough detection using wearable sensors. My contributions include model development, quantization, and C audio preprocessing.",
+    "url": "https://doi.org/10.3390/electronics15091912",
+    "caseStudy": "/projects/bcough/"
+  },
+  "additionalProjects": [
+    {
+      "name": "TradingApp",
+      "technologies": "C++ · MySQL · Python",
+      "description": "A trading simulation combining persistent portfolios, background sentiment caching, and a local FinBERT model.",
+      "url": "https://github.com/atshah29/TradingApp"
+    },
+    {
+      "name": "Pico-Pong",
+      "technologies": "Embedded C · Raspberry Pi Pico",
+      "description": "An embedded Pong game with an OLED display, potentiometer paddle control, and buzzer feedback.",
+      "url": "https://github.com/atshah29/Pico-Pong"
+    }
+  ]
+}

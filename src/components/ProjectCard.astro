@@ -1,0 +1,24 @@
+---
+import type { Project } from '../lib/projects';
+interface Props { project: Project; index: number }
+const { project: p, index } = Astro.props;
+const url = `/projects/${p.slug}/`;
+---
+<article class="project">
+  <div>
+    <div class="project-num">{String(index + 1).padStart(2, '0')} / {p.category}</div>
+    <h3><a href={url}>{p.cardTitle}</a></h3><p>{p.summary}</p>
+    <div class="tags">{p.tags.map(tag => <span class="tag">{tag}</span>)}</div>
+    <p class="result">{p.result}</p>
+    {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
+    <a class="textlink" href={url}>Explore the project <span aria-hidden="true">↗</span></a>
+  </div>
+  <a class:list={['project-image', p.visual]} href={url} aria-label={`Read ${p.cardTitle} case study`}>
+    {p.visual === 'predictor' ? <>
+      <div class="mini-label">Speculative value prediction</div>
+      <div class="mini-stages"><span>Rename</span><span>Dispatch</span><span>Execute</span><span>Retire</span></div>
+      <div class="predictor-bottom"><span>Predict → verify → recover</span><span>32 KB</span></div>
+    </> : <img src={p.image} alt={p.imageAlt} loading="lazy" width="1200" height="800" />}
+    <span class="view" aria-hidden="true">↗</span>
+  </a>
+</article>

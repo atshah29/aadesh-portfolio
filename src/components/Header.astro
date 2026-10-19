@@ -1,0 +1,13 @@
+---
+import site from '../data/site.json';
+---
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label={`${site.name} home`}><span>{site.initials}</span>{site.name}</a>
+    <button class="menu" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" class="links" aria-label="Main navigation">
+      <a href="/#experience">Experience</a><a href="/#projects">Projects</a><a href="/#about">About</a>
+      <a class="resume" href={site.resume} target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>

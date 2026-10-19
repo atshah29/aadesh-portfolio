@@ -1,0 +1,26 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Project } from '../lib/projects';
+interface Props {
+  project: Project;
+  next: Project;
+  headings: { depth: number; slug: string; text: string }[];
+}
+const { project: p, next, headings } = Astro.props;
+---
+<BaseLayout title={`${p.title} | Aadesh Shah`} description={p.description}>
+  <main id="main" class="wrap">
+    <div class="case-hero">
+      <a class="back" href="/#projects">← All projects</a>
+      <div class="eyebrow">Selected work / {String(p.order).padStart(2, '0')}</div>
+      <h1>{p.title}</h1><p class="intro">{p.description}</p>
+      <div class="facts"><div><strong>My role</strong>{p.role}</div><div><strong>Context</strong>{p.context}</div><div><strong>Built with</strong>{p.technology}</div></div>
+      {p.links.length > 0 && <div class="actions">{p.links.map((link, index) => <a class={index === 0 ? 'btn' : 'textlink'} href={link.href}>{link.label}</a>)}</div>}
+    </div>
+    <div class="case-body">
+      <nav class="toc" aria-label="Case study sections">{headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}</nav>
+      <div class="case-content"><slot /></div>
+    </div>
+    <a class="next-project" href={`/projects/${next.slug}/`}><span>Next project</span><strong>{next.cardTitle} ↗</strong></a>
+  </main>
+</BaseLayout>

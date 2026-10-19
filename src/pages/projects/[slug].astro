@@ -1,0 +1,15 @@
+---
+import { projects } from '../../lib/projects';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+export function getStaticPaths() {
+  return projects.map((project, index) => ({
+    params: { slug: project.frontmatter.slug },
+    props: { project, next: projects[(index + 1) % projects.length].frontmatter },
+  }));
+}
+const { project, next } = Astro.props;
+const { Content } = project;
+---
+<CaseStudyLayout project={project.frontmatter} next={next} headings={project.getHeadings()}>
+  <Content />
+</CaseStudyLayout>

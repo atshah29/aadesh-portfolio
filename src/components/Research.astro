@@ -1,0 +1,14 @@
+---
+import site from '../data/site.json';
+import SectionHeading from './SectionHeading.astro';
+const r = site.research;
+---
+<section class="section">
+  <SectionHeading number="03" title="Research" />
+  <article class="publication">
+    <div class="paper-icon" aria-hidden="true"><strong>BCough</strong><i></i><i></i><i></i><i></i></div>
+    <div><div class="eyebrow">{r.role}</div><p style="margin-top:8px">{r.venue}</p><h3>{r.title}</h3><p>{r.description}</p>
+      <div class="actions"><a class="textlink" href={r.url}>Read the paper ↗</a><a class="textlink" href={r.caseStudy}>My contribution ↗</a></div>
+    </div>
+  </article>
+</section>
