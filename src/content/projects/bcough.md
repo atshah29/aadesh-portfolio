@@ -74,4 +74,4 @@ The results belong to the team’s published system. My individual contribution 
 
 **BCough: Design and Evaluation of a Bone-Conduction-Embedded AI Platform for On-Device Cough Detection.** Mayur Sanap, Joseph de la Viesca, Aadesh Shah, Sameer Dalal, Jack Twiddy, Michael Daniele, and Edgar Lobaton. _Electronics_, 2026.
 
-[Read the published paper ↗](https://doi.org/10.3390/electronics15091912)
+<a href="https://doi.org/10.3390/electronics15091912" target="_blank" rel="noopener noreferrer">Read the published paper ↗</a>

@@ -90,6 +90,6 @@ The local Apple M4 evaluation compares optimized candidates against a Clang `-O3
 
 Matching the supplied outputs is evidence of correct behavior on those workloads, not a proof of equivalence for all inputs. Representative tests and deterministic outputs remain essential.
 
-Implementation references: [pipeline](https://github.com/atshah29/Cpp-optimize-assistant/blob/main/pipeline.py), [context selection](https://github.com/atshah29/Cpp-optimize-assistant/blob/main/context.py), and [evaluation worker](https://github.com/atshah29/Cpp-optimize-assistant/blob/main/worker.py).
+Implementation references: <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/pipeline.py" target="_blank" rel="noopener noreferrer">pipeline</a>, <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/context.py" target="_blank" rel="noopener noreferrer">context selection</a>, and <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/worker.py" target="_blank" rel="noopener noreferrer">evaluation worker</a>.
 
 The application targets local use with a single API instance. It produces reviewable changes with supporting measurements. Improvements depend on the program and workloads.

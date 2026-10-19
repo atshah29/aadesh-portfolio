@@ -3,7 +3,7 @@ import site from '../data/site.json';
 import SectionHeading from './SectionHeading.astro';
 ---
 <section class="section" id="experience">
-  <SectionHeading number="01" title="Experience"><a class="textlink" href={site.resume}>View full résumé ↗</a></SectionHeading>
+  <SectionHeading number="01" title="Experience"><a class="textlink" href={site.resume} target="_blank" rel="noopener noreferrer">View full résumé ↗</a></SectionHeading>
   {site.experience.map(job => <article class="experience-row">
     <div><div class="company">{job.company}</div><time>{job.dates}</time></div>
     <div><div class="role">{job.role}</div><p>{job.summary}</p><ul class="experience-details">{job.contributions.map(item => <li>{item}</li>)}</ul></div>

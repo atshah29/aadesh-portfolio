@@ -6,6 +6,6 @@ import SectionHeading from './SectionHeading.astro';
   <SectionHeading number="04" title="Additional projects" />
   <div class="moregrid">{site.additionalProjects.map(p => <article>
     <div class="eyebrow">{p.technologies}</div><h3>{p.name}</h3><p>{p.description}</p>
-    <div class="actions"><a class="textlink" href={p.url}>Explore source ↗</a></div>
+    <div class="actions"><a class="textlink" href={p.url} target="_blank" rel="noopener noreferrer">Explore source ↗</a></div>
   </article>)}</div>
 </section>
