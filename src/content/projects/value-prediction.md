@@ -6,7 +6,7 @@ cardTitle: "Hybrid Value Predictor"
 category: "Computer architecture"
 summary: "A hybrid value predictor that lets dependent instructions execute before their inputs are computed, with validation and recovery across an out-of-order simulator."
 description: "Placed 2nd out of 60 teams in a graduate-level competition with a hybrid value predictor delivering approximately 24% higher IPC within a 32 KB budget."
-role: "Sole software implementer within a two-person project team."
+role: "Predictor architecture, design, implementation, and evaluation"
 context: "Graduate architecture project · Jan–Apr 2026"
 technology: "C++ · SVP · VTAGE"
 tags: ["C++", "SVP + VTAGE", "Simulation"]
@@ -27,7 +27,11 @@ links:
 
 ## Competition outcome
 
-The project placed **2nd out of 60 teams** in a graduate-level value-prediction competition, with additional recognition for exploring a novel approach. The hybrid achieved **2.054 harmonic-mean IPC**, approximately **24% higher** than the 1.66 baseline without value prediction, within a **32 KB predictor budget**.
+Our project placed **2nd out of 60 teams** in a graduate-level value-prediction competition, with additional recognition for exploring a novel approach. The hybrid achieved **2.054 harmonic-mean IPC**, approximately **24% higher** than the 1.66 baseline without value prediction, within a **32 KB predictor budget**.
+
+## My contribution
+
+In this two-person project, I designed the hybrid predictor, implemented its integration across the simulator pipeline, and conducted the experiments that guided provider selection, confidence training, and storage allocation.
 
 ## Value prediction
 
@@ -99,8 +103,6 @@ The benchmark examples are from the <a href="https://www.spec.org/cpu2006/CINT20
 - **VPQ:** 256 in-flight prediction entries.
 - **Storage:** 31.97 KB total within a 32 KB budget.
 
-## Implementation summary
-
-I implemented the prediction path, speculative register forwarding, result validation, recovery bookkeeping, and retirement-time training, then tuned provider selection, confidence, and table allocation together with the simulator’s storage configuration.
+## Design tradeoff
 
 Predicting a value can let dependent instructions run sooner, but an incorrect prediction forces the processor to discard speculative work and recover. I tuned when predictions were trusted and which predictor supplied them so the time saved by correct predictions outweighed the cost of recovery.
