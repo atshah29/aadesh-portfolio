@@ -36,6 +36,8 @@ The firmware initializes GPIO, clocks, timers, ADC, DAC, serial interfaces, and 
 
 Forward, reverse, turning, and rotation primitives support manual driving and timed command sequences. Three speed settings are backed by DAC control, alongside PWM motor outputs.
 
+<figure><button class="figure-button phone-screenshot" data-zoom aria-label="Enlarge: Phone interface used for wireless car control"><img src="/assets/car-wireless-control.webp" alt="Phone interface with connection settings, a custom command field, and controls for driving, nudging, stopping, turning, and line interception" loading="lazy" width="875" height="1798"></button><figcaption>The phone interface I used to send wireless commands to the car, including direct movement controls and custom commands for testing and tuning. Select image to enlarge.</figcaption></figure>
+
 ### Autonomous maneuvers
 
 The line-following sequence includes approach, line interception, alignment, circular-path following, and exit. When the line is lost, recovery behavior attempts to reacquire it rather than continuing the normal tracking state.

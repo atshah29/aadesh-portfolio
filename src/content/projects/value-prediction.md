@@ -5,16 +5,16 @@ title: "Hybrid SVP + VTAGE Value Predictor"
 cardTitle: "Hybrid Value Predictor"
 category: "Computer architecture"
 summary: "A hybrid value predictor that lets dependent instructions execute before their inputs are computed, with validation and recovery across an out-of-order simulator."
-description: "A hybrid SVP + VTAGE value predictor achieving 2.054 harmonic-mean IPC versus a 1.66 baseline without value prediction, approximately 24% higher, within a 32 KB storage budget."
+description: "Placed 2nd out of 60 teams in a graduate-level competition with a hybrid value predictor delivering approximately 24% higher IPC within a 32 KB budget."
 role: "Sole software implementer within a two-person project team."
 context: "Graduate architecture project · Jan–Apr 2026"
 technology: "C++ · SVP · VTAGE"
 tags: ["C++", "SVP + VTAGE", "Simulation"]
-result: "≈24% higher harmonic-mean IPC: 1.66 → 2.054 · 31.97 KB predictor"
+result: "2nd of 60 teams · ≈24% higher harmonic-mean IPC: 1.66 → 2.054"
 visual: "predictor"
 image: "/assets/value-predictor-architecture.png"
 imageAlt: "Hybrid value predictor block diagram with stride and tagged-history tables, prediction queue, provider selection, and retirement training"
-benchmarkNote: "Baseline (without value prediction)"
+benchmarkNote: "Graduate-level competition · 31.97 KB predictor · Baseline without value prediction"
 sourceNote: "Source code is private in accordance with course requirements."
 links:
   [
@@ -24,6 +24,10 @@ links:
     },
   ]
 ---
+
+## Competition outcome
+
+The project placed **2nd out of 60 teams** in a graduate-level value-prediction competition, with additional recognition for exploring a novel approach. The hybrid achieved **2.054 harmonic-mean IPC**, approximately **24% higher** than the 1.66 baseline without value prediction, within a **32 KB predictor budget**.
 
 ## Value prediction
 
@@ -39,31 +43,21 @@ SVP predicts regular value changes using the retired value, stride, and number o
 
 ## Pipeline integration
 
-<div class="stepper"><div class="mini-label" style="margin-bottom:15px">Explore the pipeline</div><div class="step-tabs"><button data-step="0" aria-pressed="true">1. Rename</button><button data-step="1" aria-pressed="false">2. Dispatch</button><button data-step="2" aria-pressed="false">3. Execute</button><button data-step="3" aria-pressed="false">4. Retire</button></div><div aria-live="polite"><h3 id="step-title">Rename: predict and checkpoint</h3><p id="step-body">During register renaming, the predictor uses the instruction address and recent conditional-branch history to search the stride and tagged-history tables. It records the speculative history and prediction-queue position needed for recovery.</p></div></div>
+I integrated value prediction into an existing RISC-V out-of-order simulator, connecting prediction, early operand availability, result validation, committed training, and recovery. Explore the complete instruction path below, including both rename sub-stages and the existing front end and scheduler.
 
-### Prediction and checkpointing
+<div class="stepper"><div class="mini-label" style="margin-bottom:15px">Full pipeline and recovery</div><div class="step-tabs pipeline-tabs" role="group" aria-label="Instruction stages and recovery"><button data-step="0" aria-pressed="false" aria-controls="pipeline-detail">1. Fetch</button><button data-step="1" aria-pressed="false" aria-controls="pipeline-detail">2. Decode</button><button data-step="2" aria-pressed="false" aria-controls="pipeline-detail">3. Rename 1</button><button data-step="3" aria-pressed="true" aria-controls="pipeline-detail">4. Rename 2</button><button data-step="4" aria-pressed="false" aria-controls="pipeline-detail">5. Dispatch</button><button data-step="5" aria-pressed="false" aria-controls="pipeline-detail">6. Schedule</button><button data-step="6" aria-pressed="false" aria-controls="pipeline-detail">7. Register read</button><button data-step="7" aria-pressed="false" aria-controls="pipeline-detail">8. Execute</button><button data-step="8" aria-pressed="false" aria-controls="pipeline-detail">9. Writeback</button><button data-step="9" aria-pressed="false" aria-controls="pipeline-detail">10. Retire</button><button data-step="10" aria-pressed="false" aria-controls="pipeline-detail">Recovery</button></div><div id="pipeline-detail" aria-live="polite"><h3 id="step-title">Rename 2: predict and checkpoint</h3><p id="step-body">I integrated stride and tagged-history lookup with register renaming, provider selection, and in-flight prediction tracking. Branch checkpoints capture speculative history and the prediction-queue position so later recovery can undo wrong-path work.</p></div></div>
 
-During register renaming, the predictor uses the instruction address and recent conditional-branch history to search the stride and tagged-history tables. It records the speculative history and prediction-queue position needed for recovery.
+The implementation also extends shared instruction metadata and register-management state to carry predictions, checkpoint positions, and misprediction flags across stages. The value-prediction queue connects speculative execution with retirement-time training, while recovery must keep that queue, register readiness, stride instance counts, and branch history consistent.
 
-### Provider selection
+## Predictor design changes
 
-The matching VTAGE table with the longest history supplies the primary prediction. A shorter-history match or the stride predictor supplies an alternate. A fully confident VTAGE prediction takes priority over SVP; otherwise a confident SVP prediction can be used.
+Building on stride prediction and tagged-history research, I introduced three changes to how the two predictors cooperate:
 
-### Speculative forwarding
+- **VTAGE priority at full confidence:** A fully confident history-based prediction takes priority over SVP. Until VTAGE reaches that confidence, a confident stride prediction can supply the result. This keeps both simple stride patterns and context-dependent patterns useful.
+- **SVP alternate as an allocation veto:** I carried the stride prediction alongside the VTAGE provider. When that alternate is correct, it blocks redundant VTAGE allocation, reserving history-table capacity for patterns that SVP cannot already predict.
+- **Protection against SVP aliasing:** When a fully confident VTAGE provider correctly predicts an instruction, I prevent that instruction from replacing a different SVP entry at the same index. This protects established stride patterns from unnecessary eviction.
 
-At dispatch, a sufficiently confident predicted result is written into the instruction’s destination physical register and marked available. Dependent instructions can execute before the producer computes its actual result.
-
-### Validation
-
-Once the actual result is available, the simulator compares it with the prediction. Incorrect predictions trigger recovery so instructions that consumed the wrong value do not commit incorrect results.
-
-### Recovery
-
-A branch rollback restores checkpointed history and rewinds the prediction queue, undoing wrong-path SVP instance counts. Full recovery clears in-flight prediction bookkeeping and restores committed history.
-
-### Training
-
-Retirement updates stride information, confidence, and permanent table state using committed instructions.
+These changes were evaluated alongside instruction-aware confidence training, allocation throttling, conditional-branch-only history, and predictor sizing.
 
 ## Confidence and table management
 

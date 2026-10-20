@@ -973,3 +973,26 @@ dialog img {
   margin-top: 16px;
   font-size: 13px;
 }
+
+.pipeline-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.pipeline-tabs button {
+  text-align: left;
+  min-height: 42px;
+}
+.figure-button.phone-screenshot img {
+  max-height: 620px;
+  width: auto;
+}
+.project-image.optimizer {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+@media (max-width: 520px) {
+  .pipeline-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

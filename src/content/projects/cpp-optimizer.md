@@ -13,7 +13,7 @@ tags: ["C++", "FastAPI / React", "Clang", "Applied AI"]
 result: "≈70% average execution-time reduction"
 visual: "optimizer"
 image: "/assets/optimizer.webp"
-imageAlt: "C++ optimizer interface showing a successful compile-only run"
+imageAlt: "C++ optimizer upload and configuration view beside a validated optimization result"
 benchmarkNote: "22 custom benchmarks · Apple M4 · Clang -O3 baseline. Rounded average; includes unchanged cases."
 links:
   [
@@ -30,7 +30,7 @@ Generating a plausible optimization is only part of the job. The changed program
 
 I built a local workbench that connects model-generated source edits to a controlled build, verification, and measurement loop. Changes are accepted only after validation and performance checks.
 
-<figure><button class="figure-button" data-zoom aria-label="Enlarge: Optimizer interface with file upload, configuration, and a successful compile-only result"><img src="/assets/optimizer.webp" alt="Optimizer interface with file upload, configuration, and a successful compile-only result" loading="lazy" width="1200" height="800"></button><figcaption>The application interface after a compile-only run. The screen shows the build workflow. Select image to enlarge.</figcaption></figure>
+<figure><button class="figure-button" data-zoom aria-label="Enlarge: Optimizer configuration and validated improvement"><img src="/assets/optimizer.webp" alt="Optimizer upload settings beside an accepted change reducing the example workload’s median runtime from 264.64 ms to 7.13 ms" loading="lazy" width="1774" height="887"></button><figcaption>Upload and results views from an example optimization run. The workload’s median runtime fell from 264.64 ms to 7.13 ms, with output checks and final confirmation passing. The benchmark-suite results are summarized below. Select image to enlarge.</figcaption></figure>
 
 ## Optimization workflow
 
