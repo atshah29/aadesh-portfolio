@@ -4,7 +4,7 @@
   "title": "Aadesh Shah | Software, Systems & Applied AI",
   "description": "Computer Engineering at NC State. Software engineering, backend applications, applied and agentic AI, performance, computer architecture, and embedded systems.",
   "status": "Software Development Engineer Intern @ AWS",
-  "intro": "I’m a Computer Engineering student at NC State interested in software engineering, backend applications, applied AI, and systems performance. Currently, I’m an SDE intern at AWS, building agentic applications for data center planning.",
+  "intro": "I’m a Computer Engineering student at NC State, graduating in December 2027. I’m interested in software engineering, backend applications, applied AI, and systems performance. Currently, I’m an SDE intern at AWS, building agentic applications for data center planning.",
   "email": "aaditshah05@gmail.com",
   "github": "https://github.com/atshah29",
   "linkedin": "https://linkedin.com/in/aadesh-shah1",
@@ -18,14 +18,12 @@
       "company": "Amazon Web Services",
       "dates": "Sep 2026 · Present",
       "role": "Software Development Engineer Intern",
-      "summary": "Developing a full-stack agentic application that lets developers create the inputs needed to launch data center planning simulations through natural-language requests, replacing manual updates across interconnected configuration files.",
+      "summary": "Developing a full-stack agentic application that lets developers create data center planning simulation inputs through natural-language requests, replacing manual edits across interconnected configuration files.",
       "contributions": [
-        "Built the agent workflow with the Strands Agents SDK and deployed the application backend on Amazon Bedrock AgentCore Runtime, with a custom CLI for invoking it. The workflow interprets requests, finds relevant planning data, resolves dependencies, and plans coordinated configuration changes.",
-        "Built an ECS task running on AWS Fargate to generate dynamic schemas and a dependency graph for a growing set of 80+ planning configuration files, giving the agent structured knowledge of the data model and relationships between files.",
-        "Implemented Pydantic validation and user approval before applying coordinated edits and generating simulation inputs in Amazon S3.",
-        "Building the web interface and CI/CD pipeline for a workflow that previously required detailed knowledge of internal configurations and manual edits across multiple files.",
-        "Identified an S3 lifecycle configuration issue retaining incomplete multipart uploads and automated cleanup to prevent approximately $800/month in recurring storage costs after uncovering approximately $12K in accumulated charges.",
-        "Migrated a shared data-processing package to a new build system and dependency manager for use by downstream applications."
+        "Built a Strands agent on Amazon Bedrock AgentCore Runtime that finds planning data, resolves dependencies, and coordinates configuration edits, with Pydantic validation and user approval before generating simulation inputs in S3.",
+        "Built an ECS task on AWS Fargate that generates dynamic schemas and a dependency graph for 80+ configuration files, giving the agent structured knowledge of the planning data model.",
+        "Building the web interface and CI/CD pipeline; developed a custom CLI to invoke the agent.",
+        "Fixed an S3 lifecycle issue retaining incomplete multipart uploads and automated cleanup to prevent approximately $800/month in recurring storage costs after uncovering approximately $12K in accumulated charges."
       ]
     },
     {
