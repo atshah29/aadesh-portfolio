@@ -92,12 +92,12 @@ Evaluation includes the custom suite of 22 optimization exercises and a separate
 
 The five-program LLVM subset achieved approximately 25% speedup in a separate evaluation. The approximately 70% average execution-time reduction above applies to the 22 custom benchmarks in the local Apple M4 evaluation.
 
-<a href="https://github.com/atshah29/Cpp-optimize-assistant/tree/main/benchmarks/llvm" target="_blank" rel="noopener noreferrer">Explore the LLVM subset and evaluation policy ↗</a>
+<a href="https://github.com/atshah29/Cpp-optimize-assistant/tree/main/benchmarks/llvm" data-umami-event="github_click" data-umami-event-destination="https://github.com/atshah29/Cpp-optimize-assistant/tree/main/benchmarks/llvm" target="_blank" rel="noopener noreferrer">Explore the LLVM subset and evaluation policy ↗</a>
 
 ## Validation scope
 
 Matching the supplied outputs is evidence of correct behavior on those workloads, not a proof of equivalence for all inputs. Representative tests and deterministic outputs remain essential.
 
-Implementation references: <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/pipeline.py" target="_blank" rel="noopener noreferrer">pipeline</a>, <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/context.py" target="_blank" rel="noopener noreferrer">context selection</a>, and <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/worker.py" target="_blank" rel="noopener noreferrer">evaluation worker</a>.
+Implementation references: <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/pipeline.py" data-umami-event="github_click" data-umami-event-destination="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/pipeline.py" target="_blank" rel="noopener noreferrer">pipeline</a>, <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/context.py" data-umami-event="github_click" data-umami-event-destination="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/context.py" target="_blank" rel="noopener noreferrer">context selection</a>, and <a href="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/worker.py" data-umami-event="github_click" data-umami-event-destination="https://github.com/atshah29/Cpp-optimize-assistant/blob/main/worker.py" target="_blank" rel="noopener noreferrer">evaluation worker</a>.
 
 The application targets local use with a single API instance. It produces reviewable changes with supporting measurements. Improvements depend on the program and workloads.

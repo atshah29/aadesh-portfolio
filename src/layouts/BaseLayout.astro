@@ -17,6 +17,13 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     <meta property="og:type" content="website" />
     {canonical && <><link rel="canonical" href={canonical} /><meta property="og:url" content={canonical} /></>}
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <script
+      is:inline
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="14ad762e-2995-47b4-a496-f4903f48ca24"
+      data-domains="aadesh-portfolio05.netlify.app"
+    ></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
