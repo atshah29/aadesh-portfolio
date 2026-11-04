@@ -53,7 +53,8 @@ export function initFeaturedProjects() {
         .to([producer, dependent], { fill: '#466663', duration: 0.5 }, 4.1)
         .to(validation, { opacity: 0.25, duration: 0.5 }, 4.1);
       timeline.add(stageCycle, 0)
-        .fromTo(prediction, { strokeDasharray: '24 180', strokeDashoffset: 204 }, { strokeDashoffset: 0, duration: 1.6, ease: 'none', repeat: -1 }, 0);
+        .fromTo(slide.querySelectorAll('[data-prediction-pulse], [data-prediction-branch]'), { strokeDashoffset: 36 }, { strokeDashoffset: 0, duration: 1.1, ease: 'none', repeat: -1 }, 0)
+        .fromTo(slide.querySelector('[data-pipeline-flow]'), { strokeDashoffset: 10 }, { strokeDashoffset: 0, duration: 0.7, ease: 'none', repeat: -1 }, 0);
     } else if (optimizer) {
       const length = optimizer.getTotalLength();
       const duration = 4.2;

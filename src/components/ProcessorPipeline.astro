@@ -8,6 +8,11 @@ const stages = [
 ];
 ---
 <svg class="processor-pipeline" viewBox="0 0 390 116" fill="none">
+  <path class="pipeline-prediction-track" d="M118 57V19H145M257 19H274V37H194V57" />
+  <path class="pipeline-prediction-flow" data-prediction-pulse d="M118 57V19H145" />
+  <path class="pipeline-prediction-flow" data-prediction-branch d="M257 19H274V37H194V57" />
+  <path class="pipeline-stage-track" d="M77 76H87M149 76H159M228 76H238M303 76H313" />
+  <path class="pipeline-stage-flow" data-pipeline-flow d="M77 76H87M149 76H159M228 76H238M303 76H313" />
   <g data-pipeline-predictor>
     <rect class="pipeline-predictor" x="145" y="7" width="112" height="24" rx="5" />
     <text class="pipeline-predictor-label" x="201" y="23">SVP + VTAGE</text>
@@ -20,8 +25,6 @@ const stages = [
       <rect class="pipeline-instruction pipeline-dependent" data-dependent-instruction x="248" y="81" width="45" height="7" rx="2" />
     </> : label.map((line, i) => <text class="pipeline-stage-label" x={x + width / 2} y={label.length > 1 ? 73 + i * 12 : 80}>{line}</text>)}
   </g>)}
-  <path class="pipeline-ready-arrow" d="M159 51L163 57L167 51" />
+  <path class="pipeline-ready-arrow" d="M190 51L194 57L198 51" />
   <path class="pipeline-validation" data-pipeline-validation d="M251 106L255 110L262 102" />
-  <path class="pipeline-prediction-track" d="M0 91H95V28H274V43H163V91H390" />
-  <path class="pipeline-prediction-flow" data-prediction-pulse d="M0 91H95V28H274V43H163V91H390" />
 </svg>
