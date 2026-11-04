@@ -1,24 +1,34 @@
 ---
 import type { Project } from '../lib/projects';
-interface Props { project: Project; index: number }
-const { project: p, index } = Astro.props;
+import SpotlightCard from './SpotlightCard.jsx';
+interface Props { project: Project; index: number; html: string }
+const { project: p, index, html } = Astro.props;
 const url = `/projects/${p.slug}/`;
 ---
-<article class="project">
-  <div>
-    <div class="project-num">{String(index + 1).padStart(2, '0')} / {p.category}</div>
-    <h3><a href={url}>{p.cardTitle}</a></h3><p>{p.summary}</p>
-    <div class="tags">{p.tags.map(tag => <span class="tag">{tag}</span>)}</div>
-    <p class="result">{p.result}</p>
-    {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
-    <a class="textlink" href={url}>Explore the project <span aria-hidden="true">↗</span></a>
-  </div>
-  <a class:list={['project-image', p.visual]} href={url} aria-label={`Read ${p.cardTitle} case study`}>
-    {p.visual === 'predictor' ? <>
-      <div class="mini-label">Speculative value prediction</div>
-      <div class="mini-stages"><span>Rename</span><span>Dispatch</span><span>Execute</span><span>Retire</span></div>
-      <div class="predictor-bottom"><span>Predict → verify → recover</span><span>31.97 / 32 KB</span></div>
-    </> : <img src={p.image} alt={p.imageAlt} loading="lazy" width="1200" height="800" />}
-    <span class="view" aria-hidden="true">↗</span>
-  </a>
+<article class="project" id={`project-${p.slug}`} data-reveal>
+  <SpotlightCard client:visible className="project-surface" spotlightColor="#b9e4c9" intensity={0.035} borderGlow={0.24} proximity={0} flare={false} grain={0} style={{ '--spotlight-card-surface': '#111d22', '--spotlight-card-border': 'rgba(185,228,201,0.13)', '--spotlight-card-shadow': 'none' }}>
+    <details class="project-disclosure" data-disclosure="project" data-project={p.slug}>
+      <summary aria-controls={`panel-${p.slug}`}>
+        <div class:list={['project-thumb', p.visual]}><img src={p.image} alt={p.imageAlt} loading="lazy" width="1200" height="800" /><span class="thumb-corner" aria-hidden="true">0{index + 1}</span></div>
+        <div class="project-preview">
+          <div class="project-num"><span>{String(index + 1).padStart(2, '0')}</span><span>{p.category}</span></div>
+          <h3>{p.cardTitle}</h3><p class="project-summary">{p.summary}</p>
+          <div class="tags">{p.tags.map(tag => <span class="tag">{tag}</span>)}</div>
+          <p class="result">{p.result}</p>
+          {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
+          <span class="project-expand-label"><span class="when-closed">Explore project</span><span class="when-open">Close project</span><span class="plus-icon" aria-hidden="true"></span></span>
+        </div>
+      </summary>
+      <div class="disclosure-panel project-panel" id={`panel-${p.slug}`}>
+        <div class="project-expanded">
+          <div class="project-detail-top"><span class="eyebrow">Project details</span><a class="textlink" href={url}>Open standalone case study ↗</a></div>
+          <div class="facts"><div><strong>My role</strong>{p.role}</div><div><strong>Context</strong>{p.context}</div><div><strong>Built with</strong>{p.technology}</div></div>
+          {p.links.length > 0 && <div class="actions">{p.links.map((link, i) => <a class={i === 0 ? 'btn' : 'textlink'} href={link.href} data-umami-event={link.href === '/assets/value-predictor-slides.pptx' ? 'presentation_download' : link.href.startsWith('https://github.com/') ? 'github_click' : undefined} data-umami-event-destination={link.href} target={/^https?:\/\//i.test(link.href) ? '_blank' : undefined} rel={/^https?:\/\//i.test(link.href) ? 'noopener noreferrer' : undefined}>{link.label}</a>)}</div>}
+          {p.sourceNote && <p class="source-note">{p.sourceNote}</p>}
+          <div class="case-content" set:html={html} />
+          <button class="close-project textlink" type="button" data-close-disclosure>Close project <span aria-hidden="true">↑</span></button>
+        </div>
+      </div>
+    </details>
+  </SpotlightCard>
 </article>

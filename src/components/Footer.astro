@@ -2,10 +2,9 @@
 import site from '../data/site.json';
 ---
 <footer class="wrap contact" id="contact">
-  <h2>Contact</h2>
+  <div class="contact-top" data-reveal><div><span class="eyebrow">06 / Get in touch</span><h2>Contact<span class="name-period">.</span></h2></div><a class="contact-email" href={`mailto:${site.email}`}>{site.email}<span aria-hidden="true">↗</span></a></div>
   <div class="footer-row">
-    <a class="textlink" href={`mailto:${site.email}`}>{site.email} ↗</a>
-    <div class="footer-links"><a href={site.github} data-umami-event="github_click" data-umami-event-destination={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href={site.resume} data-umami-event="resume_click" data-umami-event-destination={site.resume} target="_blank" rel="noopener noreferrer">Résumé ↗</a></div>
+    <span class="footer-note">© {new Date().getFullYear()} {site.name}</span>
+    <div class="footer-links"><a href={site.github} data-umami-event="github_click" data-umami-event-destination={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href={site.resume} data-umami-event="resume_click" data-umami-event-destination={site.resume} target="_blank" rel="noopener noreferrer">Résumé ↗</a><a href="#main" class="back-top">Back to top ↑</a></div>
   </div>
-  <div class="footer-note">© {new Date().getFullYear()} {site.name}</div>
 </footer>

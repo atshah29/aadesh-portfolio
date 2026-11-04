@@ -1,11 +1,26 @@
 ---
 import site from '../data/site.json';
 ---
-<section class="hero">
-  <div>
-    <div class="availability"><span class="dot"></span>{site.status}</div>
-    <h1>{site.name}</h1><p class="intro">{site.intro}</p>
-    <div class="actions"><a class="btn" href="#experience">View experience <span>↘</span></a><a class="textlink" href={site.github} data-umami-event="github_click" data-umami-event-destination={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-copy">
+    <div class="eyebrow hero-kicker"><span class="line-mark" aria-hidden="true"></span> Software · Systems · Applied AI</div>
+    <h1 id="hero-heading"><span>Aadesh</span> <span class="hero-surname">Shah<span class="name-period">.</span></span></h1>
+    <div class="availability"><span class="dot" aria-hidden="true"></span>{site.status}</div>
+    <p class="intro">{site.intro}</p>
+    <div class="actions">
+      <a class="btn" href="#experience">View experience <span aria-hidden="true">↓</span></a>
+      <a class="textlink" href={site.github} data-umami-event="github_click" data-umami-event-destination={site.github} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
   </div>
-  <div class="hero-art"><svg viewBox="0 0 300 270" role="img" aria-label="Software, systems, and applied AI connected around a shared engineering foundation"><g fill="none" stroke="#a3b79c" stroke-width="1"><circle cx="150" cy="127" r="91" stroke-dasharray="3 6"/><path d="M150 50V102M72 167l58-29m97 29-58-29"/></g><rect x="116" y="94" width="68" height="68" rx="14" fill="#254d3f"/><text x="150" y="135" text-anchor="middle" fill="#f2f5ec" font-family="monospace" font-size="25">&lt;/&gt;</text><g fill="#f6f7f3" stroke="#b6c6af"><rect x="93" y="20" width="114" height="37" rx="5"/><rect x="9" y="166" width="103" height="37" rx="5"/><rect x="189" y="166" width="103" height="37" rx="5"/></g><g fill="#41614f" font-size="12" text-anchor="middle" font-family="Arial"><text x="150" y="43">Software</text><text x="61" y="189">Systems</text><text x="241" y="189">Applied AI</text></g><circle cx="150" cy="242" r="3" fill="#678c66"/></svg><div class="caption">Software · Systems · Applied AI</div></div>
+  <a class="hero-feature" href="#project-value-prediction" data-open-project="value-prediction" aria-label="Explore the hybrid value predictor, second out of sixty teams">
+    <div class="feature-top"><span class="eyebrow">Featured project</span><span class="feature-index">01 / 04</span></div>
+    <div class="feature-rank"><strong>2<span>nd</span></strong><span>out of 60 teams<br />Graduate-level competition</span></div>
+    <div class="signal-diagram" aria-hidden="true">
+      <svg viewBox="0 0 390 120" fill="none"><path class="signal-track" d="M0 60H70L95 24H190L215 60H300L325 96H390"/><path class="signal-track signal-secondary" d="M0 60H70L95 96H190L215 60H300L325 24H390"/><path class="signal-pulse" d="M0 60H70L95 24H190L215 60H300L325 96H390"/><circle cx="70" cy="60" r="5"/><circle cx="215" cy="60" r="5"/><circle cx="300" cy="60" r="5"/></svg>
+      <div class="signal-labels"><span>SVP</span><span>VTAGE</span><span>Prediction</span></div>
+    </div>
+    <div class="feature-bottom"><div><h2>Hybrid Value Predictor</h2><p>≈24% higher harmonic-mean IPC</p></div><span class="circle-arrow" aria-hidden="true">↗</span></div>
+    <div class="feature-footnote">SVP + VTAGE <span>31.97 / 32 KB</span></div>
+  </a>
+  <div class="hero-bottom"><span>NC State · Computer Engineering</span><a href="#experience">Explore below <span aria-hidden="true">↓</span></a></div>
 </section>
