@@ -36,14 +36,12 @@ export function initFeaturedProjects() {
       const producer = slide.querySelector('[data-producer-instruction]');
       const dependent = slide.querySelector('[data-dependent-instruction]');
       const validation = slide.querySelector('[data-pipeline-validation]');
-      const length = prediction.getTotalLength();
       // A conceptual cycle: a confident prediction makes consumers ready before
       // the producer finishes; execution validates it, and retirement trains it.
-      timeline.to(stages[0], { stroke: '#b9e4c9', duration: 0.3 }, 0)
+      const stageCycle = gsap.timeline({ repeat: -1 });
+      stageCycle.to(stages[0], { stroke: '#b9e4c9', duration: 0.3 }, 0)
         .to(stages[1], { stroke: '#b9e4c9', duration: 0.3 }, 0.35)
         .to(predictor, { stroke: '#b9e4c9', fill: '#29453f', duration: 0.3 }, 0.7)
-        .fromTo(prediction, { strokeDasharray: `24 ${length}`, strokeDashoffset: length + 24, opacity: 1 }, { strokeDashoffset: 0, duration: 0.8, ease: 'none' }, 0.85)
-        .to(prediction, { opacity: 0, duration: 0.2 }, 1.65)
         .to(stages[2], { stroke: '#b9e4c9', duration: 0.25 }, 1.45)
         .to(dependent, { fill: '#b9e4c9', duration: 0.3 }, 1.65)
         .to(producer, { fill: '#b9e4c9', duration: 0.3 }, 2.3)
@@ -54,9 +52,18 @@ export function initFeaturedProjects() {
         .to(predictor, { stroke: '#658778', fill: '#172b2d', duration: 0.5 }, 4.1)
         .to([producer, dependent], { fill: '#466663', duration: 0.5 }, 4.1)
         .to(validation, { opacity: 0.25, duration: 0.5 }, 4.1);
+      timeline.add(stageCycle, 0)
+        .fromTo(prediction, { strokeDasharray: '24 180', strokeDashoffset: 204 }, { strokeDashoffset: 0, duration: 1.6, ease: 'none', repeat: -1 }, 0);
     } else if (optimizer) {
-      timeline.fromTo(optimizer, { strokeDashoffset: 390 }, { strokeDashoffset: -45, duration: 3.2, ease: 'none' }, 0);
-      timeline.fromTo(slide.querySelectorAll('[data-optimizer-node] rect'), { stroke: '#466663' }, { stroke: '#b9e4c9', duration: 0.55, stagger: 0.55, repeat: 1, yoyo: true }, 0);
+      const length = optimizer.getTotalLength();
+      const duration = 4.2;
+      // The closed path and dash pattern share an exact period at the seam.
+      timeline.fromTo(optimizer, { strokeDasharray: `24 ${length - 24}`, strokeDashoffset: length }, { strokeDashoffset: 0, duration, ease: 'none' }, 0);
+      slide.querySelectorAll('[data-optimizer-node] rect').forEach((node, index) => {
+        const arrival = duration * index * 100 / length;
+        timeline.to(node, { stroke: '#b9e4c9', duration: 0.2 }, arrival)
+          .to(node, { stroke: '#466663', duration: 0.35 }, arrival + 0.2);
+      });
     } else if (wave) {
       const flow = slide.querySelector('[data-audio-flow]');
       const chip = slide.querySelector('[data-cnn-chip]');

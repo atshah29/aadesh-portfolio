@@ -20,14 +20,31 @@ export function initHeroAmbience() {
       .to(root.querySelector('[data-ambience-ribbon]'), { xPercent: compact.matches ? 10 : -5, yPercent: 7, rotation: 5 }, 0);
   }
   let drift = createDrift();
+  const currentPaths = [...root.querySelectorAll('[data-ambience-ribbon] path')];
+  const currentLight = root.querySelector('[data-ambience-current]');
+  const restingShape = currentPaths[0].getAttribute('d');
+  let paintCurrent;
   function createCurrent() {
     // A seamless travelling light makes the motion clear without a pointer.
-    return gsap.timeline({ paused: true })
-      .fromTo(root.querySelector('[data-ambience-current]'), { strokeDashoffset: 480 }, {
-        strokeDashoffset: 0, duration: compact.matches ? 3.6 : 5, ease: 'none', repeat: -1,
+    const state = { offset: 480, shape: restingShape };
+    let lastPaint = -Infinity;
+    const paint = (force = false) => {
+      const now = performance.now();
+      // Only the decorative SVG is capped at 30 redraws/second. GSAP's shared
+      // clock and the project animations keep their normal refresh rate.
+      if (!force && (now - lastPaint < 1000 / 30 || !visible || document.hidden || motion.matches)) return;
+      lastPaint = now;
+      currentPaths.forEach(path => path.setAttribute('d', state.shape));
+      currentLight.style.strokeDashoffset = `${state.offset}px`;
+    };
+    paintCurrent = paint;
+    paint(true);
+    return gsap.timeline({ paused: true, onUpdate: () => paint() })
+      .to(state, {
+        offset: 0, duration: compact.matches ? 3.6 : 5, ease: 'none', repeat: -1,
       }, 0)
-      .to(root.querySelectorAll('[data-ambience-ribbon] path'), {
-        attr: { d: 'M-160 180C50 100 180 420 440 250S780 30 1160 330' },
+      .to(state, {
+        shape: 'M-160 180C50 100 180 420 440 250S780 30 1160 330',
         duration: compact.matches ? 6 : 9, ease: 'sine.inOut', repeat: -1, yoyo: true,
       }, 0);
   }
@@ -51,6 +68,7 @@ export function initHeroAmbience() {
     if (motion.matches) {
       drift.progress(0).pause();
       current.progress(0).pause();
+      paintCurrent(true);
     } else {
       drift.paused(!active);
       current.paused(!active);

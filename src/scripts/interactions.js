@@ -1,6 +1,7 @@
 import Lenis from 'lenis';
 import { initFeaturedProjects } from './featured-projects';
 import { initHeroAmbience } from './hero-ambience';
+import { initSectionLight } from './section-light';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -248,3 +249,4 @@ window.addEventListener('load', () => {
 
 initFeaturedProjects();
 initHeroAmbience();
+initSectionLight();

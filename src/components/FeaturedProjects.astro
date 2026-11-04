@@ -2,6 +2,7 @@
 import { projects } from '../lib/projects';
 import ProcessorPipeline from './ProcessorPipeline.astro';
 import AudioPipeline from './AudioPipeline.astro';
+import OptimizerPipeline from './OptimizerPipeline.astro';
 const highlights = [
   { value: '2', unit: 'nd', caption: 'out of 60 teams', context: 'Graduate-level competition', result: '≈24% higher harmonic-mean IPC', left: 'SVP + VTAGE', right: '31.97 / 32 KB', labels: ['Predicted values let dependents execute early'] },
   { value: '≈70', unit: '%', caption: 'average runtime reduction', context: '22 custom benchmarks', result: 'LLM proposals, validated improvements', left: 'Apple M4 · Clang -O3', right: '22 custom benchmarks', labels: ['Analyze', 'Propose', 'Validate'] },
@@ -19,7 +20,7 @@ const highlights = [
           <div class="feature-rank"><strong class:list={{ 'compact-stat': index === 1 || index === 2 }}>{h.value}<span>{h.unit}</span></strong><span>{h.caption}<br />{h.context}</span></div>
           <div class="signal-diagram feature-illustration" aria-hidden="true">
             {index === 0 && <ProcessorPipeline />}
-            {index === 1 && <svg viewBox="0 0 390 120" fill="none"><path class="signal-track" d="M0 60H390M304 65V100H85V75"/><path class="signal-pulse" data-optimizer-pulse d="M0 60H390"/>{[70, 170, 270].map((x, i) => <g data-optimizer-node><rect x={x - 20} y="38" width="44" height="44" rx="7"/><path d={i === 0 ? `M${x-8} 51H${x+10}M${x-8} 60H${x+5}M${x-8} 69H${x+10}` : i === 1 ? `M${x-7} 53L${x-13} 60L${x-7} 67M${x+9} 53L${x+15} 60L${x+9} 67` : `M${x-8} 60L${x-1} 67L${x+13} 53`}/></g>)}</svg>}
+            {index === 1 && <OptimizerPipeline />}
             {index === 2 && <AudioPipeline />}
             {index === 3 && <svg viewBox="0 0 390 120" fill="none"><path class="feature-route signal-track" d="M55 60C55 23 120 12 150 37S210 100 250 87S335 83 335 52S278 13 250 34S199 97 155 86S55 95 55 60Z"/><path class="route-guide" d="M55 60C55 23 120 12 150 37S210 100 250 87S335 83 335 52S278 13 250 34S199 97 155 86S55 95 55 60Z"/><circle class="vehicle-halo" data-vehicle-halo cx="55" cy="60" r="10"/><circle class="vehicle-point" data-vehicle-point cx="55" cy="60" r="4"/></svg>}
             <div class="signal-labels">{h.labels.map(label => <span>{label}</span>)}</div>

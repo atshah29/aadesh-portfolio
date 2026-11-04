@@ -2,7 +2,7 @@
 import site from '../data/site.json';
 import SectionHeading from './SectionHeading.astro';
 ---
-<section class="section">
+<section class="section" id="additional-projects">
   <SectionHeading number="04" title="Additional projects" />
   <div class="moregrid">{site.additionalProjects.map(p => <article data-reveal>
     <div class="eyebrow">{p.technologies}</div><h3>{p.name}</h3><p>{p.description}</p>
