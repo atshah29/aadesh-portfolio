@@ -1,4 +1,5 @@
 import Lenis from 'lenis';
+import { initFeaturedProjects } from './featured-projects';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -228,7 +229,6 @@ media.add({ desktop: '(min-width: 801px) and (pointer: fine)', reduce: '(prefers
       y: 18, opacity: 0, duration: 0.8, stagger: 0.09, ease: 'power3.out', clearProps: 'transform,opacity',
     });
     gsap.from('.hero-feature', { x: 22, opacity: 0, duration: 1, delay: 0.15, ease: 'power3.out', clearProps: 'transform,opacity' });
-    gsap.fromTo('.signal-pulse', { strokeDashoffset: 500 }, { strokeDashoffset: 0, duration: 2.5, ease: 'power2.out' });
     document.querySelectorAll('[data-reveal]').forEach(element => {
       gsap.from(element, { y: 22, opacity: 0, duration: 0.65, ease: 'power2.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: element, start: 'top 93%', once: true } });
     });
@@ -244,3 +244,5 @@ window.addEventListener('load', () => {
   refreshLayout();
   if (window.location.hash) revealHash(true);
 }, { once: true });
+
+initFeaturedProjects();

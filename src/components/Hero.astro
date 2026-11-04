@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import FeaturedProjects from './FeaturedProjects.astro';
 ---
 <section class="hero" aria-labelledby="hero-heading">
   <div class="hero-copy">
@@ -12,15 +13,6 @@ import site from '../data/site.json';
       <a class="textlink" href={site.github} data-umami-event="github_click" data-umami-event-destination={site.github} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </div>
   </div>
-  <a class="hero-feature" href="#project-value-prediction" data-open-project="value-prediction" aria-label="Explore the hybrid value predictor, second out of sixty teams">
-    <div class="feature-top"><span class="eyebrow">Featured project</span><span class="feature-index">01 / 04</span></div>
-    <div class="feature-rank"><strong>2<span>nd</span></strong><span>out of 60 teams<br />Graduate-level competition</span></div>
-    <div class="signal-diagram" aria-hidden="true">
-      <svg viewBox="0 0 390 120" fill="none"><path class="signal-track" d="M0 60H70L95 24H190L215 60H300L325 96H390"/><path class="signal-track signal-secondary" d="M0 60H70L95 96H190L215 60H300L325 24H390"/><path class="signal-pulse" d="M0 60H70L95 24H190L215 60H300L325 96H390"/><circle cx="70" cy="60" r="5"/><circle cx="215" cy="60" r="5"/><circle cx="300" cy="60" r="5"/></svg>
-      <div class="signal-labels"><span>SVP</span><span>VTAGE</span><span>Prediction</span></div>
-    </div>
-    <div class="feature-bottom"><div><h2>Hybrid Value Predictor</h2><p>≈24% higher harmonic-mean IPC</p></div><span class="circle-arrow" aria-hidden="true">↗</span></div>
-    <div class="feature-footnote">SVP + VTAGE <span>31.97 / 32 KB</span></div>
-  </a>
+  <FeaturedProjects />
   <div class="hero-bottom"><span>NC State · Computer Engineering</span><a href="#experience">Explore below <span aria-hidden="true">↓</span></a></div>
 </section>
