@@ -1,11 +1,13 @@
 ---
 import type { Project } from '../lib/projects';
 import SpotlightCard from './SpotlightCard.jsx';
+import CardCircuit from './CardCircuit.astro';
 interface Props { project: Project; index: number; html: string }
 const { project: p, index, html } = Astro.props;
 const url = `/projects/${p.slug}/`;
 ---
-<article class="project" id={`project-${p.slug}`} data-reveal>
+<article class="project" id={`project-${p.slug}`} data-reveal data-energy-card>
+  <CardCircuit />
   <SpotlightCard client:visible className="project-surface" spotlightColor="#b9e4c9" intensity={0.035} borderGlow={0.24} proximity={0} flare={false} grain={0} style={{ '--spotlight-card-surface': '#111d22', '--spotlight-card-border': 'rgba(185,228,201,0.13)', '--spotlight-card-shadow': 'none' }}>
     <details class="project-disclosure" data-disclosure="project" data-project={p.slug}>
       <summary aria-controls={`panel-${p.slug}`}>

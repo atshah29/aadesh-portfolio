@@ -1,13 +1,15 @@
 ---
 import site from '../data/site.json';
 import SectionHeading from './SectionHeading.astro';
+import CardCircuit from './CardCircuit.astro';
 const highlights = ['≈$800/month in storage costs prevented', 'Lambda failure rate: 30% → 1%', 'Radio control systems across 5+ product lines'];
 ---
 <section class="section" id="experience" aria-label="Industry experience">
   <SectionHeading number="01" title="Experience"><a class="textlink section-link" href={site.resume} data-umami-event="resume_click" data-umami-event-destination={site.resume} target="_blank" rel="noopener noreferrer">Full résumé ↗</a></SectionHeading>
   <div class="experience-list">
-    {site.experience.map((job, index) => <details class="experience-row" data-disclosure="experience" data-reveal>
+    {site.experience.map((job, index) => <details class="experience-row" data-disclosure="experience" data-reveal data-energy-card>
       <summary aria-controls={`experience-${index}`}>
+        <CardCircuit />
         <div class="experience-meta"><time>{job.dates}</time><span class="experience-number">0{index + 1}</span></div>
         <div class="experience-main"><div class="company">{job.company}</div><div class="role">{job.role}</div><p>{job.summary}</p><span class="experience-impact">{highlights[index]}</span></div>
         <span class="disclosure-toggle" aria-hidden="true"><span class="toggle-label">Details</span><span class="plus-icon"></span></span>

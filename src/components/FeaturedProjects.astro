@@ -3,6 +3,7 @@ import { projects } from '../lib/projects';
 import ProcessorPipeline from './ProcessorPipeline.astro';
 import AudioPipeline from './AudioPipeline.astro';
 import OptimizerPipeline from './OptimizerPipeline.astro';
+import CardCircuit from './CardCircuit.astro';
 const highlights = [
   { value: '2', unit: 'nd', caption: 'out of 60 teams', context: 'Graduate-level competition', result: '≈24% higher harmonic-mean IPC', left: 'SVP + VTAGE', right: '31.97 / 32 KB', labels: ['Predicted values let dependents execute early'] },
   { value: '≈70', unit: '%', caption: 'average runtime reduction', context: '22 custom benchmarks', result: 'LLM proposals, validated improvements', left: 'Apple M4 · Clang -O3', right: '22 custom benchmarks', labels: ['Analyze', 'Propose', 'Validate'] },
@@ -10,7 +11,8 @@ const highlights = [
   { value: '1', unit: 'st', caption: 'attempt completion', context: 'Final examination course', result: 'Wireless control and autonomous line following', left: 'MSP430 + ESP32', right: 'Embedded C', labels: ['Sense', 'Correct', 'Follow'] },
 ];
 ---
-<div class="hero-feature" data-featured-carousel role="region" aria-roledescription="carousel" aria-label="Featured projects">
+<div class="hero-feature" data-featured-carousel data-energy-card role="region" aria-roledescription="carousel" aria-label="Featured projects">
+  <CardCircuit />
   <div class="feature-top"><span class="eyebrow">Featured projects</span><span class="feature-index" data-feature-index>01 / 04</span></div>
   <div class="feature-slides">
     {projects.map(({ frontmatter: project }, index) => {

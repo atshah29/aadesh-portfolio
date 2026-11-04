@@ -35,13 +35,13 @@ export function initSectionLight() {
     const mainBounds = main.getBoundingClientRect();
     const pointerMode = finePointer.matches && cursor.present && !motion.matches && cursor.x >= 0 && cursor.x <= innerWidth && cursor.y >= header && cursor.y <= innerHeight && cursor.y >= mainBounds.top && cursor.y < mainBounds.bottom;
     const nextMode = motion.matches ? 'static' : pointerMode ? 'pointer' : 'follow';
-    const focus = pointerMode ? cursor.y : Math.max(header + 100, window.innerHeight * 0.34);
+    const focus = Math.max(header + 100, window.innerHeight * 0.34);
     const selected = sections.find(section => {
       const bounds = section.getBoundingClientRect();
       return bounds.top <= focus && bounds.bottom > focus;
     }) || null;
-    const pointedBlock = pointerMode ? document.elementFromPoint(cursor.x, cursor.y)?.closest('.hero-feature, .project, .experience-row, .publication, .moregrid > article, .about') : null;
-    energize(pointerMode ? pointedBlock || selected : null);
+    const pointedCard = pointerMode ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
+    energize(pointedCard && main.contains(pointedCard) ? pointedCard : null);
     if (nextMode !== mode) {
       mode = nextMode;
       main.toggleAttribute('data-pointer-lamp', pointerMode);
@@ -64,9 +64,6 @@ export function initSectionLight() {
       // position tween. Pointer events are coalesced to one update per frame.
       setLampX(cursor.x - 210);
       setLampY(cursor.y - 210);
-      yTo.tween.pause();
-      targetY = NaN;
-      return;
     }
     if (!active) { yTo.tween.pause(); targetY = NaN; return; }
     const heading = active.querySelector('.sectionhead, h2').getBoundingClientRect();
