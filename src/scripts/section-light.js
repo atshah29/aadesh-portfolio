@@ -7,13 +7,13 @@ export function initSectionLight() {
   const main = root.closest('main');
   const sections = [...main.querySelectorAll(':scope > .section')];
   const anchor = root.querySelector('[data-section-light-anchor]');
-  const lamp = main.querySelector('[data-section-lamp]');
-  const lampField = lamp.querySelector('[data-section-lamp-field]');
+  const current = main.querySelector('[data-section-current]');
+  const currentPaths = [...current.querySelectorAll('path')];
+  const beacon = root.querySelector('.section-light-beacon');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const yTo = gsap.quickTo(anchor, 'y', { duration: 0.8, ease: 'power3.out' });
-  const setLampX = gsap.quickSetter(lampField, 'x', 'px');
-  const setLampY = gsap.quickSetter(lampField, 'y', 'px');
+  const setSideY = gsap.quickSetter(anchor, 'y', 'px');
   const cursor = { x: 0, y: 0, present: false };
   let active = null;
   let energized = null;
@@ -44,26 +44,37 @@ export function initSectionLight() {
     energize(pointedCard && main.contains(pointedCard) ? pointedCard : null);
     if (nextMode !== mode) {
       mode = nextMode;
-      main.toggleAttribute('data-pointer-lamp', pointerMode);
-      if (motion.matches) {
-        gsap.killTweensOf(lamp);
-        gsap.set(lamp, { opacity: 0 });
-      } else {
-        gsap.to(lamp, { opacity: pointerMode ? 1 : 0, duration: 0.18, overwrite: true });
-      }
+      main.toggleAttribute('data-pointer-energy', pointerMode);
       root.dataset.mode = mode;
     }
     if (selected !== active) {
       active = selected;
       sections.forEach(section => section.toggleAttribute('data-illuminated', section === active));
       root.dataset.activeSection = active?.id || '';
-      gsap.to(root, { opacity: active ? 1 : 0, duration: motion.matches ? 0 : 0.45, overwrite: true });
     }
+    // A single source stays on the rail. Desktop tracks the pointer directly;
+    // touch and keyboard navigation retain the section-heading position.
+    gsap.set(root, { opacity: pointerMode || active ? 1 : 0 });
+    current.toggleAttribute('data-connected', !!energized);
     if (pointerMode) {
-      // Direct setters keep the light centered on the cursor, with no trailing
-      // position tween. Pointer events are coalesced to one update per frame.
-      setLampX(cursor.x - 210);
-      setLampY(cursor.y - 210);
+      yTo.tween.pause();
+      targetY = NaN;
+      setSideY(cursor.y - 140);
+      if (energized) {
+        const bounds = energized.getBoundingClientRect();
+        const rail = beacon.getBoundingClientRect();
+        const x = rail.left + rail.width / 2;
+        const endX = Math.max(x + 6, bounds.left - 3);
+        const endY = Math.max(bounds.top + 16, Math.min(bounds.bottom - 16, cursor.y));
+        const bend = Math.min(14, (endX - x) / 3);
+        // Distant columns receive current through the gutter above the card,
+        // rather than drawing a wire through neighbouring cards or their text.
+        const d = bounds.left - x > 100
+          ? `M${x} ${cursor.y}V${Math.max(header + 6, bounds.top - 12)}H${bounds.left + 16}V${bounds.top - 3}`
+          : `M${x} ${cursor.y}H${endX - bend}L${endX} ${endY}`;
+        currentPaths.forEach(path => path.setAttribute('d', d));
+      }
+      return;
     }
     if (!active) { yTo.tween.pause(); targetY = NaN; return; }
     const heading = active.querySelector('.sectionhead, h2').getBoundingClientRect();
@@ -97,9 +108,9 @@ export function initSectionLight() {
   finePointer.addEventListener('change', () => { cursor.present = false; queue(); });
   motion.addEventListener('change', () => {
     yTo.tween.pause();
-    gsap.killTweensOf([root, lamp]);
+    gsap.killTweensOf(root);
     gsap.set(root, { opacity: active ? 1 : 0 });
-    gsap.set(lamp, { opacity: 0 });
+    current.removeAttribute('data-connected');
     mode = '';
     targetY = NaN;
     queue();
@@ -110,9 +121,9 @@ export function initSectionLight() {
       cursor.present = false;
       energize(null);
       mode = '';
-      main.removeAttribute('data-pointer-lamp');
-      gsap.killTweensOf([root, lamp]);
-      gsap.set(lamp, { opacity: 0 });
+      main.removeAttribute('data-pointer-energy');
+      gsap.killTweensOf(root);
+      current.removeAttribute('data-connected');
     } else {
       gsap.set(root, { opacity: active ? 1 : 0 });
       targetY = NaN;
