@@ -389,8 +389,9 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
 .feature-slide .feature-footnote { margin-top: auto; gap: 12px; padding-top: 15px; }
 .feature-illustration rect { fill: var(--surface); stroke: #466663; stroke-width: 1; }
 .feature-illustration [data-optimizer-node] path { stroke: var(--accent); stroke-width: 1; }
-.feature-illustration .audio-wave { stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 190 230; }
-.feature-illustration [data-mel-bins] rect { fill: var(--accent); stroke: none; opacity: .75; }
+.feature-illustration .audio-wave { stroke: #658778; stroke-width: 1.4; }
+.feature-illustration .audio-flow { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 24 900; }
+.feature-illustration [data-mel-bins] rect { fill: var(--accent); stroke: none; opacity: .6; }
 .feature-illustration .chip-lines { stroke: var(--accent); stroke-width: 1; }
 .feature-illustration .route-guide { stroke: #b9e4c93d; stroke-dasharray: 2 7; stroke-width: 6; }
 .feature-illustration .vehicle-halo { fill: #b9e4c91c; stroke: #b9e4c94d; }

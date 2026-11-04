@@ -58,8 +58,25 @@ export function initFeaturedProjects() {
       timeline.fromTo(optimizer, { strokeDashoffset: 390 }, { strokeDashoffset: -45, duration: 3.2, ease: 'none' }, 0);
       timeline.fromTo(slide.querySelectorAll('[data-optimizer-node] rect'), { stroke: '#466663' }, { stroke: '#b9e4c9', duration: 0.55, stagger: 0.55, repeat: 1, yoyo: true }, 0);
     } else if (wave) {
-      timeline.fromTo(wave, { strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 3.2, ease: 'none' }, 0);
-      timeline.to(slide.querySelectorAll('[data-mel-bins] rect'), { opacity: 0.25, duration: 0.45, stagger: 0.12, repeat: 3, yoyo: true }, 0);
+      const flow = slide.querySelector('[data-audio-flow]');
+      const chip = slide.querySelector('[data-cnn-chip]');
+      const bins = [...slide.querySelectorAll('[data-mel-bins] rect')];
+      const duration = 4.6;
+      const length = flow.getTotalLength();
+      const waveLength = wave.getTotalLength();
+      const travelTime = distance => duration * distance / (length + 24);
+      // One uninterrupted packet crosses every stage. The fixed waveform stays
+      // visible between packets, and the CNN activates when the packet arrives.
+      timeline.fromTo(flow, { strokeDasharray: `24 ${length}`, strokeDashoffset: length + 24 }, { strokeDashoffset: 0, duration, ease: 'none' }, 0);
+      bins.forEach((bin, index) => {
+        const arrival = travelTime(waveLength + 17 + index * 10);
+        timeline.to(bin, { opacity: 1, duration: 0.14 }, arrival)
+          .to(bin, { opacity: 0.6, duration: 0.24 }, arrival + 0.14);
+      });
+      const cnnArrival = travelTime(waveLength + 101);
+      const cnnExit = travelTime(length - 41);
+      timeline.to(chip, { fill: '#29453f', stroke: '#b9e4c9', duration: 0.18 }, cnnArrival)
+        .to(chip, { fill: '#111d22', stroke: '#466663', duration: 0.24 }, cnnExit);
     } else if (route) {
       const distance = route.getTotalLength();
       const position = { progress: 0 };

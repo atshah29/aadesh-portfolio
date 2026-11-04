@@ -1,0 +1,13 @@
+---
+const waveform = 'M0 60H38L46 52L54 70L62 42L70 84L78 20L86 101L94 39L102 74L110 51L118 60H160';
+const flow = `${waveform}H297V48H337V60H302V72H337L349 60H390`;
+---
+<svg viewBox="0 0 390 120" fill="none">
+  <path class="signal-track" d="M0 60H390" />
+  <path class="audio-wave" data-audio-wave d={waveform} />
+  <g data-mel-bins>{[35, 18, 40, 25, 10, 33, 38].map((y, i) => <rect x={177 + i * 10} y={y + 17} width="4" height={90 - 2 * y} rx="2" />)}</g>
+  <rect class="feature-chip" data-cnn-chip x="285" y="36" width="64" height="48" rx="7" />
+  <path class="chip-lines" d="M300 48H337M302 60H337M302 72H337M349 60H390" />
+  <!-- Draw after the chip fill so the signal visibly traverses the CNN. -->
+  <path class="audio-flow" data-audio-flow d={flow} />
+</svg>
