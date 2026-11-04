@@ -9,6 +9,8 @@ export function initSectionLight() {
   const anchor = root.querySelector('[data-section-light-anchor]');
   const current = main.querySelector('[data-section-current]');
   const currentPaths = [...current.querySelectorAll('path')];
+  const lead = current.querySelector('.section-current-lead');
+  let charge = null;
   const beacon = root.querySelector('.section-light-beacon');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -22,10 +24,16 @@ export function initSectionLight() {
   let frame = 0;
 
   function energize(next) {
-    if (next === energized) return;
+    if (next === energized) return false;
+    charge?.kill();
+    charge = null;
+    gsap.set(lead, { opacity: 0 });
+    current.removeAttribute('data-live');
+    energized?.removeAttribute('data-powered');
     energized?.removeAttribute('data-energized');
     energized = next;
     energized?.setAttribute('data-energized', '');
+    return true;
   }
 
   function update() {
@@ -41,7 +49,7 @@ export function initSectionLight() {
       return bounds.top <= focus && bounds.bottom > focus;
     }) || null;
     const pointedCard = pointerMode ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
-    energize(pointedCard && main.contains(pointedCard) ? pointedCard : null);
+    const cardChanged = energize(pointedCard && main.contains(pointedCard) ? pointedCard : null);
     if (nextMode !== mode) {
       mode = nextMode;
       main.toggleAttribute('data-pointer-energy', pointerMode);
@@ -73,6 +81,23 @@ export function initSectionLight() {
           ? `M${x} ${cursor.y}V${Math.max(header + 6, bounds.top - 12)}H${bounds.left + 16}V${bounds.top - 3}`
           : `M${x} ${cursor.y}H${endX - bend}L${endX} ${endY}`;
         currentPaths.forEach(path => path.setAttribute('d', d));
+        if (cardChanged) {
+          const card = energized;
+          const length = lead.getTotalLength();
+          lead.style.strokeDasharray = `6 ${length + 6}`;
+          charge = gsap.fromTo(lead, { strokeDashoffset: 6, opacity: 1 }, {
+            strokeDashoffset: -length,
+            duration: Math.min(.48, Math.max(.12, length / 1500)),
+            ease: 'none',
+            onComplete: () => {
+              if (energized !== card) return;
+              gsap.set(lead, { opacity: 0 });
+              card.setAttribute('data-powered', '');
+              current.setAttribute('data-live', '');
+              charge = null;
+            },
+          });
+        }
       }
       return;
     }
