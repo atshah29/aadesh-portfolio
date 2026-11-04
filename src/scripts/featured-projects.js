@@ -31,7 +31,29 @@ export function initFeaturedProjects() {
     const wave = slide.querySelector('[data-audio-wave]');
     const route = slide.querySelector('.feature-route');
     if (prediction) {
-      timeline.fromTo(prediction, { strokeDashoffset: 530 }, { strokeDashoffset: 0, duration: 4.2, ease: 'none' });
+      const stages = [...slide.querySelectorAll('.pipeline-stage')];
+      const predictor = slide.querySelector('.pipeline-predictor');
+      const producer = slide.querySelector('[data-producer-instruction]');
+      const dependent = slide.querySelector('[data-dependent-instruction]');
+      const validation = slide.querySelector('[data-pipeline-validation]');
+      const length = prediction.getTotalLength();
+      // A conceptual cycle: a confident prediction makes consumers ready before
+      // the producer finishes; execution validates it, and retirement trains it.
+      timeline.to(stages[0], { stroke: '#b9e4c9', duration: 0.3 }, 0)
+        .to(stages[1], { stroke: '#b9e4c9', duration: 0.3 }, 0.35)
+        .to(predictor, { stroke: '#b9e4c9', fill: '#29453f', duration: 0.3 }, 0.7)
+        .fromTo(prediction, { strokeDasharray: `24 ${length}`, strokeDashoffset: length + 24, opacity: 1 }, { strokeDashoffset: 0, duration: 0.8, ease: 'none' }, 0.85)
+        .to(prediction, { opacity: 0, duration: 0.2 }, 1.65)
+        .to(stages[2], { stroke: '#b9e4c9', duration: 0.25 }, 1.45)
+        .to(dependent, { fill: '#b9e4c9', duration: 0.3 }, 1.65)
+        .to(producer, { fill: '#b9e4c9', duration: 0.3 }, 2.3)
+        .to(stages[3], { stroke: '#b9e4c9', duration: 0.25 }, 2.65)
+        .to(validation, { opacity: 1, duration: 0.25 }, 2.8)
+        .to(stages[4], { stroke: '#b9e4c9', duration: 0.3 }, 3.1)
+        .to(stages, { stroke: '#466663', duration: 0.5 }, 4.1)
+        .to(predictor, { stroke: '#658778', fill: '#172b2d', duration: 0.5 }, 4.1)
+        .to([producer, dependent], { fill: '#466663', duration: 0.5 }, 4.1)
+        .to(validation, { opacity: 0.25, duration: 0.5 }, 4.1);
     } else if (optimizer) {
       timeline.fromTo(optimizer, { strokeDashoffset: 390 }, { strokeDashoffset: -45, duration: 3.2, ease: 'none' }, 0);
       timeline.fromTo(slide.querySelectorAll('[data-optimizer-node] rect'), { stroke: '#466663' }, { stroke: '#b9e4c9', duration: 0.55, stagger: 0.55, repeat: 1, yoyo: true }, 0);

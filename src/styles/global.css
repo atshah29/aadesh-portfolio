@@ -395,6 +395,19 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
 .feature-illustration .route-guide { stroke: #b9e4c93d; stroke-dasharray: 2 7; stroke-width: 6; }
 .feature-illustration .vehicle-halo { fill: #b9e4c91c; stroke: #b9e4c94d; }
 .feature-illustration .vehicle-point { fill: var(--accent); stroke: var(--surface); stroke-width: 1; }
+.feature-illustration .processor-pipeline { height: 120px; padding-inline: 10px; }
+.processor-pipeline text { text-anchor: middle; font-family: var(--mono); letter-spacing: -.025em; }
+.processor-pipeline .pipeline-stage { fill: #15272c; stroke: #466663; }
+.processor-pipeline .pipeline-stage-label { fill: #c3d7d0; font-size: 12px; }
+.processor-pipeline .pipeline-wire { stroke: #658778; stroke-width: 1; }
+.processor-pipeline .pipeline-predictor { fill: #172b2d; stroke: #658778; }
+.processor-pipeline .pipeline-predictor-label { fill: var(--accent); font-size: 12px; }
+.processor-pipeline .pipeline-prediction-track { stroke: #466663; }
+.processor-pipeline .pipeline-prediction-flow { stroke: var(--accent); stroke-width: 1.8; stroke-dasharray: 24 225; stroke-dashoffset: 225; }
+.processor-pipeline .pipeline-ready-arrow { stroke: var(--accent); stroke-width: 1; }
+.processor-pipeline .pipeline-instruction { fill: #466663; stroke: none; }
+.processor-pipeline .pipeline-validation { stroke: var(--accent); stroke-width: 1.5; opacity: .25; }
+.feature-slide[data-project='value-prediction'] .signal-labels { font: 10px var(--sans); letter-spacing: 0; text-align: center; }
 .feature-controls { display: none; justify-content: space-between; align-items: center; gap: 15px; margin-top: 16px; border-top: 1px solid #3a5358; padding-top: 10px; }
 [data-featured-carousel][data-enhanced] .feature-controls { display: flex; }
 .feature-selectors { display: flex; align-items: center; gap: 4px; }
@@ -431,6 +444,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .feature-slide .feature-rank > span { max-width: 130px; }
   .feature-illustration { margin: 12px -22px 15px; }
   .feature-illustration svg { height: 80px; }
+  .feature-illustration .processor-pipeline { height: 98px; padding-inline: 3px; }
   .feature-slide .feature-bottom h2 { font-size: 18px; }
   .feature-controls { margin-top: 12px; }
   .feature-selectors button, .feature-playback { min-height: 42px; }
