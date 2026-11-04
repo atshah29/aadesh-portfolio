@@ -1,5 +1,6 @@
 import Lenis from 'lenis';
 import { initFeaturedProjects } from './featured-projects';
+import { initHeroAmbience } from './hero-ambience';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -246,3 +247,4 @@ window.addEventListener('load', () => {
 }, { once: true });
 
 initFeaturedProjects();
+initHeroAmbience();

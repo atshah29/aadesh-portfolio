@@ -52,7 +52,19 @@ p { color: var(--muted); }
 .links .resume > span { margin-left: 13px; }
 .scroll-progress { height: 1px; position: absolute; inset: auto 0 -1px; background: var(--accent); transform: scaleX(0); transform-origin: left; opacity: .65; }
 .menu { display: none; }
-.hero { position: relative; padding: 98px 0 35px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px 70px; align-items: center; }
+.hero { position: relative; isolation: isolate; padding: 98px 0 35px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px 70px; align-items: center; }
+.hero-ambience { position: absolute; z-index: -1; inset: -88px calc(-1 * clamp(23px, 5vw, 64px)) 0; overflow: hidden; pointer-events: none; contain: paint; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, #000 0%, #000 52%, transparent 98%); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, #000 0%, #000 52%, transparent 98%); -webkit-mask-composite: source-in; mask-composite: intersect; }
+.ambience-field { position: absolute; inset: -35px; }
+.ambience-glow { display: block; position: absolute; pointer-events: none; }
+.ambience-jade { width: 1000px; height: 780px; left: 32%; top: -230px; background: radial-gradient(ellipse, #4a977b30 0%, #2a65591a 33%, transparent 69%); }
+.ambience-blue { width: 850px; height: 750px; left: -35%; top: -220px; background: radial-gradient(ellipse, #42798f21 0%, #274e6212 38%, transparent 69%); }
+.ambience-ribbon { width: 120%; height: 400px; left: -8%; top: 30px; transform: rotate(-24deg); background: radial-gradient(ellipse, #86bd9d0d 0%, #497d6910 20%, transparent 66%); }
+@media (max-width: 640px) {
+  .hero-ambience { top: -74px; opacity: .7; }
+  .ambience-jade { width: 720px; height: 720px; left: -50%; top: -200px; }
+  .ambience-blue { left: -130%; }
+  .ambience-ribbon { width: 200%; left: -55%; }
+}
 .hero-kicker { display: flex; gap: 14px; align-items: center; margin-bottom: 23px; }
 .line-mark { width: 30px; height: 1px; background: var(--accent); }
 .hero h1 { font-size: clamp(70px, 8.3vw, 114px); font-weight: 550; line-height: .98; letter-spacing: -.075em; margin-bottom: 28px; }
