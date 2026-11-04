@@ -6,6 +6,8 @@ Source: https://github.com/DavidHDev/react-bits/tree/main/src/content/Components
 
 Included as part of Aadesh Shah’s portfolio application.
 
+Local adaptation: responds to changes in reduced-motion preferences without reloading.
+
 MIT + Commons Clause License Condition v1.0
 
 Copyright (c) 2026 David Haz

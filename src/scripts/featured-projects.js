@@ -90,7 +90,7 @@ export function initFeaturedProjects() {
     root.dataset.playing = String(canRotate);
     playback.disabled = motion.matches;
     playback.setAttribute('aria-pressed', String(userPaused || motion.matches));
-    playback.setAttribute('aria-label', motion.matches ? 'Automatic rotation disabled for reduced motion' : userPaused ? 'Resume automatic rotation and animation' : 'Pause automatic rotation and animation');
+    playback.setAttribute('aria-label', motion.matches ? 'Manual switching: automatic rotation disabled for reduced motion' : userPaused ? 'Play automatic rotation and animation' : 'Pause automatic rotation and animation');
     label.textContent = motion.matches ? 'Manual' : userPaused ? 'Play' : 'Pause';
     illustrations.forEach((timeline, index) => { if (index !== current || !canAnimate) timeline.pause(); });
     if (canAnimate) illustration(current).play();

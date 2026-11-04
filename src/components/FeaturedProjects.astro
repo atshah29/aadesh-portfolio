@@ -14,7 +14,7 @@ const highlights = [
     {projects.map(({ frontmatter: project }, index) => {
       const h = highlights[index];
       return <div class="feature-slide" data-feature-slide data-project={project.slug} data-title={project.cardTitle} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${projects.length}: ${project.cardTitle}`} hidden={index !== 0} inert={index !== 0}>
-        <a class="feature-project-link" href={`#project-${project.slug}`} data-open-project={project.slug} aria-label={`Explore ${project.cardTitle}`}>
+        <a class="feature-project-link" href={`#project-${project.slug}`} data-open-project={project.slug}>
           <div class="feature-rank"><strong class:list={{ 'compact-stat': index === 1 || index === 2 }}>{h.value}<span>{h.unit}</span></strong><span>{h.caption}<br />{h.context}</span></div>
           <div class="signal-diagram feature-illustration" aria-hidden="true">
             {index === 0 && <ProcessorPipeline />}
@@ -30,8 +30,8 @@ const highlights = [
     })}
   </div>
   <div class="feature-controls" data-feature-controls>
-    <div class="feature-selectors" role="group" aria-label="Choose a featured project">{projects.map(({ frontmatter: p }, index) => <button type="button" data-feature-select={index} aria-label={`Show ${p.cardTitle}`} aria-pressed={index === 0 ? 'true' : 'false'}><span aria-hidden="true">0{index + 1}</span></button>)}</div>
-    <button class="feature-playback" type="button" data-feature-playback aria-label="Pause automatic rotation" aria-pressed="false"><span class="playback-symbol" aria-hidden="true">Ⅱ</span><span data-playback-label>Pause</span></button>
+    <div class="feature-selectors" role="group" aria-label="Choose a featured project">{projects.map(({ frontmatter: p }, index) => <button type="button" data-feature-select={index} aria-label={`0${index + 1}: Show ${p.cardTitle}`} aria-pressed={index === 0 ? 'true' : 'false'}><span aria-hidden="true">0{index + 1}</span></button>)}</div>
+    <button class="feature-playback" type="button" data-feature-playback aria-label="Pause automatic rotation" aria-pressed="false"><span class="playback-symbol" aria-hidden="true"></span><span data-playback-label>Pause</span></button>
   </div>
   <div class="feature-progress" data-feature-progress aria-hidden="true"></div>
   <span class="sr-only" data-feature-announcement aria-live="polite" aria-atomic="true"></span>

@@ -107,7 +107,7 @@ details[open] > summary .plus-icon::after { transform: rotate(0deg); }
 .experience-row > summary { display: grid; grid-template-columns: 160px minmax(0, 1fr) 65px; gap: 32px; padding: 30px 0; }
 .experience-meta { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
 .experience-meta time { color: var(--faint); font: 11px/1.7 var(--mono); }
-.experience-number { font: italic 30px var(--serif); color: #365156; }
+.experience-number { font: italic 30px var(--serif); color: var(--faint); }
 .company { font: 550 23px/1.4 var(--display); letter-spacing: -.04em; transition: color .2s; }
 .experience-row > summary:hover .company { color: var(--accent); }
 .role { font-size: 13px; color: var(--ink); margin-top: 3px; }

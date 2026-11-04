@@ -12,7 +12,7 @@ technology: "C++ · SVP · VTAGE"
 tags: ["C++", "SVP + VTAGE", "Simulation"]
 result: "2nd of 60 teams · ≈24% higher harmonic-mean IPC: 1.66 → 2.054"
 visual: "predictor"
-image: "/assets/value-predictor-architecture.png"
+image: "/assets/value-predictor-preview.webp"
 imageAlt: "Hybrid value predictor block diagram with stride and tagged-history tables, prediction queue, provider selection, and retirement training"
 benchmarkNote: "Graduate-level competition · 31.97 KB predictor · Baseline without value prediction"
 sourceNote: "Source code is private in accordance with course requirements."
@@ -41,7 +41,7 @@ The design combines a stride value predictor (SVP), which learns regular changes
 
 ## Architecture
 
-<figure><button class="figure-button" data-zoom aria-label="Enlarge: Hybrid SVP and VTAGE value predictor architecture"><img src="/assets/value-predictor-architecture.png" alt="Instruction addresses and branch history feed stride and VTAGE tables; a 256-entry prediction queue connects prediction selection with retirement training and correction" loading="lazy" width="1844" height="853"></button><figcaption>Hybrid predictor architecture: stride and tagged-history prediction, in-flight bookkeeping, provider selection, and retirement training. Fully confident VTAGE takes priority over SVP. Select image to enlarge.</figcaption></figure>
+<figure><button class="figure-button" data-zoom aria-label="Enlarge: Hybrid SVP and VTAGE value predictor architecture"><img src="/assets/value-predictor-architecture.webp" alt="Instruction addresses and branch history feed stride and VTAGE tables; a 256-entry prediction queue connects prediction selection with retirement training and correction" loading="lazy" width="1844" height="853"></button><figcaption>Hybrid predictor architecture: stride and tagged-history prediction, in-flight bookkeeping, provider selection, and retirement training. Fully confident VTAGE takes priority over SVP. Select image to enlarge.</figcaption></figure>
 
 SVP predicts regular value changes using the retired value, stride, and number of in-flight instances of an instruction. VTAGE searches tables with different history lengths to distinguish value patterns arising in different control-flow contexts. The history register records conditional-branch outcomes, excluding unconditional branches and other instructions.
 

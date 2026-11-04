@@ -100,7 +100,8 @@ const SpotlightCard = ({
     const edge = edgeRef.current;
     if (!root || !light || !noise || !edge) return undefined;
 
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    let reduce = motionQuery?.matches ?? false;
     const state = { x: 0, y: 0, presence: 0, flare: 0, time: Math.random() * 60, pressed: false, visible: true };
     const pointer = { x: 0, y: 0, active: false };
     const drawn = { light: '', edge: '', noise: '' };
@@ -195,6 +196,11 @@ const SpotlightCard = ({
       raf = requestAnimationFrame(tick);
     };
     wakeRef.current = wake;
+    const onMotionChange = event => {
+      reduce = event.matches;
+      wake();
+    };
+    motionQuery?.addEventListener('change', onMotionChange);
 
     const onMove = event => {
       pointer.x = event.clientX;
@@ -253,6 +259,7 @@ const SpotlightCard = ({
       alive = false;
       cancelAnimationFrame(raf);
       observer.disconnect();
+      motionQuery?.removeEventListener('change', onMotionChange);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
