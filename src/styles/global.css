@@ -58,14 +58,20 @@ p { color: var(--muted); }
 .ambience-glow { display: block; position: absolute; pointer-events: none; }
 .ambience-jade { width: 1000px; height: 780px; left: 32%; top: -230px; background: radial-gradient(ellipse, #4a977b30 0%, #2a65591a 33%, transparent 69%); }
 .ambience-blue { width: 850px; height: 750px; left: -35%; top: -220px; background: radial-gradient(ellipse, #42798f21 0%, #274e6212 38%, transparent 69%); }
-.ambience-ribbon { width: 120%; height: 400px; left: -8%; top: 30px; transform: rotate(-24deg); background: radial-gradient(ellipse, #86bd9d0d 0%, #497d6910 20%, transparent 66%); }
+.ambience-ribbon { width: 140%; height: 460px; left: -20%; top: 10px; -webkit-mask-image: linear-gradient(to bottom, #000 48%, transparent 100%); mask-image: linear-gradient(to bottom, #000 48%, transparent 100%); }
+.ambience-ribbon path { stroke: #9ddfbd; stroke-linecap: round; }
+.ambience-current-halo { stroke-width: 28; opacity: .025; }
+.ambience-current-soft { stroke-width: 10; opacity: .045; }
+.ambience-current-track { stroke-width: 1.2; opacity: .18; }
+.ambience-current-light { stroke-width: 4; opacity: .36; stroke-dasharray: 140 340; }
 @media (max-width: 640px) {
   .hero-ambience { top: -74px; }
   .ambience-jade { width: 500px; height: 600px; left: -16%; top: -130px; background: radial-gradient(ellipse, #58b38e4d 0%, #347c5f26 35%, transparent 70%); }
   .ambience-blue { width: 500px; height: 550px; left: 28%; top: 55px; background: radial-gradient(ellipse, #4b86b03b 0%, #3159711a 36%, transparent 70%); }
-  .ambience-ribbon { width: 200%; height: 300px; left: -55%; top: 100px; }
+  .ambience-ribbon { width: 160%; height: 360px; left: -30%; top: 25px; }
 }
-.hero-kicker { display: flex; gap: 14px; align-items: center; margin-bottom: 23px; }
+.hero-kicker { position: relative; isolation: isolate; width: fit-content; display: flex; gap: 14px; align-items: center; margin-bottom: 23px; }
+.hero-kicker::before { content: ''; position: absolute; z-index: -1; inset: -8px -12px; border-radius: 12px; background: #0d171ccf; filter: blur(8px); }
 .line-mark { width: 30px; height: 1px; background: var(--accent); }
 .hero h1 { font-size: clamp(70px, 8.3vw, 114px); font-weight: 550; line-height: .98; letter-spacing: -.075em; margin-bottom: 28px; }
 .hero h1 > span { display: block; }

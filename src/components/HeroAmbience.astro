@@ -1,7 +1,15 @@
+---
+const current = 'M-160 390C50 430 140 40 420 140S760 390 1160 60';
+---
 <div class="hero-ambience" data-hero-ambience aria-hidden="true">
   <div class="ambience-field" data-ambience-field>
     <span class="ambience-glow ambience-jade" data-ambience-jade></span>
     <span class="ambience-glow ambience-blue" data-ambience-blue></span>
-    <span class="ambience-glow ambience-ribbon" data-ambience-ribbon></span>
+    <svg class="ambience-glow ambience-ribbon" data-ambience-ribbon viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" fill="none">
+      <path class="ambience-current-halo" d={current} />
+      <path class="ambience-current-soft" d={current} />
+      <path class="ambience-current-track" d={current} />
+      <path class="ambience-current-light" data-ambience-current d={current} />
+    </svg>
   </div>
 </div>

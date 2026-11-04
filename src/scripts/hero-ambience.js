@@ -20,6 +20,18 @@ export function initHeroAmbience() {
       .to(root.querySelector('[data-ambience-ribbon]'), { xPercent: compact.matches ? 10 : -5, yPercent: 7, rotation: 5 }, 0);
   }
   let drift = createDrift();
+  function createCurrent() {
+    // A seamless travelling light makes the motion clear without a pointer.
+    return gsap.timeline({ paused: true })
+      .fromTo(root.querySelector('[data-ambience-current]'), { strokeDashoffset: 480 }, {
+        strokeDashoffset: 0, duration: compact.matches ? 3.6 : 5, ease: 'none', repeat: -1,
+      }, 0)
+      .to(root.querySelectorAll('[data-ambience-ribbon] path'), {
+        attr: { d: 'M-160 180C50 100 180 420 440 250S780 30 1160 330' },
+        duration: compact.matches ? 6 : 9, ease: 'sine.inOut', repeat: -1, yoyo: true,
+      }, 0);
+  }
+  let current = createCurrent();
   const xTo = gsap.quickTo(field, 'x', { duration: 1.2, ease: 'power3.out' });
   const yTo = gsap.quickTo(field, 'y', { duration: 1.2, ease: 'power3.out' });
 
@@ -36,8 +48,13 @@ export function initHeroAmbience() {
   function sync() {
     const active = visible && !document.hidden && !motion.matches;
     root.dataset.motion = motion.matches ? 'static' : active ? 'running' : 'paused';
-    if (motion.matches) drift.progress(0).pause();
-    else drift.paused(!active);
+    if (motion.matches) {
+      drift.progress(0).pause();
+      current.progress(0).pause();
+    } else {
+      drift.paused(!active);
+      current.paused(!active);
+    }
     if (!active || !pointer.matches) resetPointer(true);
   }
   hero.addEventListener('pointermove', event => {
@@ -53,7 +70,9 @@ export function initHeroAmbience() {
   pointer.addEventListener('change', sync);
   compact.addEventListener('change', () => {
     drift.revert();
+    current.revert();
     drift = createDrift();
+    current = createCurrent();
     sync();
   });
   document.addEventListener('visibilitychange', sync);
