@@ -114,6 +114,14 @@ p { color: var(--muted); }
 .section-light[data-mode='pointer'] .section-light-anchor { opacity: 0; }
 .portfolio-main[data-pointer-lamp] { --faint: #a5b9b8; }
 .portfolio-main[data-pointer-lamp] .spotlight-card__light, .portfolio-main[data-pointer-lamp] .spotlight-card__edge { opacity: 0 !important; }
+.portfolio-main [data-energized] { position: relative; isolation: isolate; outline: 1px solid #9ddfbd8c; outline-offset: 4px; box-shadow: 0 0 28px -14px #72d7a166; }
+.portfolio-main [data-energized]::before { content: ''; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(110deg, #b9e4c90d, transparent 65%); }
+.portfolio-main [data-energized]::after { content: ''; position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 2px; border-radius: 2px; pointer-events: none; transform-origin: left; background: linear-gradient(90deg, transparent, #9ddfbd 65%, #e0ffe7); box-shadow: 0 0 12px #7de3ad80; animation: section-charge .7s ease-out both; }
+.project[data-energized] { border-radius: 10px; }
+.project[data-energized]::after, .hero-feature[data-energized]::after { left: 12px; right: 12px; }
+.project[data-energized] .project-surface { --spotlight-card-border: #8fbea5 !important; background-color: #14252a; }
+.project[data-energized] .project-preview h3, .experience-row[data-energized] .company, .publication[data-energized] h3, .moregrid > article[data-energized] h3, .hero-feature[data-energized] .feature-bottom h2 { color: #d4f0df; text-shadow: 0 0 22px #7de3ad33; }
+@keyframes section-charge { 0% { transform: scaleX(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: scaleX(1); opacity: .25; } }
 .section-lamp { position: fixed; inset: 0; z-index: 2; overflow: hidden; contain: paint; pointer-events: none; opacity: 0; mix-blend-mode: screen; }
 .section-lamp-field { position: absolute; top: 0; left: 0; width: 420px; height: 420px; opacity: .13; background: radial-gradient(circle, #8fe5b3 0%, #62c78caa 12%, #38885c4d 35%, transparent 66%); }
 .section-lamp-bits { position: absolute; left: 210px; top: 210px; }

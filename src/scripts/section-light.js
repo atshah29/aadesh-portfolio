@@ -16,9 +16,17 @@ export function initSectionLight() {
   const setLampY = gsap.quickSetter(lampField, 'y', 'px');
   const cursor = { x: 0, y: 0, present: false };
   let active = null;
+  let energized = null;
   let mode = '';
   let targetY = NaN;
   let frame = 0;
+
+  function energize(next) {
+    if (next === energized) return;
+    energized?.removeAttribute('data-energized');
+    energized = next;
+    energized?.setAttribute('data-energized', '');
+  }
 
   function update() {
     frame = 0;
@@ -32,6 +40,8 @@ export function initSectionLight() {
       const bounds = section.getBoundingClientRect();
       return bounds.top <= focus && bounds.bottom > focus;
     }) || null;
+    const pointedBlock = pointerMode ? document.elementFromPoint(cursor.x, cursor.y)?.closest('.hero-feature, .project, .experience-row, .publication, .moregrid > article, .about') : null;
+    energize(pointerMode ? pointedBlock || selected : null);
     if (nextMode !== mode) {
       mode = nextMode;
       main.toggleAttribute('data-pointer-lamp', pointerMode);
@@ -101,6 +111,7 @@ export function initSectionLight() {
     if (document.hidden) {
       yTo.tween.pause();
       cursor.present = false;
+      energize(null);
       mode = '';
       main.removeAttribute('data-pointer-lamp');
       gsap.killTweensOf([root, lamp]);
