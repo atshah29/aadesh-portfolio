@@ -60,10 +60,10 @@ p { color: var(--muted); }
 .ambience-blue { width: 850px; height: 750px; left: -35%; top: -220px; background: radial-gradient(ellipse, #42798f21 0%, #274e6212 38%, transparent 69%); }
 .ambience-ribbon { width: 120%; height: 400px; left: -8%; top: 30px; transform: rotate(-24deg); background: radial-gradient(ellipse, #86bd9d0d 0%, #497d6910 20%, transparent 66%); }
 @media (max-width: 640px) {
-  .hero-ambience { top: -74px; opacity: .7; }
-  .ambience-jade { width: 720px; height: 720px; left: -50%; top: -200px; }
-  .ambience-blue { left: -130%; }
-  .ambience-ribbon { width: 200%; left: -55%; }
+  .hero-ambience { top: -74px; }
+  .ambience-jade { width: 500px; height: 600px; left: -16%; top: -130px; background: radial-gradient(ellipse, #58b38e4d 0%, #347c5f26 35%, transparent 70%); }
+  .ambience-blue { width: 500px; height: 550px; left: 28%; top: 55px; background: radial-gradient(ellipse, #4b86b03b 0%, #3159711a 36%, transparent 70%); }
+  .ambience-ribbon { width: 200%; height: 300px; left: -55%; top: 100px; }
 }
 .hero-kicker { display: flex; gap: 14px; align-items: center; margin-bottom: 23px; }
 .line-mark { width: 30px; height: 1px; background: var(--accent); }

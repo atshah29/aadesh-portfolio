@@ -8,13 +8,18 @@ export function initHeroAmbience() {
   const field = root.querySelector('[data-ambience-field]');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const pointer = window.matchMedia('(min-width: 801px) and (hover: hover) and (pointer: fine)');
+  const compact = window.matchMedia('(max-width: 640px)');
   let visible = false;
 
-  // Gradients are painted once; GSAP moves their layers using transforms only.
-  const drift = gsap.timeline({ paused: true, repeat: -1, yoyo: true, defaults: { duration: 24, ease: 'sine.inOut' } })
-    .to(root.querySelector('[data-ambience-jade]'), { xPercent: -7, yPercent: 5, scale: 1.06, rotation: -6 }, 0)
-    .to(root.querySelector('[data-ambience-blue]'), { xPercent: 8, yPercent: -4, scale: 1.08 }, 0)
-    .to(root.querySelector('[data-ambience-ribbon]'), { xPercent: -5, yPercent: 7, rotation: 5 }, 0);
+  // Animate transforms only. Smaller screens need more travel to make the
+  // movement perceptible without the desktop pointer response.
+  function createDrift() {
+    return gsap.timeline({ paused: true, repeat: -1, yoyo: true, defaults: { duration: compact.matches ? 12 : 24, ease: 'sine.inOut' } })
+      .to(root.querySelector('[data-ambience-jade]'), { xPercent: compact.matches ? 18 : -7, yPercent: compact.matches ? 14 : 5, scale: 1.06, rotation: -6 }, 0)
+      .to(root.querySelector('[data-ambience-blue]'), { xPercent: compact.matches ? -24 : 8, yPercent: compact.matches ? -10 : -4, scale: 1.08 }, 0)
+      .to(root.querySelector('[data-ambience-ribbon]'), { xPercent: compact.matches ? 10 : -5, yPercent: 7, rotation: 5 }, 0);
+  }
+  let drift = createDrift();
   const xTo = gsap.quickTo(field, 'x', { duration: 1.2, ease: 'power3.out' });
   const yTo = gsap.quickTo(field, 'y', { duration: 1.2, ease: 'power3.out' });
 
@@ -46,6 +51,11 @@ export function initHeroAmbience() {
   hero.addEventListener('pointerleave', () => resetPointer(motion.matches || !visible || document.hidden || !pointer.matches));
   motion.addEventListener('change', sync);
   pointer.addEventListener('change', sync);
+  compact.addEventListener('change', () => {
+    drift.revert();
+    drift = createDrift();
+    sync();
+  });
   document.addEventListener('visibilitychange', sync);
   const observer = new IntersectionObserver(entries => {
     visible = entries.some(entry => entry.isIntersecting);
