@@ -1,14 +1,16 @@
 # Third-party notices
 
-## React Bits SpotlightCard and ElectricBorder
+## React Bits SpotlightCard, ElectricBorder, and Particles
 
 Source: https://github.com/DavidHDev/react-bits/tree/main/src/content/Components/SpotlightCard
 
 ElectricBorder source (canvas version): https://github.com/DavidHDev/react-bits/tree/2f38334216d19a3d479bb63f934eeef681dc343d/src/content/Animations/ElectricBorder
 
+Particles source: https://github.com/DavidHDev/react-bits/tree/4dc7b5b7772e1217c8fb8d2a7aa074302180e5b4/src/content/Backgrounds/Particles
+
 Included as part of Aadesh Shah’s portfolio application.
 
-Local adaptations: SpotlightCard responds to changes in reduced-motion preferences without reloading. ElectricBorder marks successful canvas initialization for a CSS fallback, uses layout dimensions for rotated cards, caps decorative rendering at 30 fps / 750,000 pixels / 2,200 perimeter samples, and pauses inactive, hidden, or offscreen rendering; a portfolio adapter limits it to one powered work card, stops it for reduced motion, and preserves the card’s native controls.
+Local adaptations: SpotlightCard responds to changes in reduced-motion preferences without reloading. ElectricBorder marks successful canvas initialization for a CSS fallback, uses layout dimensions for rotated cards, caps decorative rendering at 30 fps / 750,000 pixels / 2,200 perimeter samples, and pauses inactive, hidden, or offscreen rendering; a portfolio adapter limits it to one powered work card, stops it for reduced motion, and preserves the card’s native controls. Particles is capped at 30 fps, responds to live reduced-motion changes, and marks initialization for inspection. The hero uses 48–96 square particles with no connecting lines or click bursts.
 
 MIT + Commons Clause License Condition v1.0
 

@@ -7,14 +7,14 @@ import ProjectCard from '../components/ProjectCard.astro';
 import Research from '../components/Research.astro';
 import AdditionalProjects from '../components/AdditionalProjects.astro';
 import About from '../components/About.astro';
-import SectionLight from '../components/SectionLight.astro';
+import WorkCardEnergy from '../components/WorkCardEnergy.astro';
 import { projects } from '../lib/projects';
 import { scopeProjectHtml } from '../lib/scope-html';
 const entries = await Promise.all(projects.map(async project => ({ project: project.frontmatter, html: scopeProjectHtml(await project.compiledContent(), project.frontmatter.slug) })));
 ---
 <BaseLayout>
   <main id="main" class="wrap portfolio-main">
-    <SectionLight />
+    <WorkCardEnergy />
     <Hero /><Experience />
     <section class="section" id="projects">
       <SectionHeading number="02" title="Projects"><span class="section-caption">Selected work · Click to explore</span></SectionHeading>

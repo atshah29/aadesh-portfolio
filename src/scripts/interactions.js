@@ -1,7 +1,7 @@
 import Lenis from 'lenis';
 import { initFeaturedProjects } from './featured-projects';
-import { initHeroAmbience } from './hero-ambience';
-import { initSectionLight } from './section-light';
+import { initMagneticActions } from './magnetic-actions';
+import { initWorkCardEnergy } from './work-card-energy';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -24,7 +24,8 @@ function refreshLayout() {
 function scrollToElement(element, immediate = false) {
   if (!element) return;
   if (lenis) {
-    lenis.scrollTo(element, { offset: -110, immediate, duration: 0.8 });
+    // Lenis already reads the root scroll-padding used by native anchors.
+    lenis.scrollTo(element, { immediate, duration: 0.8 });
   } else {
     element.scrollIntoView({ behavior: immediate || reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
   }
@@ -248,5 +249,5 @@ window.addEventListener('load', () => {
 }, { once: true });
 
 initFeaturedProjects();
-initHeroAmbience();
-initSectionLight();
+initMagneticActions();
+initWorkCardEnergy();
