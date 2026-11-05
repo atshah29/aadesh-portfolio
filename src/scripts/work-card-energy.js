@@ -81,7 +81,8 @@ export function initWorkCardEnergy() {
     const allowed = pointer.matches && !motion.matches && cursor.present && !scrolling && cursor.y > header;
     main.toggleAttribute('data-pointer-energy', allowed);
     const pointed = allowed ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
-    activate(pointed && main.contains(pointed) ? pointed : null);
+    const heroPaused = pointed?.matches('.hero-feature') && pointed.querySelector('[data-feature-playback]')?.getAttribute('aria-pressed') === 'true';
+    activate(pointed && main.contains(pointed) && !heroPaused ? pointed : null);
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
   document.addEventListener('pointermove', event => {
@@ -100,6 +101,7 @@ export function initWorkCardEnergy() {
   }, { passive: true });
   window.addEventListener('resize', () => { clear(); queue(); }, { passive: true });
   [motion, pointer].forEach(query => query.addEventListener('change', () => { cursor.present = false; clear(); queue(); }));
+  document.addEventListener('portfolio:hero-motion', queue);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { cursor.present = false; clear(); main.removeAttribute('data-pointer-energy'); }
     else queue();

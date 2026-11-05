@@ -5,12 +5,20 @@ import Particles from './Particles.jsx';
 
 export default function HeroParticles() {
   const [compact, setCompact] = useState(false);
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
     const media = matchMedia('(max-width: 640px)');
     const sync = () => setCompact(media.matches);
     sync();
+    const onPlayback = event => setPaused(event.detail.paused);
+    const playback = document.querySelector('[data-feature-playback]');
+    setPaused(playback?.getAttribute('aria-pressed') === 'true');
+    document.addEventListener('portfolio:hero-motion', onPlayback);
     media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
+    return () => {
+      media.removeEventListener('change', sync);
+      document.removeEventListener('portfolio:hero-motion', onPlayback);
+    };
   }, []);
   return <Particles
     particleCount={compact ? 48 : 96}
@@ -33,5 +41,6 @@ export default function HeroParticles() {
     connections={false}
     clickBurst={false}
     intro={false}
+    paused={paused}
   />;
 }
