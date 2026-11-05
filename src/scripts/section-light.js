@@ -5,7 +5,8 @@ export function initSectionLight() {
   if (!root || root.dataset.enhanced) return;
   root.dataset.enhanced = 'true';
   const main = root.closest('main');
-  const sections = [...main.querySelectorAll(':scope > .section')];
+  const contact = document.querySelector('#contact');
+  const sections = [...main.querySelectorAll(':scope > .section'), ...(contact ? [contact] : [])];
   const anchor = root.querySelector('[data-section-light-anchor]');
   const current = main.querySelector('[data-section-current]');
   const currentPaths = [...current.querySelectorAll('path')];
@@ -30,6 +31,7 @@ export function initSectionLight() {
     gsap.set(lead, { opacity: 0 });
     current.removeAttribute('data-live');
     energized?.removeAttribute('data-powered');
+    document.dispatchEvent(new CustomEvent('portfolio:card-power', { detail: null }));
     energized?.removeAttribute('data-energized');
     energized = next;
     energized?.setAttribute('data-energized', '');
@@ -41,10 +43,12 @@ export function initSectionLight() {
     if (document.hidden) return;
     const header = document.querySelector('.site-header')?.getBoundingClientRect().height || 74;
     const mainBounds = main.getBoundingClientRect();
-    const pointerMode = finePointer.matches && cursor.present && !motion.matches && cursor.x >= 0 && cursor.x <= innerWidth && cursor.y >= header && cursor.y <= innerHeight && cursor.y >= mainBounds.top && cursor.y < mainBounds.bottom;
+    const pointerMode = finePointer.matches && cursor.present && !motion.matches && cursor.x >= 0 && cursor.x <= innerWidth && cursor.y >= header && cursor.y <= innerHeight && cursor.y >= mainBounds.top && cursor.y < (contact?.getBoundingClientRect().bottom ?? mainBounds.bottom);
     const nextMode = motion.matches ? 'static' : pointerMode ? 'pointer' : 'follow';
     const focus = Math.max(header + 100, window.innerHeight * 0.34);
-    const selected = sections.find(section => {
+    const atContactEnd = contact && contact.getBoundingClientRect().top < innerHeight &&
+      window.scrollY + innerHeight >= document.documentElement.scrollHeight - 3;
+    const selected = atContactEnd ? contact : sections.find(section => {
       const bounds = section.getBoundingClientRect();
       return bounds.top <= focus && bounds.bottom > focus;
     }) || null;
@@ -93,6 +97,7 @@ export function initSectionLight() {
               if (energized !== card) return;
               gsap.set(lead, { opacity: 0 });
               card.setAttribute('data-powered', '');
+              document.dispatchEvent(new CustomEvent('portfolio:card-power', { detail: card }));
               current.setAttribute('data-live', '');
               charge = null;
             },
@@ -103,7 +108,8 @@ export function initSectionLight() {
     }
     if (!active) { yTo.tween.pause(); targetY = NaN; return; }
     const heading = active.querySelector('.sectionhead, h2').getBoundingClientRect();
-    const center = Math.max(header + 100, Math.min(window.innerHeight * 0.5, heading.top + heading.height / 2));
+    const ceiling = active === contact ? window.innerHeight - 70 : window.innerHeight * 0.5;
+    const center = Math.max(header + 100, Math.min(ceiling, heading.top + heading.height / 2));
     const nextY = center - 140;
     if (motion.matches) {
       yTo.tween.pause();
@@ -157,5 +163,6 @@ export function initSectionLight() {
   });
   const resize = new ResizeObserver(queue);
   resize.observe(main);
+  if (contact) resize.observe(contact);
   queue();
 }

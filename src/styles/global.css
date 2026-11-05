@@ -514,3 +514,23 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .feature-slide .feature-bottom p { font-size: 10px; }
   .feature-slide .feature-footnote { font-size: 8px; }
 }
+
+/* React Bits supplies the live edge; CSS lighting remains the canvas fallback. */
+.electric-border.work-card-electric { overflow: clip; overflow-clip-margin: 32px; position: absolute !important; inset: -4px; z-index: 4; pointer-events: none; }
+[data-energy-card][data-powered]:has(.work-card-electric[data-ready]) { outline-color: transparent; }
+[data-energy-card][data-powered]:has(.work-card-electric[data-ready])::after { display: none; }
+.contact { position: relative; z-index: 1; }
+.contact[data-illuminated] { border-top-color: #8fbea5; }
+.contact[data-illuminated] h2 { color: #d4f0df; text-shadow: 0 0 24px #7de3ad40; }
+
+.work-card-electric .eb-background-glow { display: none; }
+@media (max-width: 800px) {
+  .electric-border.work-card-electric { overflow-clip-margin: 16px; }
+}
+/* Keep the ambience aligned with the responsive page gutters. */
+@media (min-width: 641px) and (max-width: 800px) {
+  .hero-ambience { left: -28px; right: -28px; }
+}
+@media (max-width: 640px) {
+  .hero-ambience { left: -23px; right: -23px; }
+}

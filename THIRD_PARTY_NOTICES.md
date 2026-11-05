@@ -1,12 +1,14 @@
 # Third-party notices
 
-## React Bits SpotlightCard
+## React Bits SpotlightCard and ElectricBorder
 
 Source: https://github.com/DavidHDev/react-bits/tree/main/src/content/Components/SpotlightCard
 
+ElectricBorder source (canvas version): https://github.com/DavidHDev/react-bits/tree/2f38334216d19a3d479bb63f934eeef681dc343d/src/content/Animations/ElectricBorder
+
 Included as part of Aadesh Shah’s portfolio application.
 
-Local adaptation: responds to changes in reduced-motion preferences without reloading.
+Local adaptations: SpotlightCard responds to changes in reduced-motion preferences without reloading. ElectricBorder marks successful canvas initialization for a CSS fallback, uses layout dimensions for rotated cards, caps decorative rendering at 30 fps / 750,000 pixels / 2,200 perimeter samples, and pauses inactive, hidden, or offscreen rendering; a portfolio adapter limits it to one powered work card, stops it for reduced motion, and preserves the card’s native controls.
 
 MIT + Commons Clause License Condition v1.0
 
