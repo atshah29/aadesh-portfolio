@@ -142,6 +142,29 @@ export function initFeaturedProjects() {
     if (manual) announcement.textContent = `${current + 1} of ${slides.length}: ${slides[current].dataset.title}`;
     sync();
   }
+  const swipeArea = root.querySelector('.feature-slides');
+  let gesture = null;
+  let suppressClickUntil = 0;
+  swipeArea.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' || !event.isPrimary) return;
+    gesture = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  }, { passive: true });
+  swipeArea.addEventListener('pointerup', event => {
+    const start = gesture;
+    gesture = null;
+    if (!start || event.pointerId !== start.id) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    suppressClickUntil = performance.now() + 400;
+    select(current + (dx < 0 ? 1 : -1), true);
+  }, { passive: true });
+  swipeArea.addEventListener('pointercancel', () => { gesture = null; }, { passive: true });
+  swipeArea.addEventListener('click', event => {
+    if (performance.now() >= suppressClickUntil) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
   selectors.forEach((button, index) => button.addEventListener('click', () => select(index, true)));
   playback.addEventListener('click', () => {
     userPaused = !userPaused;

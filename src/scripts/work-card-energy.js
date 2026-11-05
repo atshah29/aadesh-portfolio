@@ -16,6 +16,9 @@ export function initWorkCardEnergy() {
   let frame = 0;
   let scrolling = false;
   let scrollTimer;
+  let touchStart = null;
+  let touchCard = null;
+  let touchTimer;
   const recent = new WeakMap();
 
   function power(next) {
@@ -30,15 +33,17 @@ export function initWorkCardEnergy() {
     stream.dataset.state = 'idle';
     card?.removeAttribute('data-powered');
     card?.removeAttribute('data-energized');
+    card?.removeAttribute('data-touch-energy');
     document.dispatchEvent(new CustomEvent('portfolio:card-power', { detail: null }));
     card = null;
   }
-  function activate(next) {
+  function activate(next, touch = false) {
     if (next === card) return;
     clear();
     card = next;
     if (!next) return;
     next.setAttribute('data-energized', '');
+    if (touch) { next.setAttribute('data-touch-energy', ''); power(next); return; }
     if (performance.now() - (recent.get(next) ?? -Infinity) < 900) { power(next); return; }
     recent.set(next, performance.now());
     const bounds = next.getBoundingClientRect();
@@ -82,28 +87,51 @@ export function initWorkCardEnergy() {
     main.toggleAttribute('data-pointer-energy', allowed);
     const pointed = allowed ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
     const heroPaused = pointed?.matches('.hero-feature') && pointed.querySelector('[data-feature-playback]')?.getAttribute('aria-pressed') === 'true';
-    activate(pointed && main.contains(pointed) && !heroPaused ? pointed : null);
+    const tapped = !motion.matches && !scrolling && touchCard?.isConnected ? touchCard : null;
+    activate(tapped || (pointed && main.contains(pointed) && !heroPaused ? pointed : null), !!tapped);
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
   document.addEventListener('pointermove', event => {
     cursor.x = event.clientX;
     cursor.y = event.clientY;
     cursor.present = event.pointerType === 'mouse' && !event.target.closest('dialog');
+    if (cursor.present) { touchCard = null; clearTimeout(touchTimer); }
     queue();
   }, { passive: true });
+  // A tap expands immediately and gives one short electric response. Gestures
+  // that become scrolling, a long press, or a cancelled touch do not activate it.
+  document.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' || !event.isPrimary) return;
+    touchStart = { id: event.pointerId, x: event.clientX, y: event.clientY, at: performance.now(), summary: event.target.closest('summary') };
+  }, { passive: true });
+  document.addEventListener('pointerup', event => {
+    const start = touchStart;
+    touchStart = null;
+    if (!start || start.id !== event.pointerId || motion.matches || performance.now() - start.at > 650 || Math.hypot(event.clientX - start.x, event.clientY - start.y) > 12) return;
+    const summary = event.target.closest('summary');
+    if (!summary || summary !== start.summary || summary.closest('dialog')) return;
+    touchCard = summary.closest('[data-energy-card]');
+    if (!touchCard || !main.contains(touchCard)) { touchCard = null; return; }
+    clearTimeout(touchTimer);
+    scrolling = false;
+    queue();
+    touchTimer = setTimeout(() => { touchCard = null; queue(); }, 1000);
+  }, { passive: true });
+  document.addEventListener('pointercancel', () => { touchStart = null; }, { passive: true });
   document.addEventListener('pointerout', event => { if (!event.relatedTarget) { cursor.present = false; queue(); } });
-  document.addEventListener('keydown', event => { if (event.key === 'Tab') { cursor.present = false; queue(); } });
+  document.addEventListener('keydown', event => { if (event.key === 'Tab') { cursor.present = false; touchCard = null; clearTimeout(touchTimer); queue(); } });
   window.addEventListener('scroll', () => {
     scrolling = true;
+    touchCard = null; clearTimeout(touchTimer);
     clearTimeout(scrollTimer);
     queue();
     scrollTimer = setTimeout(() => { scrolling = false; queue(); }, 140);
   }, { passive: true });
-  window.addEventListener('resize', () => { clear(); queue(); }, { passive: true });
-  [motion, pointer].forEach(query => query.addEventListener('change', () => { cursor.present = false; clear(); queue(); }));
+  window.addEventListener('resize', () => { touchCard = null; clearTimeout(touchTimer); clear(); queue(); }, { passive: true });
+  [motion, pointer].forEach(query => query.addEventListener('change', () => { cursor.present = false; touchCard = null; clearTimeout(touchTimer); clear(); queue(); }));
   document.addEventListener('portfolio:hero-motion', queue);
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cursor.present = false; clear(); main.removeAttribute('data-pointer-energy'); }
+    if (document.hidden) { cursor.present = false; touchCard = null; clearTimeout(touchTimer); clear(); main.removeAttribute('data-pointer-energy'); }
     else queue();
   });
   const observer = new ResizeObserver(queue);

@@ -350,7 +350,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .experience-expanded { padding: 2px 0 26px; }
   .experience-details { font-size: 13px; }
   .project-disclosure > summary { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 18px; }
-  .project-thumb { height: 190px; }
+  .project-thumb { height: 130px; }
   .project-preview h3 { font-size: 25px; }
   .project-summary { font-size: 13px; }
   .project-num { font-size: 9px; }
@@ -403,7 +403,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
 
 /* A fixed-size, accessible project carousel; motion never moves the surrounding page. */
 .hero-feature .feature-index { display: inline; }
-.feature-slides { height: 388px; }
+.feature-slides { height: 388px; touch-action: pan-y pinch-zoom; }
 .feature-slide { height: 100%; }
 .feature-slide[hidden] { display: none; }
 .feature-project-link { display: flex; flex-direction: column; height: 100%; color: inherit; border-radius: 3px; }
@@ -507,3 +507,24 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
 
 /* GSAP owns magnetic transforms so CSS does not add a second easing layer. */
 [data-magnetic] { transition-property: background, border-color, color; }
+
+/* Touch has explicit cues and tap feedback, without emulating mouse hover. */
+.touch-label, .feature-touch-hint { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .pointer-label { display: none; }
+  .touch-label { display: inline; }
+  [data-featured-carousel][data-enhanced] .feature-touch-hint { display: block; margin-top: 13px; font: 10px var(--mono); color: var(--muted); }
+  .feature-selectors button { min-width: 38px; min-height: 44px; }
+  .feature-playback { min-height: 44px; }
+  .btn:active { filter: brightness(.93); }
+}
+@media (max-width: 640px) {
+  .experience-row > summary { grid-template-columns: minmax(0, 1fr) 58px; }
+  .experience-row .toggle-label { display: inline; font-size: 9px; }
+  .experience-row .disclosure-toggle { gap: 7px; }
+}
+@media (hover: none), (pointer: coarse) {
+  .feature-controls { gap: 6px; }
+  .feature-selectors { gap: 0; }
+  .feature-playback { min-width: 64px; gap: 6px; padding-inline: 6px; }
+}

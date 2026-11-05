@@ -13,9 +13,8 @@ export default function ElectricCardEnergy() {
 
   useEffect(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    const pointer = matchMedia('(hover: hover) and (pointer: fine)');
     const sync = () => {
-      const allowed = !motion.matches && pointer.matches;
+      const allowed = !motion.matches;
       setEnabled(allowed);
       if (!allowed) { setTarget(null); setActive(false); }
     };
@@ -28,14 +27,12 @@ export default function ElectricCardEnergy() {
     };
     document.addEventListener('portfolio:card-power', power);
     motion.addEventListener('change', sync);
-    pointer.addEventListener('change', sync);
     sync();
     const initial = document.querySelector('[data-energy-card][data-powered]');
     if (initial) power({ detail: initial });
     return () => {
       document.removeEventListener('portfolio:card-power', power);
       motion.removeEventListener('change', sync);
-      pointer.removeEventListener('change', sync);
     };
   }, []);
 

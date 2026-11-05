@@ -18,7 +18,7 @@ const url = `/projects/${p.slug}/`;
           <div class="tags">{p.tags.map(tag => <span class="tag">{tag}</span>)}</div>
           <p class="result">{p.result}</p>
           {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
-          <span class="project-expand-label"><span class="when-closed">Explore project</span><span class="when-open">Close project</span><span class="plus-icon" aria-hidden="true"></span></span>
+          <span class="project-expand-label"><span class="when-closed"><span class="pointer-label">Explore project</span><span class="touch-label">Tap for details</span></span><span class="when-open">Close project</span><span class="plus-icon" aria-hidden="true"></span></span>
         </div>
       </summary>
       <div class="disclosure-panel project-panel" id={`panel-${p.slug}`}>

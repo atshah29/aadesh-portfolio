@@ -17,7 +17,7 @@ const entries = await Promise.all(projects.map(async project => ({ project: proj
     <WorkCardEnergy />
     <Hero /><Experience />
     <section class="section" id="projects">
-      <SectionHeading number="02" title="Projects"><span class="section-caption">Selected work · Click to explore</span></SectionHeading>
+      <SectionHeading number="02" title="Projects"><span class="section-caption"><span class="pointer-label">Selected work · Click to explore</span><span class="touch-label">Selected work · Tap for details</span></span></SectionHeading>
       <div class="project-list">{entries.map((entry, index) => <ProjectCard project={entry.project} html={entry.html} index={index} />)}</div>
     </section>
     <Research /><AdditionalProjects /><About />
