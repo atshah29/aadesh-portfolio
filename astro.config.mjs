@@ -1,8 +1,9 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 
-// Netlify sets URL to the production site origin. For another host, set SITE_URL.
-const site = process.env.SITE_URL || process.env.URL;
+// Keep production metadata stable across Cloudflare builds and preview URLs.
+// Set SITE_URL explicitly when moving to a custom domain.
+const site = process.env.SITE_URL || "https://aadesh-portfolio.aaditshah05.workers.dev";
 export default defineConfig({
   output: "static",
   integrations: [react()],
