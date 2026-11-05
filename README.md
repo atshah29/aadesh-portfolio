@@ -1,6 +1,6 @@
 # Aadesh Shah's Astro Portfolio
 
-Production: https://aadesh-portfolio.aaditshah05.workers.dev/
+Production: https://portfolio.aadeshshah.workers.dev/
 
 Cloudflare Workers serves the static Astro build. React handles interactive components in the browser; this deployment has no application backend.
 
@@ -12,7 +12,7 @@ Cloudflare Workers serves the static Astro build. React handles interactive comp
 - Cloudflare deploy: `npx wrangler deploy`
 - Production branch: `main`
 
-`wrangler.jsonc` defines the Worker name, compatibility date, and `dist` asset directory. The existing dashboard deploy command with `--assets=./dist --name=aadesh-portfolio` also works.
+`wrangler.jsonc` defines the Worker name, compatibility date, and `dist` asset directory. Use `npx wrangler deploy` in the Cloudflare dashboard so the Worker name comes from this file. Remove any old `--name=aadesh-portfolio` override after renaming the Worker to `portfolio`.
 
 `public/_headers` supplies security and fingerprinted-asset cache headers on Cloudflare and Netlify. The retained Netlify configuration can build an optional fallback deployment.
 
