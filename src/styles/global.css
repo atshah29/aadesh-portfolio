@@ -528,3 +528,22 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .feature-selectors { gap: 0; }
   .feature-playback { min-width: 64px; gap: 6px; padding-inline: 6px; }
 }
+
+/* Open cards retain a quiet reading state on touch screens after the tap pulse. */
+@media (hover: none), (pointer: coarse) {
+  .portfolio-main :is(.project:where(:has(.project-disclosure[open])), .experience-row:where([open])) {
+    outline: 1px solid #6ea38a88;
+    outline-offset: 3px;
+    box-shadow: 0 0 26px -18px #72d7a159;
+  }
+  .project:where(:has(.project-disclosure[open])) { border-radius: 10px; }
+  .project:where(:has(.project-disclosure[open])) .project-surface {
+    --spotlight-card-border: #78aa91 !important;
+    background-color: #162f2b;
+  }
+  .experience-row:where([open]) { background: linear-gradient(110deg, #67e5a31a, #67e5a305 75%); }
+  .project:where(:has(.project-disclosure[open])) .project-preview h3,
+  .experience-row:where([open]) .company { color: #d4f0df; }
+  .project:where(:has(.project-disclosure[open])) > .card-circuit,
+  .experience-row:where([open]) > summary > .card-circuit { opacity: .8; }
+}
