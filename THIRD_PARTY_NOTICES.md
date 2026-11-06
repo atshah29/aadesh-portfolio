@@ -10,7 +10,7 @@ Particles source: https://github.com/DavidHDev/react-bits/tree/4dc7b5b7772e1217c
 
 Included as part of Aadesh Shah’s portfolio application.
 
-Local adaptations: SpotlightCard responds to changes in reduced-motion preferences without reloading. ElectricBorder marks successful canvas initialization for a CSS fallback, uses layout dimensions for rotated cards, caps decorative rendering at 30 fps / 750,000 pixels / 2,200 perimeter samples, and pauses inactive, hidden, or offscreen rendering; a portfolio adapter limits it to one powered work card, stops it for reduced motion, and preserves the card’s native controls. Particles is capped at 30 fps, responds to live reduced-motion changes, and marks initialization for inspection. The hero uses 48–96 square particles with no connecting lines or click bursts.
+Local adaptations: SpotlightCard responds to changes in reduced-motion preferences without reloading. ElectricBorder marks successful canvas initialization for a CSS fallback, uses layout dimensions for rotated cards, uses display-synchronized rendering with a bounded cache of exact noise hashes and a 750,000-pixel / 2,200-perimeter-sample limit, and pauses inactive, hidden, or offscreen rendering; a portfolio adapter limits it to one powered work card, stops it for reduced motion, and preserves the card’s native controls. Particles uses display-synchronized rendering, responds to live reduced-motion changes, and marks initialization for inspection. The hero uses 48–96 square particles with no connecting lines or click bursts.
 
 MIT + Commons Clause License Condition v1.0
 

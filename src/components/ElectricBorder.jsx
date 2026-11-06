@@ -20,9 +20,20 @@ const ElectricBorder = ({
   const timeRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
 
-  // Noise functions
+  // Reuse exact integer noise hashes in a bounded cache. This avoids repeating
+  // expensive sine calculations without changing the shape of the effect.
+  const noiseCacheRef = useRef(null);
+  if (!noiseCacheRef.current) {
+    noiseCacheRef.current = { keys: new Float64Array(8192).fill(NaN), values: new Float64Array(8192) };
+  }
   const random = useCallback(x => {
-    return (Math.sin(x * 12.9898) * 43758.5453) % 1;
+    const cache = noiseCacheRef.current;
+    const slot = x & 8191;
+    if (cache.keys[slot] === x) return cache.values[slot];
+    const value = (Math.sin(x * 12.9898) * 43758.5453) % 1;
+    cache.keys[slot] = x;
+    cache.values[slot] = value;
+    return value;
   }, []);
 
   const noise2D = useCallback(
@@ -158,7 +169,7 @@ const ElectricBorder = ({
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let visible = true;
     let pageVisible = !document.hidden;
-    lastFrameTimeRef.current = performance.now();
+    lastFrameTimeRef.current = 0;
     let ratio = 1;
     const octaves = 10;
     const lacunarity = 1.6;
@@ -201,12 +212,10 @@ const ElectricBorder = ({
 
       animationRef.current = null;
       if (!visible || !pageVisible) return;
-      if (!reduced && currentTime - lastFrameTimeRef.current < 1000 / 30) {
-        animationRef.current = requestAnimationFrame(drawElectricBorder);
-        return;
-      }
       const dpr = ratio;
-      const deltaTime = Math.min(.05, (currentTime - lastFrameTimeRef.current) / 1000);
+      // Follow every display frame; elapsed time preserves the speed across
+      // refresh rates. A resumed animation starts without a time jump.
+      const deltaTime = lastFrameTimeRef.current ? Math.min(.05, (currentTime - lastFrameTimeRef.current) / 1000) : 0;
       timeRef.current += deltaTime * speed;
       lastFrameTimeRef.current = currentTime;
 
@@ -287,7 +296,7 @@ const ElectricBorder = ({
 
     const wake = () => {
       if (animationRef.current || !visible || !pageVisible) return;
-      lastFrameTimeRef.current = performance.now() - 1000 / 30;
+      lastFrameTimeRef.current = 0;
       animationRef.current = requestAnimationFrame(drawElectricBorder);
     };
     const intersection = new IntersectionObserver(entries => {

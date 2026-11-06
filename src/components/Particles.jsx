@@ -722,11 +722,8 @@ const Particles = ({
       raf = 0;
       if (!visible || document.hidden) return;
       const s = settingsRef.current;
-      if (last && now - last < 1000 / 30) {
-        raf = requestAnimationFrame(frame);
-        return;
-      }
-      const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 30;
+      // Follow the display clock instead of discarding near-33ms frames.
+      const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
       if (s.paused) {
         state.reveal = 1;
