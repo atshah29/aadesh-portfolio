@@ -50,7 +50,6 @@ p { color: var(--muted); }
 .links a[aria-current] { color: var(--accent); }
 .links .resume { padding: 8px 17px; border: 1px solid #658778; border-radius: 4px; }
 .links .resume > span { margin-left: 13px; }
-.scroll-progress { height: 1px; position: absolute; inset: auto 0 -1px; background: var(--accent); transform: scaleX(0); transform-origin: left; opacity: .65; }
 .menu { display: none; }
 .hero { position: relative; isolation: isolate; padding: 98px 0 35px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px 70px; align-items: center; }
 .hero-ambience { position: absolute; z-index: -1; inset: -88px calc(-1 * var(--page-gutter)) 0; overflow: hidden; pointer-events: none; contain: paint; background: radial-gradient(ellipse at 80% 25%, #295e4b26, transparent 65%), radial-gradient(ellipse at 12% 72%, #254c5e1f, transparent 60%); -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, #000 80%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, #000 80%, transparent); -webkit-mask-composite: source-in; mask-composite: intersect; }
@@ -546,4 +545,15 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .experience-row:where([open]) .company { color: #d4f0df; }
   .project:where(:has(.project-disclosure[open])) > .card-circuit,
   .experience-row:where([open]) > summary > .card-circuit { opacity: .8; }
+}
+
+/* A decorative reading-progress rail; the browser keeps its native scrollbar. */
+.scroll-current { display: none; position: fixed; z-index: 20; top: 102px; bottom: 22px; left: 7px; width: 2px; border-radius: 2px; background: #83cfa61a; pointer-events: none; }
+.scroll-current[data-enhanced]:not([hidden]) { display: block; }
+.scroll-current-fill { position: absolute; inset: 0; border-radius: inherit; transform: scaleY(0); transform-origin: top; background: linear-gradient(#6fa88d66, #91eab9); box-shadow: 0 0 7px #7de3ad33; }
+.scroll-current-tip { position: absolute; top: 0; left: -1px; width: 4px; height: 4px; margin-top: -2px; border-radius: 1px; background: #deffe9; box-shadow: 0 0 6px 1px #8cf3b5aa; }
+.scroll-current-tip::before { content: ''; position: absolute; left: 1px; top: -24px; width: 2px; height: 24px; background: linear-gradient(transparent, #9dfac0aa); }
+.scroll-current-flare { position: absolute; top: -15px; left: -2px; width: 8px; height: 34px; border-radius: 50%; opacity: 0; background: linear-gradient(transparent, #9dfac0aa, transparent); filter: blur(2px); }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-current-flare { display: none; }
 }

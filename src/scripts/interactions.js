@@ -2,6 +2,7 @@ import Lenis from 'lenis';
 import { initFeaturedProjects } from './featured-projects';
 import { initMagneticActions } from './magnetic-actions';
 import { initWorkCardEnergy } from './work-card-energy';
+import { initScrollCurrent } from './scroll-current';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -223,10 +224,6 @@ media.add({ desktop: '(min-width: 801px) and (pointer: fine)', reduce: '(prefers
     tick = time => lenis?.raf(time * 1000);
     gsap.ticker.add(tick);
   }
-  ScrollTrigger.create({ start: 0, end: 'max', onUpdate: self => {
-    const progress = document.querySelector('.scroll-progress');
-    if (progress) progress.style.transform = `scaleX(${self.progress})`;
-  }});
   if (!reduce) {
     gsap.from('.hero-kicker, .hero h1, .hero .availability, .hero .intro, .hero .actions', {
       y: 18, opacity: 0, duration: 0.8, stagger: 0.09, ease: 'power3.out', clearProps: 'transform,opacity',
@@ -251,3 +248,5 @@ window.addEventListener('load', () => {
 initFeaturedProjects();
 initMagneticActions();
 initWorkCardEnergy();
+
+initScrollCurrent();
