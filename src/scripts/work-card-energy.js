@@ -26,24 +26,35 @@ export function initWorkCardEnergy() {
     next.setAttribute('data-powered', '');
     document.dispatchEvent(new CustomEvent('portfolio:card-power', { detail: next }));
   }
-  function clear() {
+  function stopBurst() {
     burst?.kill();
     burst = null;
     gsap.set(particles, { opacity: 0 });
     stream.dataset.state = 'idle';
+  }
+  function clear() {
+    stopBurst();
     card?.removeAttribute('data-powered');
     card?.removeAttribute('data-energized');
     card?.removeAttribute('data-touch-energy');
     document.dispatchEvent(new CustomEvent('portfolio:card-power', { detail: null }));
     card = null;
   }
-  function activate(next, touch = false) {
-    if (next === card) return;
+  function activate(next, touch = false, immediate = false) {
+    if (next === card) {
+      // Scrolling moves the page under a stationary mouse. Preserve the card
+      // and canvas; only finish a travelling burst whose coordinates went stale.
+      if (immediate && burst) { stopBurst(); power(next); }
+      return;
+    }
     clear();
     card = next;
     if (!next) return;
     next.setAttribute('data-energized', '');
-    if (touch) { next.setAttribute('data-touch-energy', ''); power(next); return; }
+    if (touch || immediate) {
+      if (touch) next.setAttribute('data-touch-energy', '');
+      power(next); return;
+    }
     if (performance.now() - (recent.get(next) ?? -Infinity) < 900) { power(next); return; }
     recent.set(next, performance.now());
     const bounds = next.getBoundingClientRect();
@@ -83,12 +94,12 @@ export function initWorkCardEnergy() {
       return r.top <= focus && r.bottom > focus;
     });
     sections.forEach(section => section.toggleAttribute('data-illuminated', section === selected));
-    const allowed = pointer.matches && !motion.matches && cursor.present && !scrolling && cursor.y > header;
+    const allowed = pointer.matches && !motion.matches && cursor.present && cursor.y > header;
     main.toggleAttribute('data-pointer-energy', allowed);
     const pointed = allowed ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
     const heroPaused = pointed?.matches('.hero-feature') && pointed.querySelector('[data-feature-playback]')?.getAttribute('aria-pressed') === 'true';
     const tapped = !motion.matches && !scrolling && touchCard?.isConnected ? touchCard : null;
-    activate(tapped || (pointed && main.contains(pointed) && !heroPaused ? pointed : null), !!tapped);
+    activate(tapped || (pointed && main.contains(pointed) && !heroPaused ? pointed : null), !!tapped, scrolling);
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
   document.addEventListener('pointermove', event => {
