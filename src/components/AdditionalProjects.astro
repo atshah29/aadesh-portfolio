@@ -4,7 +4,7 @@ import SectionHeading from './SectionHeading.astro';
 import CardCircuit from './CardCircuit.astro';
 ---
 <section class="section" id="additional-projects">
-  <SectionHeading number="04" title="Additional projects" />
+  <SectionHeading title="Additional projects" />
   <div class="moregrid">{site.additionalProjects.map(p => <article data-reveal data-energy-card>
     <CardCircuit />
     <div class="eyebrow">{p.technologies}</div><h3>{p.name}</h3><p>{p.description}</p>

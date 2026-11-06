@@ -1,5 +1,5 @@
 ---
-interface Props { number: string; title: string }
+interface Props { number?: string; title: string }
 const { number, title } = Astro.props;
 ---
-<div class="sectionhead" data-reveal><div class="section-title"><span class="section-number">{number}</span><h2>{title}</h2><span class="section-rule" aria-hidden="true"></span></div><slot /></div>
+<div class="sectionhead" data-reveal><div class="section-title">{number && <span class="section-number">{number}</span>}<h2>{title}</h2><span class="section-rule" aria-hidden="true"></span></div><slot /></div>
