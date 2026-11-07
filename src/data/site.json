@@ -18,10 +18,10 @@
       "company": "Amazon Web Services",
       "dates": "Sep 2026 · Present",
       "role": "Software Development Engineer Intern",
-      "summary": "Developing a full-stack agentic application that lets developers create data center planning simulation inputs through natural-language requests, replacing manual edits across interconnected configuration files.",
+      "summary": "Building an end-to-end agentic application that turns plain-language requests into validated configuration changes for data center planning simulations. It works across 80+ interconnected input files, resolving dependencies and coordinating edits that previously required substantial manual work. Small changes that took hours now take a few minutes; larger changes that could take days can be prepared in approximately 30 minutes.",
       "contributions": [
-        "Built a Strands agent on Amazon Bedrock AgentCore Runtime that finds planning data, resolves dependencies, and coordinates configuration edits, with Pydantic validation and user approval before generating simulation inputs in S3.",
-        "Built an ECS task on AWS Fargate that generates dynamic schemas and a dependency graph for 80+ configuration files, giving the agent structured knowledge of the planning data model.",
+        "Built a Strands agent on Amazon Bedrock AgentCore Runtime that coordinates configuration edits, with Pydantic validation and user approval before generating simulation inputs in S3. The application prepares inputs in the background, helping the team compare fulfillment plans and evaluate how to meet customer demand.",
+        "Built an ECS task on AWS Fargate that generates dynamic schemas, field specifications, and a dependency graph for 80+ configuration files. These guide the agent through requested changes that affect multiple related inputs, helping keep edits consistent.",
         "Building the web interface and CI/CD pipeline; developed a custom CLI to invoke the agent.",
         "Fixed an S3 lifecycle issue retaining incomplete multipart uploads and automated cleanup to prevent approximately $800/month in recurring storage costs after uncovering approximately $12K in accumulated charges."
       ]
