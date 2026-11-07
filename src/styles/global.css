@@ -133,7 +133,7 @@ p { color: var(--muted); }
 details[open] > summary .plus-icon::after { transform: rotate(0deg); }
 .experience-row { border-top: 1px solid var(--line); }
 .experience-row:last-child { border-bottom: 1px solid var(--line); }
-.experience-row > summary { display: grid; grid-template-columns: 160px minmax(0, 1fr) 65px; gap: 32px; padding: 30px 0; }
+.experience-row > summary { display: grid; grid-template-columns: 160px minmax(0, 1fr) max-content; gap: 32px; padding: 30px 0; }
 .experience-meta { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
 .experience-meta time { color: var(--faint); font: 11px/1.7 var(--mono); }
 .experience-number { font: italic 30px var(--serif); color: var(--faint); }
@@ -142,7 +142,7 @@ details[open] > summary .plus-icon::after { transform: rotate(0deg); }
 .role { font-size: 13px; color: var(--ink); margin-top: 3px; }
 .experience-main > p { font-size: 14px; margin-top: 13px; max-width: 680px; line-height: 1.75; }
 .experience-impact { font-size: 12px; display: block; margin-top: 12px; color: var(--accent); }
-.disclosure-toggle { align-self: start; display: flex; align-items: center; gap: 13px; padding-top: 9px; color: var(--faint); }
+.disclosure-toggle { align-self: start; display: flex; align-items: center; gap: 13px; padding: 9px 16px 0 0; color: var(--faint); }
 .toggle-label { font: 10px var(--mono); }
 .experience-expanded { padding: 3px 95px 30px 192px; }
 .experience-details { padding-left: 18px; font-size: 14px; color: var(--muted); margin: 15px 0 0; }
@@ -270,7 +270,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .feature-rank > strong { font-size: 80px; }
   .feature-rank > span { font-size: 10px; }
   .project-disclosure > summary { gap: 26px; padding: 22px; }
-  .experience-row > summary { grid-template-columns: 135px minmax(0, 1fr) 22px; gap: 25px; }
+  .experience-row > summary { grid-template-columns: 135px minmax(0, 1fr) max-content; gap: 25px; }
   .experience-expanded { padding-left: 160px; padding-right: 47px; }
   .toggle-label { display: none; }
 }
@@ -338,7 +338,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .section-title h2 { font-size: 30px; }
   .section-rule { display: none; }
   .section-link, .section-caption { font-size: 8px; max-width: 125px; text-align: right; }
-  .experience-row > summary { grid-template-columns: minmax(0, 1fr) 18px; gap: 12px; padding-block: 25px; }
+  .experience-row > summary { grid-template-columns: minmax(0, 1fr) max-content; gap: 12px; padding-block: 25px; }
   .experience-meta { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 20px; }
   .experience-meta time { font-size: 11px; }
   .experience-number { font-size: 20px; }
@@ -518,7 +518,7 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .btn:active { filter: brightness(.93); }
 }
 @media (max-width: 640px) {
-  .experience-row > summary { grid-template-columns: minmax(0, 1fr) 58px; }
+  .experience-row > summary { grid-template-columns: minmax(0, 1fr) max-content; }
   .experience-row .toggle-label { display: inline; font-size: 9px; }
   .experience-row .disclosure-toggle { gap: 7px; }
 }
