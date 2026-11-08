@@ -16,7 +16,7 @@
   "experience": [
     {
       "company": "Amazon Web Services",
-      "dates": "Sep 2026 · Present",
+      "dates": "Sep · Nov 2026",
       "role": "Software Development Engineer Intern",
       "summary": "Built an end-to-end agentic application that turns plain-language requests into validated configuration changes for data center planning simulations. It works across 80+ interconnected input files, resolving dependencies and coordinating edits that previously required substantial manual work. Small changes that took hours now take a few minutes; larger changes that could take days can be prepared in approximately 30 minutes.",
       "contributions": [

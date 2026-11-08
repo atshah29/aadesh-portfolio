@@ -59,7 +59,7 @@ CoughNet has approximately 57,000 trainable parameters and uses 8-bit deployment
 
 Richer features must justify their memory cost as well as their quantized accuracy. The two-channel 128 × 128 Mel + delta representation exceeded available memory during preprocessing and CNN input allocation. The final deployment therefore uses a single mel channel, 1-second segments, and 16 kHz sampling.
 
-My multi-channel conversion work supported experiments, including three-channel features. The deployed pipeline uses the single-channel configuration selected for its quantized performance and memory feasibility.
+I implemented both single- and three-channel input versions. The final deployment reuses the three-channel preprocessing function and passes only its mel channel to the CNN, using the configuration selected for its quantized performance and memory feasibility.
 
 <figure><button class="figure-button" data-zoom aria-label="Enlarge: Waveform, mel spectrogram, delta, and delta-delta feature representations"><img src="/assets/bcough-features.webp" alt="Waveform, mel spectrogram, delta, and delta-delta feature representations explored during development" loading="lazy" width="1200" height="800"></button><figcaption>Feature representations explored in Sanap et al., BCough (2026). The final deployment uses a single-channel mel spectrogram. Select image to enlarge.</figcaption></figure>
 
