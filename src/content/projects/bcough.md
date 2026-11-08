@@ -4,8 +4,8 @@ order: 3
 title: "BCough: On-Device Cough Detection"
 cardTitle: "BCough"
 category: "Embedded machine learning"
-summary: "Model development, quantization, and C audio preprocessing for cough detection on the MAX78000."
-description: "Bringing model development, quantization, and audio preprocessing together for cough detection on a constrained microcontroller."
+summary: "PyTorch CNN development, approximately 75% less model weight storage through quantization, and C audio preprocessing."
+description: "Developing and quantizing CNNs for on-device cough detection, reducing model weight storage by approximately 75% and integrating C audio preprocessing."
 role: "Model development · Quantization · C preprocessing"
 context: "NC State research · Co-author"
 technology: "PyTorch · Embedded C · MAX78000"
@@ -36,6 +36,8 @@ BCough investigates on-device cough detection using a wearable bone-conduction s
 ## My contributions
 
 I developed and evaluated CNN models for cough detection, implemented post-training quantization with ai8x-synthesis, and wrote the C audio preprocessing pipeline, including mel-spectrogram generation and multi-channel feature conversion. I also tested the models and embedded pipeline to improve accuracy and deployment reliability.
+
+Quantizing from FP32 to INT8 reduced measured model weight storage to approximately 25% of its original size—a roughly 4× reduction in weight storage.
 
 Working with faculty, I used Google Cloud VMs and parallel multi-seed experiments as part of the research-to-deployment workflow, comparing model and preprocessing choices before embedded testing.
 
