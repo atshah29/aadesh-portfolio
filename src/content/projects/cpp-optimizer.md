@@ -4,7 +4,7 @@ order: 2
 title: "C++ Optimize Assistant"
 cardTitle: "C++ Optimize Assistant"
 category: "AI-assisted optimization"
-summary: "Upload a C/C++ project and define its workloads. An LLM proposes targeted source edits; the backend compiles, validates, and benchmarks candidates before retaining improvements."
+summary: "Built an LLM-assisted C/C++ optimizer that compiles, checks outputs, and benchmarks proposed edits before keeping measured improvements."
 description: "An AI-assisted C/C++ optimization tool that validates source changes and measures their effect on execution time."
 role: "Personal project · Full-stack development"
 context: "Local C/C++ optimization"

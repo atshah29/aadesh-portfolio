@@ -18,7 +18,9 @@
       "company": "Amazon Web Services",
       "dates": "Sep · Nov 2026",
       "role": "Software Development Engineer Intern",
-      "summary": "Built an end-to-end agentic application that turns plain-language requests into validated configuration changes for data center planning simulations. It works across 80+ interconnected input files, resolving dependencies and coordinating edits that previously required substantial manual work. Small changes that took hours now take a few minutes; larger changes that could take days can be prepared in approximately 30 minutes.",
+      "summary": "Built an end-to-end agentic app that turns plain-language requests into coordinated, validated edits across 80+ interconnected input files for data center planning simulations.",
+      "highlight": "Agentic simulation setup: hours → minutes",
+      "detailSummary": "Small configuration changes that took hours now take a few minutes; larger changes that could take days can be prepared in approximately 30 minutes.",
       "contributions": [
         "Built a Strands agent on Amazon Bedrock AgentCore Runtime that coordinates configuration edits, with Pydantic validation and user approval before generating simulation inputs in S3. The application prepares inputs in the background, helping the team compare fulfillment plans and evaluate how to meet customer demand.",
         "Built an ECS task on AWS Fargate that generates dynamic schemas, field specifications, and a dependency graph for 80+ configuration files. These guide the agent through requested changes that affect multiple related inputs, helping keep edits consistent.",
@@ -33,6 +35,7 @@
       "dates": "Jun · Aug 2026",
       "role": "Software Engineering Intern",
       "summary": "Developed backend services and monitoring for an internal vulnerability-scanning system covering container images used in Tanium’s cloud environment.",
+      "highlight": "Lambda failure rate: 30% → 1%",
       "contributions": [
         "Built a Go pre-scan filtering service for the internal vulnerability scanner API, identifying approximately 40% of incoming Docker images as unprocessable before downstream scanning and reducing Lambda failure rates from 30% to 1%.",
         "Built a Python service aggregating vulnerability scan results across 40 production targets, integrating CloudWatch and Slack APIs to surface critical failures.",
@@ -44,6 +47,7 @@
       "dates": "Jun · Aug 2025",
       "role": "R&D Embedded Software Intern",
       "summary": "Developed C/C++ software for radio control systems across 5+ product lines, working with customers and engineers through iterative prototyping and validation.",
+      "highlight": "Radio control systems across 5+ product lines",
       "contributions": [
         "Built multithreaded FreeRTOS applications on NXP i.MX RT1050 microcontrollers, tuning task scheduling and hardware responsiveness under real-time constraints.",
         "Developed validation frameworks for RF-based CAN communications to check fault handling and protocol behavior across hardware configurations.",
@@ -55,7 +59,7 @@
     "role": "NC State · Applied ML Research Assistant · Aug 2024 to present",
     "venue": "Co-author · Electronics, 2026",
     "title": "BCough: Design and Evaluation of a Bone-Conduction-Embedded AI Platform for On-Device Cough Detection",
-    "description": "Developed and evaluated PyTorch CNNs for on-device cough detection, reduced model weight storage by approximately 75% through quantization, and wrote C audio preprocessing. Worked with faculty on Google Cloud VMs and parallel multi-seed experiments through deployment.",
+    "description": "Developed and evaluated PyTorch CNNs for on-device cough detection, reduced model weight storage by approximately 75% through quantization, and wrote C audio preprocessing.",
     "url": "https://doi.org/10.3390/electronics15091912",
     "caseStudy": "/projects/bcough/"
   },

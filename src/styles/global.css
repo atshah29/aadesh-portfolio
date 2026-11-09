@@ -145,6 +145,7 @@ details[open] > summary .plus-icon::after { transform: rotate(0deg); }
 .disclosure-toggle { align-self: start; display: flex; align-items: center; gap: 13px; padding: 9px 16px 0 0; color: var(--faint); }
 .toggle-label { font: 10px var(--mono); }
 .experience-expanded { padding: 3px 95px 30px 192px; }
+.experience-outcome { font-size: 14px; line-height: 1.75; margin: 16px 0 22px; }
 .experience-details { padding-left: 18px; font-size: 14px; color: var(--muted); margin: 15px 0 0; }
 .experience-details li { padding-left: 5px; margin: 12px 0; }
 .experience-details li::marker { color: var(--accent); }
@@ -163,9 +164,10 @@ details[open] > summary .plus-icon::after { transform: rotate(0deg); }
 .project-preview h3 { font-size: clamp(23px, 2.5vw, 31px); transition: color .2s; }
 .project-disclosure > summary:hover h3 { color: var(--accent); }
 .project-summary { font-size: 14px; margin-top: 12px; line-height: 1.75; }
-.tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 17px 0; }
+.project-outcome { margin-top: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; }
 .tag { font: 10px/1.5 var(--mono); color: #b7cdc9; border: 1px solid #b9e4c91c; background: #b9e4c906; border-radius: 20px; padding: 4px 10px; }
-.result { color: var(--accent); font-size: 13px; line-height: 1.6; }
+.result { color: var(--accent); font-size: 14px; font-weight: 550; line-height: 1.6; }
 .benchmark-note { font-size: 11px; margin-top: 5px; line-height: 1.6; }
 .project-expand-label { display: flex; align-items: center; gap: 12px; font-size: 11px; margin-top: 20px; color: var(--ink); }
 .when-open { display: none; }
@@ -347,13 +349,13 @@ dialog img { max-height: 80vh; max-width: 90vw; object-fit: contain; background:
   .experience-main > p { font-size: 13px; }
   .experience-impact { font-size: 11px; }
   .experience-expanded { padding: 2px 0 26px; }
-  .experience-details { font-size: 13px; }
+  .experience-details, .experience-outcome { font-size: 13px; }
   .project-disclosure > summary { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 18px; }
   .project-thumb { height: 130px; }
   .project-preview h3 { font-size: 25px; }
   .project-summary { font-size: 13px; }
   .project-num { font-size: 9px; }
-  .result { font-size: 12px; }
+  .result { font-size: 13px; }
   .benchmark-note { font-size: 11px; }
   .project-expand-label { margin-top: 17px; }
   .project-expanded { margin-inline: 18px; padding-top: 24px; }

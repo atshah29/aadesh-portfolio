@@ -15,9 +15,11 @@ const url = `/projects/${p.slug}/`;
         <div class="project-preview">
           <div class="project-num"><span>{String(index + 1).padStart(2, '0')}</span><span>{p.category}</span></div>
           <h3>{p.cardTitle}</h3><p class="project-summary">{p.summary}</p>
+          <div class="project-outcome">
+            <p class="result">{p.result}</p>
+            {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
+          </div>
           <div class="tags">{p.tags.map(tag => <span class="tag">{tag}</span>)}</div>
-          <p class="result">{p.result}</p>
-          {p.benchmarkNote && <p class="benchmark-note">{p.benchmarkNote}</p>}
           <span class="project-expand-label"><span class="when-closed"><span class="pointer-label">Explore project</span><span class="touch-label">Tap for details</span></span><span class="when-open">Close project</span><span class="plus-icon" aria-hidden="true"></span></span>
         </div>
       </summary>

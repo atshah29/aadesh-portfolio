@@ -4,7 +4,7 @@ order: 4
 title: "Wireless & Autonomous Embedded Car"
 cardTitle: "Wireless & Autonomous Car"
 category: "Embedded systems"
-summary: "Firmware for an MSP430FR2355 + ESP32 car built to follow a complex examination course, with wireless commands, calibrated sensing, and variable speed control."
+summary: "Built C firmware for wireless driving and autonomous line following, with calibrated sensors and configurable speed and steering."
 description: "An MSP430FR2355 + ESP32 car that moves from wireless driving commands to calibrated, autonomous line-following behavior."
 role: "Firmware development · Controls and maneuver modes"
 context: "Embedded systems project"

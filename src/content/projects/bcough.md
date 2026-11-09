@@ -4,7 +4,7 @@ order: 3
 title: "BCough: On-Device Cough Detection"
 cardTitle: "BCough"
 category: "Embedded machine learning"
-summary: "PyTorch CNN development, approximately 75% less model weight storage through quantization, and C audio preprocessing."
+summary: "Developed PyTorch CNNs and C audio preprocessing for on-device cough detection, reducing model weight storage by approximately 75% through quantization."
 description: "Developing and quantizing CNNs for on-device cough detection, reducing model weight storage by approximately 75% and integrating C audio preprocessing."
 role: "Model development · Quantization · C preprocessing"
 context: "NC State research · Co-author"

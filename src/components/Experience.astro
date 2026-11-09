@@ -2,7 +2,6 @@
 import site from '../data/site.json';
 import SectionHeading from './SectionHeading.astro';
 import CardCircuit from './CardCircuit.astro';
-const highlights = ['Agentic AI for complex simulation configuration', 'Lambda failure rate: 30% → 1%', 'Radio control systems across 5+ product lines'];
 ---
 <section class="section" id="experience" aria-label="Industry experience">
   <SectionHeading number="01" title="Experience"><a class="textlink section-link" href={site.resume} data-umami-event="resume_click" data-umami-event-destination={site.resume} target="_blank" rel="noopener noreferrer">Full résumé ↗</a></SectionHeading>
@@ -11,10 +10,13 @@ const highlights = ['Agentic AI for complex simulation configuration', 'Lambda f
       <summary aria-controls={`experience-${index}`}>
         <CardCircuit />
         <div class="experience-meta"><time>{job.dates}</time><span class="experience-number">0{index + 1}</span></div>
-        <div class="experience-main"><div class="company">{job.company}</div><div class="role">{job.role}</div><p>{job.summary}</p><span class="experience-impact">{highlights[index]}</span></div>
+        <div class="experience-main"><div class="company">{job.company}</div><div class="role">{job.role}</div><p>{job.summary}</p><span class="experience-impact">{job.highlight}</span></div>
         <span class="disclosure-toggle" aria-hidden="true"><span class="toggle-label">Details</span><span class="plus-icon"></span></span>
       </summary>
-      <div class="disclosure-panel" id={`experience-${index}`}><div class="experience-expanded"><span class="eyebrow">Contributions</span><ul class="experience-details">{job.contributions.map(item => <li>{item}</li>)}</ul></div></div>
+      <div class="disclosure-panel" id={`experience-${index}`}><div class="experience-expanded">
+        {job.detailSummary && <p class="experience-outcome">{job.detailSummary}</p>}
+        <span class="eyebrow">Contributions</span><ul class="experience-details">{job.contributions.map(item => <li>{item}</li>)}</ul>
+      </div></div>
     </details>)}
   </div>
 </section>
