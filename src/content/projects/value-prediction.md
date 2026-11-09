@@ -5,12 +5,12 @@ title: "Hybrid SVP + VTAGE Value Predictor"
 cardTitle: "Hybrid Value Predictor"
 category: "Computer architecture"
 summary: "Designed and integrated a hybrid value predictor into an out-of-order C++ RISC-V simulator, letting dependent instructions execute early."
-description: "Placed 2nd out of 60 teams in a graduate-level competition with a hybrid value predictor delivering approximately 24% higher IPC within a 32 KB budget."
+description: "Placed 2nd out of 60 teams in a graduate-level competition with a hybrid value predictor delivering approximately 25% higher IPC within a 32 KB budget."
 role: "Predictor architecture, design, implementation, and evaluation"
 context: "Graduate architecture project · Jan–Apr 2026"
 technology: "C++ · SVP · VTAGE"
 tags: ["C++", "SVP + VTAGE", "Simulation"]
-result: "2nd of 60 teams · ≈24% higher harmonic-mean IPC"
+result: "2nd of 60 teams · ≈25% higher harmonic-mean IPC"
 visual: "predictor"
 image: "/assets/value-predictor-preview.webp"
 imageAlt: "Hybrid value predictor block diagram with stride and tagged-history tables, prediction queue, provider selection, and retirement training"
@@ -27,7 +27,7 @@ links:
 
 ## Competition outcome
 
-Our project placed **2nd out of 60 teams** in a graduate-level value-prediction competition, with additional recognition for exploring a novel approach. The hybrid achieved **2.054 harmonic-mean IPC**, approximately **24% higher** than the 1.66 baseline without value prediction, within a **32 KB predictor budget**.
+Our project placed **2nd out of 60 teams** in a graduate-level value-prediction competition, with additional recognition for exploring a novel approach. The hybrid achieved **2.054 harmonic-mean IPC**, approximately **25% higher** than the 1.66 baseline without value prediction, within a **32 KB predictor budget**.
 
 ## My contribution
 
@@ -83,9 +83,9 @@ Increasing VPQ capacity from 256 to 300 entries produced minimal IPC gains. I re
 
 ## Performance and storage
 
-<div class="metrics"><div class="metric"><strong>≈24%</strong><span>higher harmonic-mean IPC</span></div><div class="metric"><strong>2.054</strong><span>final harmonic-mean IPC</span></div><div class="metric"><strong>31.97 KB</strong><span>storage · 32 KB budget</span></div></div>
+<div class="metrics"><div class="metric"><strong>≈25%</strong><span>higher harmonic-mean IPC</span></div><div class="metric"><strong>2.054</strong><span>final harmonic-mean IPC</span></div><div class="metric"><strong>31.97 KB</strong><span>storage · 32 KB budget</span></div></div>
 
-<figure class="bar-chart" aria-label="Harmonic-mean IPC: baseline without value prediction 1.66; final hybrid 2.054. Bars start at zero."><div class="eyebrow">Harmonic-mean instructions per cycle · bars start at zero</div><div class="bar-row">Baseline (without value prediction)<div style="width:75.45%">1.660</div></div><div class="bar-row">Final SVP + VTAGE<div style="width:93.36%">2.054</div></div><figcaption>The hybrid achieved 2.054 harmonic-mean IPC versus 1.66 without value prediction, an approximately 24% improvement.</figcaption></figure>
+<figure class="bar-chart" aria-label="Harmonic-mean IPC: baseline without value prediction 1.66; final hybrid 2.054. Bars start at zero."><div class="eyebrow">Harmonic-mean instructions per cycle · bars start at zero</div><div class="bar-row">Baseline (without value prediction)<div style="width:75.45%">1.660</div></div><div class="bar-row">Final SVP + VTAGE<div style="width:93.36%">2.054</div></div><figcaption>The hybrid achieved 2.054 harmonic-mean IPC versus 1.66 without value prediction, an approximately 25% improvement.</figcaption></figure>
 
 Compared with the stride-only predictor, harmonic-mean IPC increased from 2.02 to 2.054, approximately 1.7%.
 
