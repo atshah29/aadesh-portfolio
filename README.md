@@ -20,12 +20,20 @@ Production canonical URLs, Open Graph URLs, sitemap entries, and the Umami hostn
 
 ## Design skills
 
-[Emil Kowalski's skills](https://github.com/emilkowalski/skills) are installed for Codex in `.agents/skills/` and committed with `skills-lock.json`. These are development instructions and references; they are not included in the website bundle. See [AGENTS.md](AGENTS.md) for task selection and the [upstream MIT license](.agents/skills/EMIL-LICENSE.txt).
+The following skills are installed for Codex in `.agents/skills/` and committed with `skills-lock.json`. These are development instructions, references, and supporting scripts; they are not included in the website bundle. See [AGENTS.md](AGENTS.md) for task selection.
 
-To install or refresh the collection from the repository root:
+| Collection | Purpose | License |
+| --- | --- | --- |
+| [Emil Kowalski](https://github.com/emilkowalski/skills) | Interface polish, motion, gestures, and performance | [MIT](.agents/skills/EMIL-LICENSE.txt) |
+| [Official GSAP skills](https://github.com/greensock/gsap-skills) | GSAP APIs, timelines, ScrollTrigger, plugins, and framework integration | [MIT](.agents/skills/GSAP-LICENSE.txt) |
+| [Taste Skill](https://github.com/Leonxlnx/taste-skill) | Layout, typography, visual design, and design review | [MIT](.agents/skills/TASTE-LICENSE.txt) |
+
+To install or refresh the collections from the repository root:
 
 ```sh
 npx --yes skills@latest add emilkowalski/skills --agent codex --skill '*' --copy --yes
+npx --yes skills@latest add greensock/gsap-skills --agent codex --skill '*' --copy --yes
+npx --yes skills@latest add Leonxlnx/taste-skill --agent codex --skill design-taste-frontend --copy --yes
 ```
 
 To list the project skills:
@@ -35,3 +43,5 @@ npx --yes skills@latest list --agent codex
 ```
 
 An agent can read the skill files directly in an existing session. Automatic skill discovery and slash-command availability depend on the coding client and may require reopening the project or starting a new session. Example request: "Use review-animations to review the portfolio's motion without changing it."
+
+Impeccable is managed separately through the user's plugin installation. No Claude-specific skill configuration is included. Lenis remains an installed application dependency; use its bundled README and the existing integration for version-specific guidance. The former Lenis skill listed under `darkroomengineering/cc-settings` is absent from that repository's current skill collection, so it has not been installed.
