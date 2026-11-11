@@ -43,31 +43,23 @@ function setDisclosure(details, open, { immediate = false, focus = false, update
   const wasOpen = details.dataset.expanded ? details.dataset.expanded === 'true' : details.open;
   details.dataset.expanded = String(open);
   gsap.killTweensOf(panel);
+  gsap.set(panel, { clearProps: 'opacity,transform' });
   if (updateHash) updateProjectHash(details, open);
   if (open && !wasOpen && details.dataset.project) {
     window.umami?.track('project_expand', { project: details.dataset.project });
   }
-  const finish = () => {
-    details.open = open;
-    gsap.set(panel, { clearProps: 'height,opacity' });
-    refreshLayout();
-    if (focus) {
-      summary.focus({ preventScroll: true });
-      scrollToElement(details);
-    }
-  };
-  if (reducedMotion.matches || immediate) {
-    finish();
-    return;
-  }
-  if (open) {
-    const height = details.open ? panel.getBoundingClientRect().height : 0;
-    details.open = true;
-    gsap.fromTo(panel, { height, opacity: height ? 1 : 0 }, {
-      height: 'auto', opacity: 1, duration: 0.52, ease: 'power3.inOut', onComplete: finish,
+  // Commit the document layout once, even for a long case study. Only the
+  // revealed content moves; keyboard users receive the complete state at once.
+  details.open = open;
+  refreshLayout();
+  if (open && !wasOpen && !reducedMotion.matches && !immediate) {
+    gsap.fromTo(panel, { opacity: 0.5, y: 6 }, {
+      opacity: 1, y: 0, duration: 0.22, ease: 'power3.out', clearProps: 'opacity,transform',
     });
-  } else {
-    gsap.to(panel, { height: 0, opacity: 0, duration: 0.35, ease: 'power2.inOut', onComplete: finish });
+  }
+  if (focus) {
+    summary.focus({ preventScroll: true });
+    scrollToElement(details, immediate);
   }
 }
 function revealHash(immediate = false) {
@@ -77,8 +69,8 @@ function revealHash(immediate = false) {
   try { id = decodeURIComponent(hash); } catch { return; }
   const target = document.getElementById(id);
   if (!target) return;
-  const details = target.matches('details[data-disclosure]') ? target : target.querySelector(':scope > astro-island details[data-disclosure], :scope > details[data-disclosure]') || target.closest('details[data-disclosure]');
-  // React islands contain a static Astro slot, so the project can be nested further.
+  const details = target.closest('details[data-disclosure]');
+  // Project anchors target the outer card; section anchors should not open one.
   const project = id.startsWith('project-') ? target.querySelector('details[data-disclosure="project"]') : null;
   const disclosure = project || details;
   if (disclosure && !disclosure.open) setDisclosure(disclosure, true, { immediate: true, updateHash: false });
@@ -168,13 +160,13 @@ document.addEventListener('click', (event) => {
     return;
   }
   const close = target.closest('[data-close-disclosure]');
-  if (close) { setDisclosure(close.closest('details'), false, { focus: true }); return; }
+  if (close) { setDisclosure(close.closest('details'), false, { focus: true, immediate: event.detail === 0 }); return; }
   const summary = target.closest('summary');
   if (summary?.parentElement.matches('details[data-disclosure]')) {
     event.preventDefault();
     const details = summary.parentElement;
     const open = details.dataset.expanded ? details.dataset.expanded === 'true' : details.open;
-    setDisclosure(details, !open);
+    setDisclosure(details, !open, { immediate: event.detail === 0 });
     return;
   }
   const anchor = target.closest('a[href]');
@@ -187,7 +179,7 @@ document.addEventListener('click', (event) => {
   if (!destination) return;
   event.preventDefault();
   history.pushState(null, '', url.hash);
-  revealHash();
+  revealHash(event.detail === 0);
   if (event.detail === 0) {
     destination.setAttribute('tabindex', '-1');
     destination.focus({ preventScroll: true });

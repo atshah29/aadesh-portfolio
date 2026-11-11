@@ -17,7 +17,7 @@ const highlights = [
   <div class="feature-slides">
     {projects.map(({ frontmatter: project }, index) => {
       const h = highlights[index];
-      return <div class="feature-slide" data-feature-slide data-project={project.slug} data-title={project.cardTitle} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${projects.length}: ${project.cardTitle}`} hidden={index !== 0} inert={index !== 0}>
+      return <div class="feature-slide" data-feature-slide data-project={project.slug} data-title={project.cardTitle} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${projects.length}: ${project.cardTitle}`} aria-hidden={index !== 0 ? 'true' : undefined} hidden={index !== 0} inert={index !== 0}>
         <a class="feature-project-link" href={`#project-${project.slug}`} data-open-project={project.slug}>
           <div class="feature-rank"><strong class:list={{ 'compact-stat': index === 1 || index === 2 }}>{h.value}<span>{h.unit}</span></strong><span>{h.caption}<br />{h.context}</span></div>
           <div class="signal-diagram feature-illustration" aria-hidden="true">

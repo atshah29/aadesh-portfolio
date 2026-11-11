@@ -10,8 +10,10 @@ import CardCircuit from './CardCircuit.astro';
       <summary aria-controls={`experience-${index}`}>
         <CardCircuit />
         <div class="experience-meta"><time>{job.dates}</time><span class="experience-number">0{index + 1}</span></div>
-        <div class="experience-main"><div class="company">{job.company}</div><div class="role">{job.role}</div><p>{job.summary}</p><span class="experience-impact">{job.highlight}</span></div>
-        <span class="disclosure-toggle" aria-hidden="true"><span class="toggle-label">Details</span><span class="plus-icon"></span></span>
+        <div class="experience-main">
+          <div class="experience-heading"><div class="company">{job.company}</div><span class="disclosure-toggle" aria-hidden="true"><span class="toggle-label">Details</span><span class="plus-icon"></span></span></div>
+          <div class="role">{job.role}</div><p>{job.summary}</p><span class="experience-impact">{job.highlight}</span>
+        </div>
       </summary>
       <div class="disclosure-panel" id={`experience-${index}`}><div class="experience-expanded">
         {job.detailSummary && <p class="experience-outcome">{job.detailSummary}</p>}

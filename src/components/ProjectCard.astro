@@ -1,6 +1,5 @@
 ---
 import type { Project } from '../lib/projects';
-import SpotlightCard from './SpotlightCard.jsx';
 import CardCircuit from './CardCircuit.astro';
 interface Props { project: Project; index: number; html: string }
 const { project: p, index, html } = Astro.props;
@@ -8,7 +7,7 @@ const url = `/projects/${p.slug}/`;
 ---
 <article class="project" id={`project-${p.slug}`} data-reveal data-energy-card>
   <CardCircuit />
-  <SpotlightCard client:visible className="project-surface" spotlightColor="#b9e4c9" intensity={0.035} borderGlow={0.24} proximity={0} flare={false} grain={0} style={{ '--spotlight-card-surface': '#111d22', '--spotlight-card-border': 'rgba(185,228,201,0.13)', '--spotlight-card-shadow': 'none' }}>
+  <div class="project-surface">
     <details class="project-disclosure" data-disclosure="project" data-project={p.slug}>
       <summary aria-controls={`panel-${p.slug}`}>
         <div class:list={['project-thumb', p.visual]}><img src={p.image} alt={p.imageAlt} loading="lazy" width="1200" height="800" /><span class="thumb-corner" aria-hidden="true">0{index + 1}</span></div>
@@ -34,5 +33,5 @@ const url = `/projects/${p.slug}/`;
         </div>
       </div>
     </details>
-  </SpotlightCard>
+  </div>
 </article>

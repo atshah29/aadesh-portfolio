@@ -67,7 +67,7 @@ const ElectricBorder = ({
         if (i === 0) {
           octaveAmplitude *= baseFlatness;
         }
-        y += octaveAmplitude * noise2D(frequency * x + seed * 100, time * frequency * 0.3);
+        if (octaveAmplitude) y += octaveAmplitude * noise2D(frequency * x + seed * 100, time * frequency * 0.3);
         frequency *= lacunarity;
         amplitude *= gain;
       }
@@ -171,7 +171,9 @@ const ElectricBorder = ({
     let pageVisible = !document.hidden;
     lastFrameTimeRef.current = 0;
     let ratio = 1;
-    const octaves = 10;
+    // The last two octaves only added subpixel noise. Keep the visible energy
+    // and full display cadence, with a bounded amount of work per frame.
+    const octaves = 8;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
@@ -179,6 +181,8 @@ const ElectricBorder = ({
     const baseFlatness = 0;
     const displacement = 60;
     const borderOffset = 60;
+    let points = new Float32Array(0);
+    let sampleCount = 0;
 
     const updateSize = () => {
       const width = container.offsetWidth + borderOffset * 2;
@@ -193,10 +197,22 @@ const ElectricBorder = ({
       canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
 
-      return { width, height };
+      // Geometry only changes on resize, not as the noise moves. Cache the
+      // perimeter once and sample every ~3 CSS pixels, up to a fixed budget.
+      const borderWidth = width - borderOffset * 2;
+      const borderHeight = height - borderOffset * 2;
+      const radius = Math.min(borderRadius, borderWidth / 2, borderHeight / 2);
+      const perimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * radius;
+      sampleCount = Math.min(1280, Math.max(1, Math.ceil(perimeter / 3)));
+      points = new Float32Array((sampleCount + 1) * 2);
+      for (let i = 0; i <= sampleCount; i++) {
+        const point = getRoundedRectPoint(i / sampleCount, borderOffset, borderOffset, borderWidth, borderHeight, radius);
+        points[i * 2] = point.x;
+        points[i * 2 + 1] = point.y;
+      }
     };
 
-    let { width, height } = updateSize();
+    updateSize();
     let lastDpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const drawElectricBorder = currentTime => {
@@ -205,9 +221,7 @@ const ElectricBorder = ({
       const deviceDpr = Math.min(window.devicePixelRatio || 1, 2);
       if (deviceDpr !== lastDpr) {
         lastDpr = deviceDpr;
-        const newSize = updateSize();
-        width = newSize.width;
-        height = newSize.height;
+        updateSize();
       }
 
       animationRef.current = null;
@@ -229,22 +243,11 @@ const ElectricBorder = ({
       ctx.lineJoin = 'round';
 
       const scale = displacement;
-      const left = borderOffset;
-      const top = borderOffset;
-      const borderWidth = width - 2 * borderOffset;
-      const borderHeight = height - 2 * borderOffset;
-      const maxRadius = Math.min(borderWidth, borderHeight) / 2;
-      const radius = Math.min(borderRadius, maxRadius);
-
-      const approximatePerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * radius;
-      const sampleCount = Math.min(2200, Math.max(1, Math.floor(approximatePerimeter / 2)));
 
       ctx.beginPath();
 
       for (let i = 0; i <= sampleCount; i++) {
         const progress = i / sampleCount;
-
-        const point = getRoundedRectPoint(progress, left, top, borderWidth, borderHeight, radius);
 
         const xNoise = octavedNoise(
           progress * 8,
@@ -270,8 +273,8 @@ const ElectricBorder = ({
           baseFlatness
         );
 
-        const displacedX = point.x + xNoise * scale;
-        const displacedY = point.y + yNoise * scale;
+        const displacedX = points[i * 2] + xNoise * scale;
+        const displacedY = points[i * 2 + 1] + yNoise * scale;
 
         if (i === 0) {
           ctx.moveTo(displacedX, displacedY);
@@ -287,11 +290,7 @@ const ElectricBorder = ({
     };
 
     // Handle resize
-    const resizeObserver = new ResizeObserver(() => {
-      const newSize = updateSize();
-      width = newSize.width;
-      height = newSize.height;
-    });
+    const resizeObserver = new ResizeObserver(updateSize);
     resizeObserver.observe(container);
 
     const wake = () => {

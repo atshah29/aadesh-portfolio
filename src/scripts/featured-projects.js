@@ -125,7 +125,7 @@ export function initFeaturedProjects() {
       timer = window.setTimeout(() => select((current + 1) % slides.length), interval);
     }
   }
-  function select(index, manual = false) {
+  function select(index, manual = false, immediate = false) {
     const next = (index + slides.length) % slides.length;
     if (next === current) { sync(); return; }
     illustrations.get(current)?.pause();
@@ -135,10 +135,12 @@ export function initFeaturedProjects() {
       gsap.set(slide, { clearProps: 'opacity,transform,visibility' });
       slide.hidden = i !== current;
       slide.inert = i !== current;
+      if (i === current) slide.removeAttribute('aria-hidden');
+      else slide.setAttribute('aria-hidden', 'true');
     });
     selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === current)));
     counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-    if (!motion.matches) gsap.fromTo(slides[current], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.42, ease: 'power2.out', clearProps: 'opacity,transform' });
+    if (!motion.matches && !immediate) gsap.fromTo(slides[current], { opacity: 0.5, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: 'power3.out', clearProps: 'opacity,transform' });
     if (manual) announcement.textContent = `${current + 1} of ${slides.length}: ${slides[current].dataset.title}`;
     sync();
   }
@@ -165,7 +167,7 @@ export function initFeaturedProjects() {
     event.preventDefault();
     event.stopPropagation();
   }, true);
-  selectors.forEach((button, index) => button.addEventListener('click', () => select(index, true)));
+  selectors.forEach((button, index) => button.addEventListener('click', event => select(index, true, event.detail === 0)));
   playback.addEventListener('click', () => {
     userPaused = !userPaused;
     // Explicitly pressing Play can resume even while the control has focus.
@@ -187,7 +189,7 @@ export function initFeaturedProjects() {
     else return;
     event.preventDefault();
     selectors[next].focus();
-    select(next, true);
+    select(next, true, true);
   });
   motion.addEventListener('change', () => {
     if (motion.matches) {
