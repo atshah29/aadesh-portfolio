@@ -22,6 +22,7 @@ function refreshLayout() {
   lenis?.resize();
   ScrollTrigger.refresh();
 }
+document.addEventListener('portfolio:layout-change', refreshLayout);
 function scrollToElement(element, immediate = false) {
   if (!element) return;
   if (lenis) {

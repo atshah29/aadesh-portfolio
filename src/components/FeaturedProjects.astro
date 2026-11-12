@@ -3,37 +3,48 @@ import { projects } from '../lib/projects';
 import ProcessorPipeline from './ProcessorPipeline.astro';
 import AudioPipeline from './AudioPipeline.astro';
 import OptimizerPipeline from './OptimizerPipeline.astro';
+import VehiclePipeline from './VehiclePipeline.astro';
 import CardCircuit from './CardCircuit.astro';
-const highlights = [
-  { value: '2', unit: 'nd', caption: 'out of 60 teams', context: 'Graduate-level competition', result: '≈24% higher harmonic-mean IPC', left: 'SVP + VTAGE', right: '31.97 / 32 KB', labels: ['Predicted values let dependents execute early'] },
-  { value: '≈70', unit: '%', caption: 'average runtime reduction', context: '22 custom benchmarks', result: 'LLM proposals, validated improvements', left: 'Apple M4 · Clang -O3', right: '22 custom benchmarks', labels: ['Analyze', 'Propose', 'Validate'] },
-  { value: '15–16', unit: 'ms', caption: 'inference latency', context: 'MAX78000 on-device CNN', result: 'Published research · On-device cough detection', left: '8-bit CoughNet', right: '0.80 macro F1', labels: ['Audio', 'Mel spectrogram', 'CNN'] },
-  { value: '1', unit: 'st', caption: 'attempt completion', context: 'Final examination course', result: 'Wireless control and autonomous line following', left: 'MSP430 + ESP32', right: 'Embedded C', labels: ['Sense', 'Correct', 'Follow'] },
-];
+import { featuredProjects } from '../data/featured-projects';
 ---
 <div class="hero-feature" data-featured-carousel data-energy-card role="region" aria-roledescription="carousel" aria-label="Featured projects">
   <CardCircuit />
   <div class="feature-top"><span class="eyebrow">Featured projects</span><span class="feature-index" data-feature-index>01 / 04</span></div>
   <div class="feature-slides">
     {projects.map(({ frontmatter: project }, index) => {
-      const h = highlights[index];
+      const h = featuredProjects[project.slug as keyof typeof featuredProjects];
       return <div class="feature-slide" data-feature-slide data-project={project.slug} data-title={project.cardTitle} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${projects.length}: ${project.cardTitle}`} aria-hidden={index !== 0 ? 'true' : undefined} hidden={index !== 0} inert={index !== 0}>
-        <a class="feature-project-link" href={`#project-${project.slug}`} data-open-project={project.slug}>
+        <div class="feature-project-layout">
           <div class="feature-rank"><strong class:list={{ 'compact-stat': index === 1 || index === 2 }}>{h.value}<span>{h.unit}</span></strong><span>{h.caption}<br />{h.context}</span></div>
           <div class="signal-diagram feature-illustration" aria-hidden="true">
             {index === 0 && <ProcessorPipeline />}
             {index === 1 && <OptimizerPipeline />}
             {index === 2 && <AudioPipeline />}
-            {index === 3 && <svg viewBox="0 0 390 120" fill="none"><path class="feature-route signal-track" d="M55 60C55 23 120 12 150 37S210 100 250 87S335 83 335 52S278 13 250 34S199 97 155 86S55 95 55 60Z"/><path class="route-guide" d="M55 60C55 23 120 12 150 37S210 100 250 87S335 83 335 52S278 13 250 34S199 97 155 86S55 95 55 60Z"/><circle class="vehicle-halo" data-vehicle-halo cx="55" cy="60" r="10"/><circle class="vehicle-point" data-vehicle-point cx="55" cy="60" r="4"/></svg>}
-            <div class="signal-labels">{h.labels.map(label => <span>{label}</span>)}</div>
+            {index === 3 && <VehiclePipeline />}
+            <div class="signal-labels" data-overview-labels>{h.labels.map(label => <span>{label}</span>)}</div>
+            <div class="feature-state-caption" data-explore-caption hidden>
+              {index === 0 && <div class="feature-instruction-legend"><span><i class="producer-key"></i>Producer</span><span><i class="dependent-key"></i>Dependent</span></div>}
+              <span data-explore-caption-text>{h.steps[0].caption}</span>
+            </div>
           </div>
-          <div class="feature-bottom"><div><h2>{project.cardTitle}</h2><p>{h.result}</p></div><span class="circle-arrow" aria-hidden="true">↗</span></div>
+          <a class="feature-bottom feature-project-link" href={`#project-${project.slug}`} data-open-project={project.slug} aria-label={`View ${project.cardTitle} project details`}><div><h2>{project.cardTitle}</h2><p>{h.result}</p></div><span class="circle-arrow" aria-hidden="true">↗</span></a>
+          <button type="button" class="feature-explore-toggle" data-explore-toggle aria-expanded="false" aria-controls={`explore-${project.slug}`}>
+            <span data-explore-toggle-label>Explore how it works</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+          </button>
+          <div class="feature-exploration" id={`explore-${project.slug}`} hidden>
+            <div class="feature-steps" role="group" aria-label={`Explore ${project.cardTitle}`}>
+              {h.steps.map((step, n) => <button type="button" data-feature-step={n} data-step-caption={step.caption} aria-pressed={n === 0 ? 'true' : 'false'} aria-controls={`explore-${project.slug}-${n}`}>{step.label}</button>)}
+            </div>
+            <div class="feature-explanations">
+              {h.steps.map((step, n) => <p id={`explore-${project.slug}-${n}`} data-feature-explanation={n} hidden={n !== 0} aria-hidden={n !== 0 ? 'true' : undefined}>{step.text}</p>)}
+            </div>
+          </div>
           <div class="feature-footnote">{h.left}<span>{h.right}</span></div>
-        </a>
+        </div>
       </div>;
     })}
   </div>
-  <p class="feature-touch-hint">Swipe projects · Tap for details</p>
+  <p class="feature-touch-hint">Swipe projects · Select a title for details</p>
   <div class="feature-controls" data-feature-controls>
     <div class="feature-selectors" role="group" aria-label="Choose a featured project">{projects.map(({ frontmatter: p }, index) => <button type="button" data-feature-select={index} aria-label={`0${index + 1}: Show ${p.cardTitle}`} aria-pressed={index === 0 ? 'true' : 'false'}><span aria-hidden="true">0{index + 1}</span></button>)}</div>
     <button class="feature-playback" type="button" data-feature-playback aria-label="Pause automatic rotation" aria-pressed="false"><span class="playback-symbol" aria-hidden="true"></span><span data-playback-label>Pause</span></button>

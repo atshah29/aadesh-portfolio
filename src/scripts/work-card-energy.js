@@ -97,7 +97,7 @@ export function initWorkCardEnergy() {
     const allowed = pointer.matches && !motion.matches && cursor.present && cursor.y > header;
     main.toggleAttribute('data-pointer-energy', allowed);
     const pointed = allowed ? document.elementFromPoint(cursor.x, cursor.y)?.closest('[data-energy-card]') : null;
-    const heroPaused = pointed?.matches('.hero-feature') && pointed.querySelector('[data-feature-playback]')?.getAttribute('aria-pressed') === 'true';
+    const heroPaused = pointed?.matches('.hero-feature') && pointed.hasAttribute('data-hero-motion-paused');
     const tapped = !motion.matches && !scrolling && touchCard?.isConnected ? touchCard : null;
     activate(tapped || (pointed && main.contains(pointed) && !heroPaused ? pointed : null), !!tapped, scrolling);
   }

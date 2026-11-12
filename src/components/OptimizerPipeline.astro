@@ -8,4 +8,5 @@ const loop = 'M70 60H270Q310 60 310 88Q310 100 298 100H82Q58 100 58 88V72Q58 60 
     <path d={i === 0 ? `M${x-8} 51H${x+10}M${x-8} 60H${x+5}M${x-8} 69H${x+10}` : i === 1 ? `M${x-7} 53L${x-13} 60L${x-7} 67M${x+9} 53L${x+15} 60L${x+9} 67` : `M${x-8} 60L${x-1} 67L${x+13} 53`} />
   </g>)}
   <path class="signal-pulse" data-optimizer-pulse d={loop} />
+  <path class="explore-signal" data-explore-signal />
 </svg>
